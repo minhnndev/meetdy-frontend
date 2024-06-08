@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { Button, Form, Typography, Divider } from "@douyinfe/semi-ui";
-import { setLoading } from "@/redux/slice/accountSlice";
-import ServiceAuth from "@/api/loginApi";
-import { setLogin, fetchUserProfile } from "@/redux/slice/globalSlice";
 import { unwrapResult } from "@reduxjs/toolkit";
 import ReCAPTCHA from "react-google-recaptcha";
+import { Button, Form, Typography, Divider } from "@douyinfe/semi-ui";
+
 import axiosClient from "@/api/_httpAxios";
 import { Link, useNavigate } from "react-router-dom";
 import { useAppDispatch } from "@/redux/store";
+
+import { setLoading } from "@/redux/slice/accountSlice";
+import ServiceAuth from "@/api/loginApi";
+import { setLogin, fetchUserProfile } from "@/redux/slice/globalSlice";
 
 interface Props {
   message: any;
