@@ -2272,6 +2272,40 @@
   dependencies:
     "@swc/counter" "^0.1.3"
 
+"@tanstack/query-core@5.40.0":
+  version "5.40.0"
+  resolved "https://registry.yarnpkg.com/@tanstack/query-core/-/query-core-5.40.0.tgz#c74ae8303752ed4b5a0ab848ec71a0e6e8179f83"
+  integrity sha512-eD8K8jsOIq0Z5u/QbvOmfvKKE/XC39jA7yv4hgpl/1SRiU+J8QCIwgM/mEHuunQsL87dcvnHqSVLmf9pD4CiaA==
+
+"@tanstack/query-persist-client-core@5.40.0":
+  version "5.40.0"
+  resolved "https://registry.yarnpkg.com/@tanstack/query-persist-client-core/-/query-persist-client-core-5.40.0.tgz#33a33e66b7cacacbe26a68f5ace8fab5f453df64"
+  integrity sha512-dGyxR5uEYBDDU4ARCbm7PehBbMLTqgCG/O6Q4P8mwnu7JIqn2CgCu3iSSWzCrudEq2fhiRLgZ5/3Kx7ymto6PA==
+  dependencies:
+    "@tanstack/query-core" "5.40.0"
+
+"@tanstack/query-sync-storage-persister@^5.40.0":
+  version "5.40.0"
+  resolved "https://registry.yarnpkg.com/@tanstack/query-sync-storage-persister/-/query-sync-storage-persister-5.40.0.tgz#c767c03ff1e0f523aa35a76a00331a88c60f4f64"
+  integrity sha512-My7nvaCj+WNX6NLKX6eWCHCSWHZrg5LHJrvFa3f1RT0IYAZHkW/ZRC2vhrmCfGnCDhoaPYnDZMaOLPEse8u+5A==
+  dependencies:
+    "@tanstack/query-core" "5.40.0"
+    "@tanstack/query-persist-client-core" "5.40.0"
+
+"@tanstack/react-query-persist-client@^5.40.1":
+  version "5.40.1"
+  resolved "https://registry.yarnpkg.com/@tanstack/react-query-persist-client/-/react-query-persist-client-5.40.1.tgz#ebe2154de0be6e8c16db6265ba812ca48ae559cc"
+  integrity sha512-V++NTK4PhkEgm4PD0XxK0Iak+rJ+GlSeQZQ9moACMIyG/SyX/pWyzLizJKvZw8AA0MlgdWB2J6J2Qw252nZurA==
+  dependencies:
+    "@tanstack/query-persist-client-core" "5.40.0"
+
+"@tanstack/react-query@^5.40.1":
+  version "5.40.1"
+  resolved "https://registry.yarnpkg.com/@tanstack/react-query/-/react-query-5.40.1.tgz#c1098791fea42bdc4c48938fb0131fa9ccc30fae"
+  integrity sha512-gOcmu+gpFd2taHrrgMM9RemLYYEDYfsCqszxCC0xtx+csDa4R8t7Hr7SfWXQP13S2sF+mOxySo/+FNXJFYBqcA==
+  dependencies:
+    "@tanstack/query-core" "5.40.0"
+
 "@tootallnate/once@1":
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/@tootallnate/once/-/once-1.1.2.tgz#ccb91445360179a04e7fe6aff78c00ffc1eeaf82"
@@ -3802,7 +3836,7 @@ color-name@~1.1.4:
   resolved "https://registry.yarnpkg.com/color-name/-/color-name-1.1.4.tgz#c2a09a87acbde69543de6f63fa3995c826c536a2"
   integrity sha512-dOy+3AuW3a2wNbZHIuMZpTcgjGuLU/uBL/ubcZF9OXbDo8ff4O8yVp5Bf0efS8uEoYo5q4Fx7dY9OgQGXgAsQA==
 
-colord@^2.9.1:
+colord@^2.9.1, colord@^2.9.3:
   version "2.9.3"
   resolved "https://registry.yarnpkg.com/colord/-/colord-2.9.3.tgz#4f8ce919de456f1d5c1c368c307fe20f3e59fb43"
   integrity sha512-jeC1axXpnb0/2nn/Y1LPuLdgXBLH7aDcHu4KEKfqw3CUhX7ZpfBSlPKyqXE6btIgEzfWtrX3/tyBCaCvXvMkOw==
@@ -8600,6 +8634,14 @@ react-fast-compare@^3.2.2:
   version "3.2.2"
   resolved "https://registry.yarnpkg.com/react-fast-compare/-/react-fast-compare-3.2.2.tgz#929a97a532304ce9fee4bcae44234f1ce2c21d49"
   integrity sha512-nsO+KSNgo1SbJqJEYRE9ERzo7YtYbou/OqjSQKxV7jcKox7+usiUVZOAC+XnDOABXggQTno0Y1CpVnuWEc1boQ==
+
+react-file-icon@^1.5.0:
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/react-file-icon/-/react-file-icon-1.5.0.tgz#cccc8827d927291b8a52fab41afbe5b3625ddbf4"
+  integrity sha512-6K2/nAI69CS838HOS+4S95MLXwf1neWywek1FgqcTFPTYjnM8XT7aBLz4gkjoqQKY9qPhu3A2tu+lvxhmZYY9w==
+  dependencies:
+    colord "^2.9.3"
+    prop-types "^15.7.2"
 
 react-google-recaptcha@^3.1.0:
   version "3.1.0"
