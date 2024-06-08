@@ -1,12 +1,12 @@
 import { useDispatch } from "react-redux";
-import { useHistory } from "react-router";
+import { useNavigate } from "react-router";
 
 import { setCurrentConversation } from "@/redux/slice/chat/chatSlice";
 
 const useRedirectToChatBox = (idConver) => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
-  history.push("/chat");
+  navigate("/chat");
   dispatch(setCurrentConversation(idConver));
 };
 

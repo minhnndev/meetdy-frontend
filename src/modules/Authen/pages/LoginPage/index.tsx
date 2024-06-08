@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { Button, Form, Typography, Divider } from '@douyinfe/semi-ui';
-import { setLoading } from '@/redux/slice/accountSlice';
-import ServiceAuth from '@/api/loginApi';
-import { setLogin, fetchUserProfile } from '@/redux/slice/globalSlice';
-import { unwrapResult } from '@reduxjs/toolkit';
-import ReCAPTCHA from 'react-google-recaptcha';
-import axiosClient from '@/api/_httpAxios';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { Button, Form, Typography, Divider } from "@douyinfe/semi-ui";
+import { setLoading } from "@/redux/slice/accountSlice";
+import ServiceAuth from "@/api/loginApi";
+import { setLogin, fetchUserProfile } from "@/redux/slice/globalSlice";
+import { unwrapResult } from "@reduxjs/toolkit";
+import ReCAPTCHA from "react-google-recaptcha";
+import axiosClient from "@/api/_httpAxios";
+import { Link, useNavigate } from "react-router-dom";
+import { useAppDispatch } from "@/redux/store";
 
 interface Props {
   message: any;
@@ -18,40 +18,43 @@ interface LoginFormValues {
   password: string;
 }
 
+const COMMON_GOOGLE_CAPTCHA = "/common/google-captcha";
+
+const { Text, Title } = Typography;
+
 const LoginPage: React.FC<Props> = (props) => {
-  const { Text, Title } = Typography;
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
   const [isError, setError] = useState(false);
   const [isVerify, setVerify] = useState(false);
   const [keyGoogleCaptcha, setKeyGoogleCaptcha] = useState<string | null>(null);
-  const navigate = useNavigate();
 
   useEffect(() => {
     axiosClient
-      .get('/common/google-captcha')
+      .get(COMMON_GOOGLE_CAPTCHA)
       .then((res: any) => setKeyGoogleCaptcha(res.KEY_GOOGLE_CAPTCHA));
   }, []);
 
   const handleSubmit = async (values: LoginFormValues) => {
     const { username, password } = values;
-    console.log('CAPTCHA:', isVerify);
+    console.log("CAPTCHA:", isVerify);
     try {
       if (isVerify) {
         dispatch(setLoading(true));
         const response: any = await ServiceAuth.login(username, password);
         const { token, refreshToken } = response;
-        localStorage.setItem('token', token);
-        localStorage.setItem('refreshToken', refreshToken);
+        localStorage.setItem("token", token);
+        localStorage.setItem("refreshToken", refreshToken);
         dispatch(setLogin(true));
-        // const resultAction = await dispatch();
-        // const { isAdmin } = unwrapResult(resultAction);
-        navigate('/admin');
-        // else navigate('/chat');
+        const resultAction = await dispatch();
+        const { isAdmin } = unwrapResult(resultAction);
+        navigate("/admin");
       } else {
-        props.message.error('Hãy xác thực captcha', 5);
+        props.message.error("Hãy xác thực captcha", 5);
       }
     } catch (error) {
-      console.log('🚀 error:', error);
+      console.log("🚀 error:", error);
       setError(true);
     }
 
@@ -68,25 +71,25 @@ const LoginPage: React.FC<Props> = (props) => {
     <div className="account-common-page">
       <div className="account-wrapper">
         <div className="account-right">
-          <Title heading={2} style={{ textAlign: 'center', fontWeight: 'bold' }}>
+          <Title
+            heading={2}
+            style={{ textAlign: "center", fontWeight: "bold" }}
+          >
             Đăng Nhập
           </Title>
           <Divider margin={12} />
           <div className="form-account">
-            <Form
-              onSubmit={handleSubmit}
-              style={{ width: 400 }}
-            >
+            <Form onSubmit={handleSubmit} style={{ width: 400 }}>
               {() => (
                 <>
                   <Form.Input
                     field="username"
                     label="Tài khoản"
-                    style={{ width: '100%' }}
+                    style={{ width: "100%" }}
                     rules={[
                       {
                         required: true,
-                        message: 'Tài khoản không hợp lệ',
+                        message: "Tài khoản không hợp lệ",
                       },
                     ]}
                     placeholder="Nhập Email hoặc SĐT"
@@ -95,11 +98,11 @@ const LoginPage: React.FC<Props> = (props) => {
                     mode="password"
                     field="password"
                     label="Mật khẩu"
-                    style={{ width: '100%' }}
+                    style={{ width: "100%" }}
                     rules={[
                       {
                         required: true,
-                        message: 'Mật khẩu phải từ 8-50 ký tự',
+                        message: "Mật khẩu phải từ 8-50 ký tự",
                         min: 8,
                         max: 50,
                       },
@@ -110,18 +113,15 @@ const LoginPage: React.FC<Props> = (props) => {
                     <ReCAPTCHA sitekey={keyGoogleCaptcha} onChange={onChange} />
                   )}
                   {isError && (
-                    <Text
-                      style={{ textAlign: 'center' }}
-                      type="danger"
-                    >
+                    <Text style={{ textAlign: "center" }} type="danger">
                       Tài khoản không hợp lệ
                     </Text>
                   )}
                   <div
                     style={{
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                      alignItems: 'center',
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
                     }}
                   >
                     <Button
@@ -130,7 +130,7 @@ const LoginPage: React.FC<Props> = (props) => {
                       htmlType="submit"
                       theme="solid"
                       type="primary"
-                      className={!isVerify ? '' : 'bg-blue-600'}
+                      className={!isVerify ? "" : "bg-blue-600"}
                       style={{ marginTop: 12 }}
                     >
                       Đăng nhập
@@ -150,6 +150,6 @@ const LoginPage: React.FC<Props> = (props) => {
       </div>
     </div>
   );
-}
+};
 
 export default LoginPage;

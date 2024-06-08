@@ -19,7 +19,7 @@ interface GlobalState {
 
 export const fetchUserProfile = createAsyncThunk(
   `${KEY}/fetchUserProfile`,
-  async (params, thunkApi) => {
+  async () => {
     const user = await ServiceMe.fetchProfile();
     return user;
   }
