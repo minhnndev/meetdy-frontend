@@ -2,10 +2,11 @@ pipeline {
 
   agent any
   environment {
-    DOCKER_IMAGE = "meetdyappchat/meetdy-reactjs"
+    DOCKER_IMAGE = "meetdyappchat/meetdy-frontend"
     DOCKER_TAG="${GIT_BRANCH.tokenize('/').pop()}-${GIT_COMMIT.substring(0,7)}"
-    REACT_APP_URL="https://meetdy.com"
-    REACT_APP_API_URL="https://meetdy.com/api"
+    APP_URL="https://meetdy.com"
+    APP_API_URL="https://meetdy.com/api"
+    APP_SOCKET_URL="https://chat-backend-p70d.onrender.com"
   }
 
   stages {
@@ -16,7 +17,7 @@ pipeline {
         
         withDockerRegistry(credentialsId: 'meetdyappchat-dockerhub', url: 'https://index.docker.io/v1/') {
             
-            sh "docker build --build-arg REACT_APP_URL=https://meetdy.com --build-arg REACT_APP_API_URL=https://meetdy.com/api --build-arg REACT_APP_SOCKET_URL=https://meetdy.com -t ${DOCKER_IMAGE}:${DOCKER_TAG} ."
+            sh "docker build --build-arg APP_URL=https://meetdy.com --build-arg APP_API_URL=https://meetdy.com/api --build-arg APP_SOCKET_URL=https://chat-backend-p70d.onrender.com -t ${DOCKER_IMAGE}:${DOCKER_TAG} ."
             sh "docker tag ${DOCKER_IMAGE}:${DOCKER_TAG} ${DOCKER_IMAGE}:latest"
             sh "docker push ${DOCKER_IMAGE}:${DOCKER_TAG}"
             sh "docker push ${DOCKER_IMAGE}:latest"

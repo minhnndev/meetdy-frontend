@@ -1,12 +1,13 @@
 const URL = {
   dev: {
-    API_URL: import.meta.env.VITE_DEV_API_URL,
+    API_URL: import.meta.env.VITE_API_URL_DEV,
+    SOCKET_URL: import.meta.env.VITE_SOCKET_URL_DEV,
   },
   prod: {
     API_URL: import.meta.env.VITE_PROD_API_URL,
+    SOCKET_URL: import.meta.env.VITE_SOCKET_URL_PROD,
   },
 };
-
 const hostByEnv = new Proxy(URL, {
   get: (target, prop) => {
     return Reflect.get(target, prop);
@@ -14,5 +15,5 @@ const hostByEnv = new Proxy(URL, {
 });
 
 export const ENV = import.meta.env.VITE_ENV === "production" ? "prod" : "dev";
-const { API_URL } = hostByEnv[ENV];
-export { API_URL };
+const { API_URL, SOCKET_URL } = hostByEnv[ENV];
+export { API_URL, SOCKET_URL };
