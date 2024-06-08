@@ -1,10 +1,10 @@
 import qs from "query-string";
 import axios, { type AxiosError, type AxiosResponse } from "axios";
 
-import store from "@redux/store";
-import { API_URL } from "@constants/APIurl";
-import { isSuccess } from "@utils/httpUtils";
-import { setLogin } from "@redux/slices/AuthSlice";
+import store from "@/redux/store";
+import { API_URL } from "@/constants/APIurl";
+import { setLogin } from "@/redux/slices/AuthSlice";
+import { isSuccess } from "@/utils/httpUtils";
 
 declare module "axios" {
   export interface AxiosRequestConfig {
