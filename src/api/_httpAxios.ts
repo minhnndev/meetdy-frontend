@@ -2,6 +2,7 @@ import qs from "query-string";
 import axios, { type AxiosError, type AxiosResponse } from "axios";
 
 import { isSuccess } from "@/utils/httpUtils";
+import { API_URL } from "@/constants/APIurl";
 
 declare module "axios" {
   export interface AxiosRequestConfig {
@@ -12,7 +13,7 @@ declare module "axios" {
 }
 
 const _httpsAxios = axios.create({
-  baseURL: process.env.APP_URL_API,
+  baseURL: API_URL,
   headers: {
     "Content-Type": "application/json",
   },
