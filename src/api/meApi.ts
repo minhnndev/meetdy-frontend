@@ -2,7 +2,7 @@ import axiosClient from './_httpAxios';
 
 const API_URL = '/me';
 
-const meApi = {
+const ServiceMe = {
     fetchProfile: () => {
         return axiosClient.get(`${API_URL}/profile`);
     },
@@ -38,4 +38,4 @@ const meApi = {
     },
 };
 
-export default meApi;
+export default ServiceMe;

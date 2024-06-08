@@ -73,4 +73,4 @@ _httpsAxios.interceptors.response.use(
   }
 );
 
-export { _httpsAxios };
+export default _httpsAxios;

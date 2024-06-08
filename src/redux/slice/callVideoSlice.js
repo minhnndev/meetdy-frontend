@@ -1,12 +1,12 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-const KEY = 'CALL-VIDEO';
+const KEY = "CALL-VIDEO";
 
 const callVideoSlice = createSlice({
-    name: KEY,
-    initialState: {},
-    reducers: {},
-    extraReducers: {},
+  name: KEY,
+  initialState: {},
+  reducers: {},
+  extraReducers: {},
 });
 
 const { reducer, actions } = callVideoSlice;
