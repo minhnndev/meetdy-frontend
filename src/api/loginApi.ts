@@ -1,7 +1,7 @@
 import axiosClient from "./_httpAxios";
 
 const ServiceAuth = {
-  login: (username, password) => {
+  login: (username: string, password: string) => {
     const url = "/auth/login";
     return axiosClient.post(url, { username, password });
   },
