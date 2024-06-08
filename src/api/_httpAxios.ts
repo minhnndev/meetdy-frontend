@@ -1,9 +1,6 @@
 import qs from "query-string";
 import axios, { type AxiosError, type AxiosResponse } from "axios";
 
-import store from "@/redux/store";
-import { API_URL } from "@/constants/APIurl";
-import { setLogin } from "@/redux/slices/AuthSlice";
 import { isSuccess } from "@/utils/httpUtils";
 
 declare module "axios" {
@@ -15,24 +12,20 @@ declare module "axios" {
 }
 
 const _httpsAxios = axios.create({
-  baseURL: API_URL.baseURL.replace("#{subdomain}", "mgmt"),
+  baseURL: process.env.APP_URL_API,
   headers: {
     "Content-Type": "application/json",
   },
   timeout: 10000,
-  paramsSerializer: (params: any) => qs.stringify(params),
+  paramsSerializer: (params) => qs.stringify(params),
 });
 
 _httpsAxios.interceptors.request.use(
   async (config) => {
-    const loginStatus = store.getState().auth.isLogin;
-    const domainBrand = store.getState().tenants.domain;
-    if (loginStatus && domainBrand) {
-      config.baseURL = API_URL.baseURL.replace("#{subdomain}", domainBrand);
-    } else {
-      config.baseURL = API_URL.baseURL.replace("#{subdomain}", "mgmt");
+    const token = localStorage.getItem("token");
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
     }
-    config.metadata = { startTime: new Date().getTime() };
     return config;
   },
   (error) => {
@@ -69,9 +62,6 @@ _httpsAxios.interceptors.response.use(
     const errorData = errorResponse.data.errors[0];
     const { code: errorCode, message: errorMessage, name } = errorData;
 
-    if (errorCode === "0-0004") {
-      store.dispatch(setLogin(false));
-    }
     console.log(errorCode);
 
     return Promise.reject({
