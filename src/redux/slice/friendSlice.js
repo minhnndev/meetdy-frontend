@@ -1,12 +1,13 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import friendApi from "api/friendApi";
-import conversationApi from "api/conversationApi";
-import phoneBookApi from "api/phoneBookApi";
+import friendApi from "@/api/friendApi";
+import conversationApi from "@/api/conversationApi";
+import phoneBookApi from "@/api/phoneBookApi";
+
 const KEY = "friend";
 
 export const fetchListRequestFriend = createAsyncThunk(
   `${KEY}/fetchListRequestFriend`,
-  async (params, thunkApi) => {
+  async () => {
     const data = await friendApi.fetchListRequestFriend();
     return data;
   }
@@ -14,7 +15,7 @@ export const fetchListRequestFriend = createAsyncThunk(
 
 export const fetchListMyRequestFriend = createAsyncThunk(
   `${KEY}/fetchListMyRequestFriend`,
-  async (params, thunkApi) => {
+  async () => {
     const data = await friendApi.fetchMyRequestFriend();
     return data;
   }
@@ -22,7 +23,7 @@ export const fetchListMyRequestFriend = createAsyncThunk(
 
 export const fetchFriends = createAsyncThunk(
   `${KEY}/fetchFriends`,
-  async (params, thunkApi) => {
+  async (params) => {
     const { name } = params;
     const data = await friendApi.fetchFriends(name);
     return data;
@@ -30,8 +31,8 @@ export const fetchFriends = createAsyncThunk(
 );
 export const fetchListGroup = createAsyncThunk(
   `${KEY}/fetchListGroup`,
-  async (param, thunkApi) => {
-    const { name, type } = param;
+  async (params) => {
+    const { name, type } = params;
     const data = await conversationApi.fetchListConversations(name, type);
     return data;
   }
@@ -39,7 +40,7 @@ export const fetchListGroup = createAsyncThunk(
 
 export const fetchPhoneBook = createAsyncThunk(
   `${KEY}/fetchPhoneBook`,
-  async (param, thunkApi) => {
+  async () => {
     const data = await phoneBookApi.fetchPhoneBook();
     return data;
   }
@@ -47,7 +48,7 @@ export const fetchPhoneBook = createAsyncThunk(
 
 export const fetchSuggestFriend = createAsyncThunk(
   `${KEY}/fetchSuggestFriend`,
-  async (params, thunkApi) => {
+  async () => {
     const data = await friendApi.fetchSuggestFriend();
     return data;
   }
@@ -118,10 +119,10 @@ const friendSlice = createSlice({
       state.requestFriends = action.payload;
       state.amountNotify = action.payload.length;
     },
-    [fetchListRequestFriend.pending]: (state, action) => {
+    [fetchListRequestFriend.pending]: (state) => {
       state.isLoading = true;
     },
-    [fetchListRequestFriend.rejected]: (state, action) => {
+    [fetchListRequestFriend.rejected]: (state) => {
       state.isLoading = false;
     },
 
@@ -130,11 +131,11 @@ const friendSlice = createSlice({
       state.myRequestFriend = action.payload;
     },
 
-    [fetchListMyRequestFriend.pending]: (state, action) => {
+    [fetchListMyRequestFriend.pending]: (state) => {
       state.isLoading = true;
     },
 
-    [fetchListMyRequestFriend.rejected]: (state, action) => {
+    [fetchListMyRequestFriend.rejected]: (state) => {
       state.isLoading = false;
     },
 
@@ -143,11 +144,11 @@ const friendSlice = createSlice({
       state.isLoading = false;
     },
 
-    [fetchFriends.rejected]: (state, action) => {
+    [fetchFriends.rejected]: (state) => {
       state.isLoading = false;
     },
 
-    [fetchFriends.pending]: (state, action) => {
+    [fetchFriends.pending]: (state) => {
       state.isLoading = true;
     },
 
@@ -156,11 +157,11 @@ const friendSlice = createSlice({
       state.isLoading = false;
     },
 
-    [fetchListGroup.rejected]: (state, action) => {
+    [fetchListGroup.rejected]: (state) => {
       state.isLoading = false;
     },
 
-    [fetchListGroup.pending]: (state, action) => {
+    [fetchListGroup.pending]: (state) => {
       state.isLoading = true;
     },
 
@@ -169,11 +170,11 @@ const friendSlice = createSlice({
       state.isLoading = false;
     },
 
-    [fetchPhoneBook.rejected]: (state, action) => {
+    [fetchPhoneBook.rejected]: (state) => {
       state.isLoading = false;
     },
 
-    [fetchPhoneBook.pending]: (state, action) => {
+    [fetchPhoneBook.pending]: (state) => {
       state.isLoading = true;
     },
     [fetchSuggestFriend.fulfilled]: (state, action) => {
@@ -181,11 +182,11 @@ const friendSlice = createSlice({
       state.isLoading = false;
     },
 
-    [fetchSuggestFriend.rejected]: (state, action) => {
+    [fetchSuggestFriend.rejected]: (state) => {
       state.isLoading = false;
     },
 
-    [fetchSuggestFriend.pending]: (state, action) => {
+    [fetchSuggestFriend.pending]: (state) => {
       state.isLoading = true;
     },
   },

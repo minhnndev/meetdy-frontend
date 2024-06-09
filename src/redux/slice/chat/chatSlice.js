@@ -1,14 +1,16 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import channelApi from "api/channelApi";
-import ClassifyApi from "api/ClassifyApi";
-import conversationApi from "api/conversationApi";
-import friendApi from "api/friendApi";
-import messageApi from "api/messageApi";
-import pinMessageApi from "api/pinMessageApi";
-import stickerApi from "api/stickerApi";
-import voteApi from "api/voteApi";
-import dateUtils from "utils/dateUtils";
+
+import channelApi from "@/api/channelApi";
+import ServiceClassify from "@/api/classifyApi";
+import conversationApi from "@/api/conversationApi";
+import friendApi from "@/api/friendApi";
+import messageApi from "@/api/messageApi";
+import pinMessageApi from "@/api/pinMessageApi";
+import stickerApi from "@/api/stickerApi";
+import voteApi from "@/api/voteApi";
+
+import dateUtils from "@/utils/dateUtils";
 
 const KEY = "chat";
 
@@ -17,7 +19,7 @@ const KEY = "chat";
 export const fetchListColor = createAsyncThunk(
   `${KEY}/fetchListColor`,
   async () => {
-    const colors = await ClassifyApi.getColors();
+    const colors = await ServiceClassify.getColors();
     return colors;
   }
 );
@@ -25,7 +27,7 @@ export const fetchListColor = createAsyncThunk(
 export const fetchListClassify = createAsyncThunk(
   `${KEY}/fetchListClassify`,
   async (params, thunkApi) => {
-    const classifies = await ClassifyApi.getClassifies();
+    const classifies = await ServiceClassify.getClassifies();
     return classifies;
   }
 );

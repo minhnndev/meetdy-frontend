@@ -1,19 +1,19 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import mediaApi from "api/mediaApi";
+import ServiceMedia from "@/api/mediaApi";
 const KEY = "MEDIA";
 
 export const fetchAllMedia = createAsyncThunk(
   `${KEY}/fetchAllMedia`,
-  async (params, thunkApi) => {
+  async (params) => {
     const { conversationId } = params;
-    const media = await mediaApi.fetchAllMedia(conversationId);
+    const media = await ServiceMedia.fetchAllMedia(conversationId);
     return media;
   }
 );
 
 export const fetchMediaByType = createAsyncThunk(
   `${KEY}/fetchMediaByType`,
-  async (params, thunkApi) => {}
+  async () => {}
 );
 
 const mediaSlice = createSlice({
@@ -30,7 +30,6 @@ const mediaSlice = createSlice({
   },
 });
 
-const { reducer, actions } = mediaSlice;
-//export const { setLoading } = actions;
+const { reducer } = mediaSlice;
 
 export default reducer;

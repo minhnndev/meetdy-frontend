@@ -1,5 +1,4 @@
-import type {ComponentType, ReactNode} from 'react';
-import React from 'react';
+import type { ComponentType, ReactNode } from "react";
 
 type ChildrenProps = {
   children: ReactNode;
@@ -13,9 +12,9 @@ type ComposeProvidersProps = ChildrenProps & {
 function ComposeProviders(props: ComposeProvidersProps): ReactNode {
   return props.components.reduceRight(
     (memo, Component) => <Component>{memo}</Component>,
-    props.children,
+    props.children
   );
 }
 
-ComposeProviders.displayName = 'ComposeProviders';
+ComposeProviders.displayName = "ComposeProviders";
 export default ComposeProviders;

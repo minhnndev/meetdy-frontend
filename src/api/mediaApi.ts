@@ -4,11 +4,11 @@ const API_URL = "/messages";
 
 const ServiceMedia = {
   fetchAllMedia: (
-    conversationId,
+    conversationId: any,
     type = "ALL",
-    senderId,
-    startTime,
-    endTime
+    senderId?: any,
+    startTime?: any,
+    endTime?: any
   ) => {
     return axiosClient.get(`${API_URL}/${conversationId}/files`, {
       params: {

@@ -2,13 +2,13 @@ import "./reportWebVitals";
 import "./App.css";
 import { RecoilRoot } from "recoil";
 import { Provider as ReduxProvider } from "react-redux";
-import ComposeProviders from "@/components/Providers/ComposeProviders";
 import store from "@/redux/store";
 import {
   PersistQueryClientProvider,
   persistOptions,
   queryClient,
 } from "@/queries/core";
+import ComposeProviders from "@/components/Providers/ComposeProviders";
 
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
