@@ -12,12 +12,15 @@ import ComposeProviders from "@/components/Providers/ComposeProviders";
 
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
+import { useState } from "react";
 
 const AppTestUI = () => {
+  const [count, setCount] = useState(0);
+
   return (
     <>
       <div>
-        <a href="https://vitejs.dev" target="_blank">
+        <a href="https://meetdy.com" target="_blank">
           <img src={viteLogo} className="logo" alt="Vite logo" />
         </a>
         <a href="https://react.dev" target="_blank">
@@ -26,8 +29,11 @@ const AppTestUI = () => {
       </div>
       <h1>Vite + React</h1>
       <div className="card">
+        <button onClick={() => setCount((count) => count + 1)}>
+          count is {count}
+        </button>
         <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
+          Edit thấy đã oke rồi, giờ chỉ cần code thôi, không cần phải quan tâm
         </p>
       </div>
       <p className="read-the-docs">
@@ -39,16 +45,18 @@ const AppTestUI = () => {
 
 function App() {
   return (
-    <ReduxProvider store={store}>
-      <ComposeProviders components={[RecoilRoot]}>
-        <PersistQueryClientProvider
-          client={queryClient}
-          persistOptions={persistOptions}
-        >
-          <AppTestUI />
-        </PersistQueryClientProvider>
-      </ComposeProviders>
-    </ReduxProvider>
+    <>
+      <ReduxProvider store={store}>
+        <ComposeProviders components={[RecoilRoot]}>
+          <PersistQueryClientProvider
+            client={queryClient}
+            persistOptions={persistOptions}
+          >
+            <AppTestUI />
+          </PersistQueryClientProvider>
+        </ComposeProviders>
+      </ReduxProvider>
+    </>
   );
 }
 

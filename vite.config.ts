@@ -9,10 +9,10 @@ const loadEnvVariables = () => ({
   name: "load-env-variables",
   configureServer: ({ middlewares }: { middlewares: any }) => {
     middlewares.use(async (req: any, res: any, next: () => void) => {
-      if (process.env.NODE_ENV === "production") {
+      if (process.env.ENV === "production") {
         dotenv.config({ path: ".env" });
       } else {
-        dotenv.config({ path: ".env.local" });
+        dotenv.config({ path: ".env.development" });
       }
       next();
     });
@@ -53,7 +53,7 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
-      '@': "/src",
+      "@": "/src",
     },
   },
   server: {

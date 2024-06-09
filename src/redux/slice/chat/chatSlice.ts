@@ -15,7 +15,6 @@ import dateUtils from "@/utils/dateUtils";
 const KEY = "chat";
 
 // Classify
-
 export const fetchListColor = createAsyncThunk(
   `${KEY}/fetchListColor`,
   async () => {
@@ -26,7 +25,7 @@ export const fetchListColor = createAsyncThunk(
 
 export const fetchListClassify = createAsyncThunk(
   `${KEY}/fetchListClassify`,
-  async (params, thunkApi) => {
+  async () => {
     const classifies = await ServiceClassify.getClassifies();
     return classifies;
   }
@@ -34,9 +33,9 @@ export const fetchListClassify = createAsyncThunk(
 
 export const fetchListConversations = createAsyncThunk(
   `${KEY}/fetchListConversations`,
-  async (params, thunkApi) => {
+  async (params: any) => {
     const { name, type } = params;
-    const conversations = await conversationApi.fetchListConversations(
+    const conversations = await conversationApi.getListConversations(
       name,
       type
     );
@@ -47,7 +46,7 @@ export const fetchListConversations = createAsyncThunk(
 
 export const fetchListMessages = createAsyncThunk(
   `${KEY}/fetchListMessages`,
-  async (params, thunkApi) => {
+  async (params: any) => {
     const { conversationId, page, size } = params;
 
     const messages = await messageApi.fetchListMessages(
@@ -65,7 +64,7 @@ export const fetchListMessages = createAsyncThunk(
 
 export const fetchNextPageMessage = createAsyncThunk(
   `${KEY}/fetchNextPageMessage`,
-  async (params, thunkApi) => {
+  async (params: any) => {
     const { conversationId, page, size } = params;
 
     const messages = await messageApi.fetchListMessages(
@@ -82,7 +81,7 @@ export const fetchNextPageMessage = createAsyncThunk(
 
 export const fetchNextPageMessageOfChannel = createAsyncThunk(
   `${KEY}/fetchNextPageMessageOfChannel`,
-  async (params, thunkApi) => {
+  async (params: any) => {
     const { page, size, channelId } = params;
 
     const messages = await channelApi.getMessageInChannel(
@@ -98,7 +97,7 @@ export const fetchNextPageMessageOfChannel = createAsyncThunk(
 
 export const fetchListFriends = createAsyncThunk(
   `${KEY}/fetchListFriends`,
-  async (params, thunkApi) => {
+  async (params: any) => {
     const { name } = params;
     const friends = await friendApi.fetchFriends(name);
     return friends;
@@ -110,7 +109,7 @@ export const fetchListFriends = createAsyncThunk(
 // Create a group chat
 export const createGroup = createAsyncThunk(
   `${KEY}/createGroup`,
-  async (params, thunkApi) => {
+  async (params: any) => {
     const { name, userIds } = params;
     const idNewGroup = await conversationApi.createGroup(name, userIds);
     return idNewGroup;
@@ -119,7 +118,7 @@ export const createGroup = createAsyncThunk(
 
 export const fetchConversationById = createAsyncThunk(
   `${KEY}/fetchConversationById`,
-  async (params, thunkApi) => {
+  async (params: any) => {
     const { conversationId } = params;
     const conversation = await conversationApi.getConversationById(
       conversationId
@@ -131,7 +130,7 @@ export const fetchConversationById = createAsyncThunk(
 
 export const deleteConversation = createAsyncThunk(
   `${KEY}/deleteConversation/`,
-  async (params, thunkApi) => {
+  async (params: any) => {
     const { conversationId } = params;
     await conversationApi.deleteConversation(conversationId);
     return conversationId;
@@ -140,7 +139,7 @@ export const deleteConversation = createAsyncThunk(
 
 export const getMembersConversation = createAsyncThunk(
   `${KEY}/getMembersConversation`,
-  async (params, thunkApi) => {
+  async (params: any) => {
     const { conversationId } = params;
     const members = await conversationApi.getMemberInConversation(
       conversationId
@@ -153,7 +152,7 @@ export const getMembersConversation = createAsyncThunk(
 
 export const fetchPinMessages = createAsyncThunk(
   `${KEY}/fetchPinMessages`,
-  async (params, _) => {
+  async (params: any) => {
     const { conversationId } = params;
     const pinMessages = await pinMessageApi.getPinMessages(conversationId);
     return pinMessages;
@@ -165,7 +164,7 @@ export const fetchPinMessages = createAsyncThunk(
 // ============
 export const getLastViewOfMembers = createAsyncThunk(
   `${KEY}/getLastViewOfMembers`,
-  async (params, _) => {
+  async (params: any, _) => {
     const { conversationId } = params;
     const lastViews = await conversationApi.getLastViewOfMembers(
       conversationId
@@ -179,7 +178,7 @@ export const getLastViewOfMembers = createAsyncThunk(
 
 export const fetchChannels = createAsyncThunk(
   `${KEY}/fetchChannels`,
-  async (params) => {
+  async (params: any) => {
     const { conversationId } = params;
     const data = await channelApi.fetchChannel(conversationId);
     return data;
@@ -188,7 +187,7 @@ export const fetchChannels = createAsyncThunk(
 
 export const fetchMessageInChannel = createAsyncThunk(
   `${KEY}/fetchMessageInChannel`,
-  async (params, _) => {
+  async (params: any) => {
     const { channelId, page, size } = params;
     const data = await channelApi.getMessageInChannel(channelId, page, size);
 
@@ -201,7 +200,7 @@ export const fetchMessageInChannel = createAsyncThunk(
 
 export const getLastViewChannel = createAsyncThunk(
   `${KEY}/getLastViewChannel`,
-  async (params, _) => {
+  async (params: any) => {
     const { channelId } = params;
     const lastViews = await channelApi.getLastViewChannel(channelId);
 
@@ -212,44 +211,69 @@ export const getLastViewChannel = createAsyncThunk(
 export const fetchAllSticker = createAsyncThunk(
   `${KEY}/fetchAllSticker`,
   async () => {
-    const data = await stickerApi.fetchAllSticker();
+    const data = await stickerApi.getAllSticker();
     return data;
   }
 );
 
 export const fetchVotes = createAsyncThunk(
   `${KEY}/fetchVotes`,
-  async (params, _) => {
+  async (params: any) => {
     const { conversationId, page, size } = params;
     const data = await voteApi.getVotes(conversationId, page, size);
     return data;
   }
 );
 
+type InitialStateType = {
+  isLoading: boolean;
+  conversations: any[];
+  currentConversation: string;
+  messages: any[];
+  friends: any[];
+  memberInConversation: any[];
+  type: boolean;
+  currentPage: string | number;
+  totalPages: string;
+  toTalUnread: number;
+  classifies: any[];
+  colors: any[];
+  pinMessages: any[];
+  lastViewOfMember: any[];
+  currentChannel: string;
+  channels: any[];
+  totalChannelNotify: number;
+  stickers: any[];
+  votes: any[];
+  totalPagesVote: number;
+};
+
+const initialState: InitialStateType = {
+  isLoading: false,
+  conversations: [],
+  currentConversation: "",
+  messages: [],
+  friends: [],
+  memberInConversation: [],
+  type: false,
+  currentPage: "",
+  totalPages: "",
+  toTalUnread: 0,
+  classifies: [],
+  colors: [],
+  pinMessages: [],
+  lastViewOfMember: [],
+  currentChannel: "",
+  channels: [],
+  totalChannelNotify: 0,
+  stickers: [],
+  votes: [],
+  totalPagesVote: 0,
+};
+
 const chatSlice = createSlice({
   name: KEY,
-  initialState: {
-    isLoading: false,
-    conversations: [],
-    currentConversation: "",
-    messages: [],
-    friends: [],
-    memberInConversation: [],
-    type: false,
-    currentPage: "",
-    totalPages: "",
-    toTalUnread: 0,
-    classifies: [],
-    colors: [],
-    pinMessages: [],
-    lastViewOfMember: [],
-    currentChannel: "",
-    channels: [],
-    totalChannelNotify: 0,
-    stickers: [],
-    votes: [],
-    totalPagesVote: 0,
-  },
+  initialState: initialState,
   reducers: {
     addMessage: (state, action) => {
       const newMessage = action.payload;
@@ -328,8 +352,8 @@ const chatSlice = createSlice({
       state.totalChannelNotify = notify;
     },
     setRaisePage: (state, action) => {
-      if (state.currentPage < state.totalPages - 1) {
-        state.currentPage = state.currentPage + 1;
+      if (Number(state.currentPage) < Number(state.totalPages) - 1) {
+        state.currentPage = Number(state.currentPage) + 1;
       }
     },
 
@@ -420,7 +444,7 @@ const chatSlice = createSlice({
           type,
         };
       } else {
-        let reacts = [...currentMessage.reacts, { user, type }];
+        const reacts = [...currentMessage.reacts, { user, type }];
         state.messages[index].reacts = reacts;
       }
     },
@@ -622,174 +646,149 @@ const chatSlice = createSlice({
       }
     },
   },
-  extraReducers: {
-    [fetchListConversations.pending]: (state, action) => {
-      state.isLoading = true;
-    },
-    [fetchListConversations.fulfilled]: (state, action) => {
-      state.isLoading = false;
-      state.conversations = action.payload;
-    },
-    [fetchListMessages.pending]: (state, action) => {
-      state.isLoading = true;
-    },
-    [fetchListMessages.fulfilled]: (state, action) => {
-      state.isLoading = false;
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchListConversations.pending, (state, action) => {
+        state.isLoading = true;
+      })
+      .addCase(fetchListConversations.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.conversations = action.payload;
+      })
+      .addCase(fetchListMessages.pending, (state, action) => {
+        state.isLoading = true;
+      })
+      .addCase(fetchListMessages.fulfilled, (state, action) => {
+        state.isLoading = false;
 
-      // xét currentConversation
-      const conversationId = action.payload.conversationId;
-      const conversationIndex = state.conversations.findIndex(
-        (conversationEle) => conversationEle._id === conversationId
-      );
+        const conversationId = action.payload.conversationId;
+        const conversationIndex = state.conversations.findIndex(
+          (conversationEle) => conversationEle._id === conversationId
+        );
 
-      state.conversations[conversationIndex] = {
-        ...state.conversations[conversationIndex],
-        numberUnread: 0,
-      };
+        state.conversations[conversationIndex] = {
+          ...state.conversations[conversationIndex],
+          numberUnread: 0,
+        };
 
-      state.currentConversation = conversationId;
+        state.currentConversation = conversationId;
+        state.messages = action.payload.messages.data;
+        state.currentPage = action.payload.messages.page;
+        state.totalPages = action.payload.messages.totalPages;
+      })
+      .addCase(fetchMessageInChannel.pending, (state, action) => {
+        state.isLoading = true;
+      })
+      .addCase(fetchMessageInChannel.fulfilled, (state, action) => {
+        state.isLoading = false;
 
-      // state.messagesPage = action.payload.messages;
-      state.messages = action.payload.messages.data;
-      state.currentPage = action.payload.messages.page;
-      state.totalPages = action.payload.messages.totalPages;
-    },
-    // fetchMessageInChannel
-    [fetchMessageInChannel.fulfilled]: (state, action) => {
-      state.isLoading = false;
+        const { messages, channelId } = action.payload;
+        const channelIndex = state.channels.findIndex(
+          (channel) => channel._id === channelId
+        );
 
-      // xét currentConversation
-      const { messages, channelId } = action.payload;
-      const channelIndex = state.channels.findIndex(
-        (channel) => channel._id === channelId
-      );
+        state.channels[channelIndex] = {
+          ...state.channels[channelIndex],
+          numberUnread: 0,
+        };
 
-      state.channels[channelIndex] = {
-        ...state.channels[channelIndex],
-        numberUnread: 0,
-      };
+        state.currentChannel = channelId;
+        state.messages = messages.data;
+        state.currentPage = messages.page;
+        state.totalPages = messages.totalPages;
+      })
+      .addCase(fetchMessageInChannel.rejected, (state, action) => {
+        state.isLoading = false;
+      })
+      .addCase(fetchNextPageMessage.fulfilled, (state, action) => {
+        state.messages = [...action.payload.messages.data, ...state.messages];
+        state.currentPage = action.payload.messages.page;
+      })
+      .addCase(fetchNextPageMessageOfChannel.fulfilled, (state, action) => {
+        state.messages = [...action.payload.data, ...state.messages];
+        state.currentPage = action.payload.page;
+      })
+      // FRIEND
+      .addCase(fetchListFriends.pending, (state, action) => {
+        state.isLoading = true;
+      })
+      .addCase(fetchListFriends.rejected, (state, action) => {
+        state.isLoading = false;
+      })
+      .addCase(fetchListFriends.fulfilled, (state, action) => {
+        state.friends = action.payload;
+        state.isLoading = false;
+      })
+      // Conversation
+      .addCase(fetchConversationById.fulfilled, (state, action) => {
+        const conversations = action.payload;
+        state.conversations = [conversations, ...state.conversations];
+      })
+      .addCase(getMembersConversation.fulfilled, (state, action) => {
+        const tempMembers = [...action.payload.data];
+        const temp = [];
 
-      state.currentChannel = channelId;
-
-      // state.messagesPage = action.payload.messages;
-      state.messages = messages.data;
-      state.currentPage = messages.page;
-      state.totalPages = messages.totalPages;
-    },
-    [fetchMessageInChannel.pending]: (state, action) => {
-      state.isLoading = true;
-    },
-    [fetchMessageInChannel.rejected]: (state, action) => {
-      state.isLoading = false;
-    },
-
-    [fetchNextPageMessage.fulfilled]: (state, action) => {
-      state.messages = [...action.payload.messages.data, ...state.messages];
-      state.currentPage = action.payload.messages.page;
-    },
-
-    [fetchNextPageMessageOfChannel.fulfilled]: (state, action) => {
-      state.messages = [...action.payload.data, ...state.messages];
-      state.currentPage = action.payload.page;
-    },
-    // FRIEND
-    [fetchListFriends.pending]: (state, action) => {
-      state.isLoading = true;
-    },
-    [fetchListFriends.rejected]: (state, action) => {
-      state.isLoading = false;
-    },
-    [fetchListFriends.fulfilled]: (state, action) => {
-      state.friends = action.payload;
-      state.isLoading = false;
-    },
-
-    // Conversation
-
-    [fetchConversationById.fulfilled]: (state, action) => {
-      const conversations = action.payload;
-      state.conversations = [conversations, ...state.conversations];
-    },
-
-    [getMembersConversation.fulfilled]: (state, action) => {
-      const tempMembers = [...action.payload];
-      const temp = [];
-
-      tempMembers.forEach((member) => {
-        state.friends.forEach((friend) => {
-          if (member._id === friend._id) {
-            member = { ...member, isFriend: true };
-            return;
-          }
+        tempMembers.forEach((member) => {
+          state.friends.forEach((friend) => {
+            if (member._id === friend._id) {
+              member = { ...member, isFriend: true };
+              return;
+            }
+          });
+          temp.push(member);
         });
-        temp.push(member);
+
+        state.memberInConversation = temp;
+      })
+      // classify
+      .addCase(fetchListClassify.fulfilled, (state, action) => {
+        state.classifies = action.payload;
+        state.isLoading = false;
+      })
+      .addCase(fetchListClassify.rejected, (state, action) => {
+        state.isLoading = false;
+      })
+      .addCase(fetchListClassify.pending, (state, action) => {
+        state.isLoading = true;
+      })
+      .addCase(fetchListColor.fulfilled, (state, action) => {
+        state.colors = action.payload;
+      })
+      .addCase(fetchPinMessages.fulfilled, (state, action) => {
+        state.pinMessages = action.payload.reverse();
+      })
+      .addCase(getLastViewOfMembers.fulfilled, (state, action) => {
+        state.lastViewOfMember = action.payload;
+      })
+      .addCase(getLastViewChannel.fulfilled, (state, action) => {
+        state.lastViewOfMember = action.payload;
+      })
+      // Channel
+      .addCase(fetchChannels.fulfilled, (state, action) => {
+        state.channels = action.payload;
+        state.isLoading = false;
+      })
+      .addCase(fetchChannels.rejected, (state, action) => {
+        state.isLoading = false;
+      })
+      .addCase(fetchChannels.pending, (state, action) => {
+        state.isLoading = true;
+      })
+      // Sticker
+      .addCase(fetchAllSticker.fulfilled, (state, action) => {
+        state.stickers = action.payload;
+        state.isLoading = false;
+      })
+      .addCase(fetchAllSticker.rejected, (state, action) => {
+        state.isLoading = true;
+      })
+      .addCase(fetchAllSticker.pending, (state, action) => {
+        state.isLoading = false;
+      })
+      .addCase(fetchVotes.fulfilled, (state, action) => {
+        state.votes = action.payload.data;
+        state.totalPagesVote = action.payload.totalPages;
       });
-
-      state.memberInConversation = temp;
-    },
-
-    // classify
-    [fetchListClassify.fulfilled]: (state, action) => {
-      state.classifies = action.payload;
-      state.isLoading = false;
-    },
-    [fetchListClassify.rejected]: (state, action) => {
-      state.classifies = action.payload;
-      state.isLoading = false;
-    },
-    [fetchListClassify.pending]: (state, action) => {
-      state.isLoading = true;
-    },
-
-    [fetchListColor.fulfilled]: (state, action) => {
-      state.colors = action.payload;
-    },
-
-    [fetchPinMessages.fulfilled]: (state, action) => {
-      state.pinMessages = action.payload.reverse();
-    },
-
-    [fetchPinMessages.fulfilled]: (state, action) => {
-      state.pinMessages = action.payload.reverse();
-    },
-    [getLastViewOfMembers.fulfilled]: (state, action) => {
-      state.lastViewOfMember = action.payload;
-    },
-
-    [getLastViewChannel.fulfilled]: (state, action) => {
-      state.lastViewOfMember = action.payload;
-    },
-
-    // Channel
-
-    [fetchChannels.fulfilled]: (state, action) => {
-      state.channels = action.payload;
-      state.isLoading = false;
-    },
-    [fetchChannels.rejected]: (state, action) => {
-      state.isLoading = false;
-    },
-    [fetchChannels.pending]: (state, action) => {
-      state.isLoading = true;
-    },
-
-    // Sticker
-
-    [fetchAllSticker.fulfilled]: (state, action) => {
-      state.stickers = action.payload;
-      state.isLoading = false;
-    },
-    [fetchAllSticker.rejected]: (state, action) => {
-      state.isLoading = true;
-    },
-    [fetchAllSticker.pending]: (state, action) => {
-      state.isLoading = false;
-    },
-
-    [fetchVotes.fulfilled]: (state, action) => {
-      state.votes = action.payload.data;
-      state.totalPagesVote = action.payload.totalPages;
-    },
   },
 });
 
@@ -804,9 +803,9 @@ export const {
   deleteMessageClient,
   setToTalUnread,
   setReactionMessage,
-  updateConversationWhenAddMember,
+  // updateConversationWhenAddMember,
   leaveGroup,
-  updateMemberLeaveGroup,
+  // updateMemberLeaveGroup,
   isDeletedFromGroup,
   setCurrentConversation,
   updateClassifyToConver,

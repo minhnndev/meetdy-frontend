@@ -5,7 +5,6 @@ const KEY = "global";
 
 interface UserProfile {
   avatar?: string;
-  // Add other user profile fields here if available
 }
 
 interface GlobalState {
@@ -28,7 +27,7 @@ export const fetchUserProfile = createAsyncThunk(
 const initialState: GlobalState = {
   isLoading: false,
   isLogin: false,
-  user: null,
+  user: {},
   isJoinChatLayout: false,
   isJoinFriendLayout: false,
   tabActive: 0,
@@ -64,11 +63,11 @@ const globalSlice = createSlice({
       .addCase(fetchUserProfile.pending, (state) => {
         state.isLoading = true;
       })
-      // .addCase(fetchUserProfile.fulfilled, (state, action: PayloadAction<UserProfile>) => {
-      //   state.isLoading = false;
-      //   state.isLogin = true;
-      //   state.user = action.payload;
-      // })
+      .addCase(fetchUserProfile.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isLogin = true;
+        state.user = action.payload as UserProfile;
+      })
       .addCase(fetchUserProfile.rejected, (state) => {
         state.isLoading = false;
         state.isLogin = false;

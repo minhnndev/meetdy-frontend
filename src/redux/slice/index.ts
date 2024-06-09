@@ -1,21 +1,24 @@
 import global from "./globalSlice";
+
 import chat from "./chat/chatSlice";
 import media from "./chat/mediaSlice";
+
 import account from "./accountSlice";
 import friend from "./friendSlice";
-import admin from "./adminSlice";
 import home from "./homeSlice";
 import callVideo from "./callVideoSlice";
+
+import admin from "./adminSlice";
 
 const rootReducer = {
   global,
   account,
+  admin,
+  callVideo,
   chat,
   friend,
-  admin,
-  media,
-  callVideo,
   home,
+  media,
 };
 
 export default rootReducer;

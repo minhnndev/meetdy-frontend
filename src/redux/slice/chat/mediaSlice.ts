@@ -1,11 +1,12 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import ServiceMedia from "@/api/mediaApi";
+import { get } from "react-hook-form";
 const KEY = "MEDIA";
 
 export const fetchAllMedia = createAsyncThunk(
   `${KEY}/fetchAllMedia`,
   async (params) => {
-    const { conversationId } = params;
+    const conversationId = get(params, "conversationId");
     const media = await ServiceMedia.fetchAllMedia(conversationId);
     return media;
   }
@@ -23,10 +24,17 @@ const mediaSlice = createSlice({
     isLoading: false,
   },
   reducers: {},
-  extraReducers: {
-    [fetchAllMedia.fulfilled]: (state, action) => {
-      state.media = action.payload;
-    },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchAllMedia.fulfilled, (state, action) => {
+        state.media = action.payload;
+      })
+      .addCase(fetchAllMedia.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(fetchAllMedia.rejected, (state) => {
+        state.isLoading = false;
+      });
   },
 });
 
