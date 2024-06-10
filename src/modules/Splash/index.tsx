@@ -12,13 +12,13 @@ const SplashPage = (props: Props) => {
     const navigate = useNavigate();
     useEffect(() => {
         sleep(2000).then(() => {
-            navigate("/login")
+            navigate("/auth")
         })
     }, []);
 
     return (
         <div id='home-content'>
-            <Spin size="large" spinning={true}>
+            <Spin size='large' spinning={true}>
                 <section className="home-page" id="home">
                     <div className="content">
                         <Title heading={3} className="app-name">
