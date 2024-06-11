@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
 import { Button, Form, Typography, Divider } from "@douyinfe/semi-ui";
 
@@ -11,6 +11,7 @@ import ServiceAuth from "@/api/loginApi";
 import { setLogin, fetchUserProfile } from "@/redux/slice/globalSlice";
 
 import { loginSchema } from "@/schemas/auth.schema";
+import lang from "@/i18n";
 
 interface LoginFormValues {
   username: string;
@@ -23,7 +24,7 @@ const { Text, Title } = Typography;
 
 const LoginPage = () => {
   const dispatch = useAppDispatch();
-  // const navigate = useNavigate();
+  const { t } = lang();
 
   const [isError, setError] = useState(false);
   const [isVerify, setVerify] = useState(false);
@@ -75,7 +76,7 @@ const LoginPage = () => {
             heading={2}
             style={{ textAlign: "center", fontWeight: "bold" }}
           >
-            Đăng Nhập
+            {t("login.title")}
           </Title>
           <Divider margin={12} />
           <div className="form-account">
@@ -88,30 +89,30 @@ const LoginPage = () => {
                 <>
                   <Form.Input
                     field="username"
-                    label="Tài khoản"
+                    label={t("login.form.lb_username")}
                     style={{ width: "100%" }}
                     rules={[
                       {
                         required: true,
-                        message: "Tài khoản không hợp lệ",
+                        message: t("login.form.msg_valid_username"),
                       },
                     ]}
-                    placeholder="Nhập Email hoặc SĐT"
+                    placeholder={t("login.form.phd_username")}
                   />
                   <Form.Input
                     mode="password"
                     field="password"
-                    label="Mật khẩu"
+                    label={t("login.form.lb_password")}
                     style={{ width: "100%" }}
                     rules={[
                       {
                         required: true,
-                        message: "Mật khẩu phải từ 8-50 ký tự",
+                        message: t("login.form.msg_valid_password"),
                         min: 8,
                         max: 50,
                       },
                     ]}
-                    placeholder="Nhập mật khẩu của bạn"
+                    placeholder={t("login.form.phd_password")}
                   />
                   {keyGoogleCaptcha && (
                     <ReCAPTCHA
@@ -121,7 +122,7 @@ const LoginPage = () => {
                   )}
                   {isError && (
                     <Text style={{ textAlign: "center" }} type="danger">
-                      Tài khoản không hợp lệ
+                      {t("login.form.msg_error")}
                     </Text>
                   )}
                   <div
@@ -140,7 +141,7 @@ const LoginPage = () => {
                       className={!isVerify ? "" : "bg-blue-600"}
                       style={{ marginTop: 12 }}
                     >
-                      Đăng nhập
+                      {t("login.form.btn_login")}
                     </Button>
                   </div>
                 </>
@@ -149,9 +150,9 @@ const LoginPage = () => {
           </div>
           <Divider margin={24} />
           <div className="addtional-link">
-            <Link to="/">Trang chủ</Link>
-            <Link to="/auth/forgot">Quên mật khẩu</Link>
-            <Link to="/auth/registry">Bạn chưa có tài khoản ?</Link>
+            <Link to="/">{t("login.link.lb_home")}</Link>
+            <Link to="/auth/forgot">{t("login.link.lb_forgot_password")}</Link>
+            <Link to="/auth/registry">{t("login.link.lb_register")}</Link>
           </div>
         </div>
       </div>

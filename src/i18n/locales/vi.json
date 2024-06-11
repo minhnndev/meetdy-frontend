@@ -2,5 +2,23 @@
     "common": {
         "app_title": "Chat App",
         "app_name": "Meetdy App"
+    },
+    "login": {
+        "title": "Đăng Nhập",
+        "form": {
+            "lb_username": "Tài khoản",
+            "msg_valid_username": "Tài khoản không hợp lệ",
+            "phd_username": "Nhập Email hoặc SĐT",
+            "lb_password": "Mật khẩu",
+            "msg_valid_password": "Mật khẩu phải từ 8-50 ký tự",
+            "phd_password": "Nhập mật khẩu của bạn",
+            "btn_login": "Đăng nhập",
+            "msg_error": "Tài khoản không hợp lệ"
+        },
+        "link": {
+            "lb_home": "Trang chủ",
+            "lb_forgot_password": "Quên mật khẩu",
+            "lb_register": "Bạn chưa có tài khoản ?"
+        }
     }
 }

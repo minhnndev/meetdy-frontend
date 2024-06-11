@@ -2,5 +2,24 @@
     "common": {
         "app_title": "Chat App",
         "app_name": "Meetdy App"
+    },
+    "login": {
+        "title": "Login",
+        "form": {
+            "lb_username": "Username",
+            "msg_valid_username": "Invalid username",
+            "phd_username": "Enter Email or Phone number",
+            "lb_password": "Password",
+            "msg_valid_password": "Password must be 8-50 characters",
+            "phd_password": "Enter your password",
+            "btn_login": "Login",
+            "msg_error": "Invalid account"
+        },
+        "link": {
+            "lb_home": "Home",
+            "lb_forgot_password": "Forgot password",
+            "lb_register": "Don't have an account?"
+        }
     }
+    
 }
