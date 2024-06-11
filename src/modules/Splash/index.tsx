@@ -4,12 +4,12 @@ import { Typography, Spin } from '@douyinfe/semi-ui';
 import "./style.css"
 import { useNavigate } from "react-router-dom";
 import sleep from '@/utils/sleep';
+import lang from '@/i18n';
 
-type Props = {};
-
-const SplashPage = (props: Props) => {
+const SplashPage = () => {
     const { Title } = Typography;
     const navigate = useNavigate();
+    const { t } = lang();
     useEffect(() => {
         sleep(2000).then(() => {
             navigate("/auth")
@@ -22,10 +22,10 @@ const SplashPage = (props: Props) => {
                 <section className="home-page" id="home">
                     <div className="content">
                         <Title heading={3} className="app-name">
-                            CHAT APP
+                            {t("common.app_title")}
                         </Title>
                         <Title heading={2} className="app-title">
-                            MEETDY APP
+                            {t("common.app_name")}
                         </Title>
                     </div>
                 </section>

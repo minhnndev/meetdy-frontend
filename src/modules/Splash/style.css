@@ -20,6 +20,7 @@
     font-size: 72px;
     font-weight: bold;
     text-align: center;
+    text-transform: uppercase;
 }
 
 .home-page .content .app-title {
@@ -27,6 +28,7 @@
     font-weight: bold;
     margin-top: 1em;
     text-align: center;
+    text-transform: uppercase;
 }
 
 /* media queries */
