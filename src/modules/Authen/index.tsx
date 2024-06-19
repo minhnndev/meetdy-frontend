@@ -12,7 +12,7 @@ const Authen = () => {
         <Spin spinning={isLoading} >
             <div id='account-page'>
                 <Routes>
-                    <Route path={`/`} element={<LoginPage/>} />
+                    <Route path={`/login`} element={<LoginPage/>} />
                     <Route path={`/registry`} element={<RegisterPage/>} />
                     <Route path={`/forgot`} element={<div>Forget Password</div>} />
                 </Routes>

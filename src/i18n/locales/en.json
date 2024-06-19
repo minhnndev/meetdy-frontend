@@ -20,6 +20,38 @@
             "lb_forgot_password": "Forgot password",
             "lb_register": "Don't have an account?"
         }
+    },
+    "register": {
+        "title": "Register",
+        "form_register": {
+            "lb_name": "Full Name",
+            "msg_valid_name": "Full name cannot be empty.",
+            "phd_name": "Your name, e.g., Nguyen Van A",
+            "lb_username": "Username",
+            "msg_valid_username": "Username cannot be empty.",
+            "phd_username": "Enter Email or Phone Number",
+            "lb_password": "Password",
+            "msg_valid_password": "Password cannot be empty.",
+            "phd_password": "Enter your password",
+            "lb_password_confirm": "Confirm Password",
+            "msg_valid_password_confirm": "Password cannot be empty and must match the password you entered.",
+            "phd_password_confirm": "Re-enter your password",
+            "btn_register": "Register",
+            "msg_error": "Invalid account",
+            "msg_agree": "I have read and agree to the terms and policies"
+        },
+        "form_confirm_otp": {
+            "lb_otp": "OTP Confirmation",
+            "phd_valid_otp": "OTP code has 6 characters",
+            "msg_completed_send_otp": "OTP code has been sent to your registered Email",
+            "btn_send_otp": "Resend OTP",
+            "btn_submit": "Confirm"
+        },
+        "link": {
+            "lb_home": "Home",
+            "lb_login": "Login",
+            "lb_forgot_password": "Forgot Password?"
+        }
     }
     
 }

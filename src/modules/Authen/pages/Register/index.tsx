@@ -8,11 +8,10 @@ import { registerSchema } from '@/schemas/auth.schema';
 import React, { useEffect, useState, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate, Link } from 'react-router-dom';
+import lang from '@/i18n';
 
 const RESEND_OTP_TIME_LIMIT = 60;
 const { Text, Title } = Typography;
-
-interface Props {}
 
 interface FormValues {
     name?: string;
@@ -28,7 +27,7 @@ const initValue = {
     otpValue: '',
 };
 
-const RegistryPage = (props: Props) => {
+const RegistryPage = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     let resendOTPTimerInterval = useRef<NodeJS.Timeout | null>(null);
@@ -36,6 +35,7 @@ const RegistryPage = (props: Props) => {
     const [counter, setCounter] = useState<number>(0);
     const [isSubmit, setIsSubmit] = useState<boolean>(false);
     const [getInitValues, setInitValues] = useState<FormValues>(initValue);
+    const { t } = lang();
 
     const openNotification = (mes?: string) => {
         const args = {
@@ -150,7 +150,7 @@ const RegistryPage = (props: Props) => {
             <div className="account-wrapper">
                 <div className="account-right">
                     <Title heading={2} style={{ textAlign: 'center', fontWeight: 'bold' }}>
-                        Đăng ký
+                        {t('register.title')}
                     </Title>
                     <Divider margin={12} />
                     <div className="form-account">
@@ -168,9 +168,9 @@ const RegistryPage = (props: Props) => {
                                                     field="otpValue"
                                                     type="text"
                                                     label={{
-                                                        text: 'Xác nhận OTP',
+                                                        text: t("register.form_confirm_otp.lb_otp"),
                                                         extra: (
-                                                            <Tooltip content="Mã OTP được gữi đến Email bạn đã đăng ký">
+                                                            <Tooltip content={t("register.form_confirm_otp.msg_completed_send_otp")}>
                                                                 <IconHelpCircle
                                                                     style={{
                                                                         color: 'var(--semi-color-text-2)',
@@ -179,8 +179,8 @@ const RegistryPage = (props: Props) => {
                                                             </Tooltip>
                                                         ),
                                                     }}
-                                                    placeholder="Mã OTP có 6 kí tự"
-                                                    rules={[
+                                                    placeholder={t("register.form_confirm_otp.phd_valid_otp")}
+                                                    rules={[ 
                                                         {
                                                             required: true,
                                                         },
@@ -198,7 +198,7 @@ const RegistryPage = (props: Props) => {
                                                     disabled={counter > 0}
                                                     className={counter > 0 ? '' : 'bg-blue-600'}
                                                 >
-                                                    Gửi lại OTP{' '}
+                                                    {t("register.form_confirm_otp.btn_send_otp")}{' '}
                                                     {`${counter > 0 ? `sau ${counter}` : ''}`}
                                                 </Button>
                                                 <Button
@@ -210,66 +210,66 @@ const RegistryPage = (props: Props) => {
                                                     className={formState.values.otpValue ? 'bg-blue-600' : ''}
                                                     style={{ marginTop: 12 }}
                                                 >
-                                                    Xác nhận
+                                                    {t("register.form_confirm_otp.btn_confirm")}
                                                 </Button>
                                             </>
                                         ) : (
                                             <>
                                                 <Form.Input
                                                     field="name"
-                                                    label="Tên"
+                                                    label={t("register.form_register.lb_name")}
                                                     style={{ width: '100%' }}
                                                     rules={[
                                                         {
                                                             required: true,
-                                                            message: 'Tên không được bỏ trống.',
+                                                            message: t("register.form_register.msg_valid_name"),
                                                         },
                                                     ]}
-                                                    placeholder="Tên của bạn, VD: Nguyễn Văn A"
+                                                    placeholder={t("register.form_register.phd_name")}
                                                 />
                                                 <Form.Input
                                                     field="username"
-                                                    label="Tài khoản"
+                                                    label={t("register.form_register.lb_username")}
                                                     style={{ width: '100%' }}
                                                     rules={[
                                                         {
                                                             required: true,
                                                             message:
-                                                                'Tài khoản không được bỏ trống.',
+                                                                t("register.form_register.msg_valid_username"),
                                                         },
                                                     ]}
-                                                    placeholder="Nhập Email hoặc SĐT"
+                                                    placeholder={t("register.form_register.phd_username")}
                                                 />
                                                 <Form.Input
                                                     mode="password"
                                                     field="password"
-                                                    label="Mật khẩu"
+                                                    label={t("register.form_register.lb_password")}
                                                     style={{ width: '100%' }}
                                                     rules={[
                                                         {
                                                             required: true,
                                                             message:
-                                                                'Mật khẩu không được bỏ trống.',
+                                                                t("register.form_register.msg_valid_password"),
                                                         },
                                                     ]}
-                                                    placeholder="Nhập mật khẩu của bạn"
+                                                    placeholder={t("register.form_register.phd_password")}
                                                 />
                                                 <Form.Input
                                                     mode="password"
                                                     field="passwordconfirm"
-                                                    label="Nhập lại mật khẩu"
+                                                    label={t("register.form_register.lb_password_confirm")}
                                                     style={{ width: '100%' }}
                                                     rules={[
                                                         {
                                                             required: true,
                                                             message:
-                                                                'Mật khẩu không được bỏ trống và phải giống với mật khẩu bạn đã nhập.',
+                                                                t("register.form_register.msg_valid_password_confirm"),
                                                         },
                                                     ]}
-                                                    placeholder="Nhập mật khẩu của bạn"
+                                                    placeholder={t("register.form_register.phd_password_confirm")}
                                                 />
                                                 <Form.Checkbox field="agree" noLabel>
-                                                    Tôi đã đọc đồng ý với điều khoản và chính sách
+                                                    {t("register.form_register.msg_agree")}
                                                 </Form.Checkbox>
                                                 {msgError && (
                                                     <Text
@@ -278,7 +278,7 @@ const RegistryPage = (props: Props) => {
                                                         }}
                                                         type="danger"
                                                     >
-                                                        Tài khoản không hợp lệ
+                                                        {t("register.form_register.msg_error")}
                                                     </Text>
                                                 )}
                                                 <div
@@ -296,7 +296,7 @@ const RegistryPage = (props: Props) => {
                                                         type="primary"
                                                         className={values.agree ? 'bg-blue-600' : ''}
                                                     >
-                                                        Đăng ký
+                                                        {t("register.form_register.btn_register")}
                                                     </Button>
                                                 </div>
                                             </>
@@ -310,9 +310,9 @@ const RegistryPage = (props: Props) => {
                     <Divider margin={24} />
 
                     <div className="addtional-link">
-                        <Link to="/">Trang chủ</Link>
-                        <Link to="/auth/login">Đăng nhập</Link>
-                        <Link to="/auth/forgot">Quên mật khẩu ?</Link>
+                        <Link to="/">{t("register.link.lb_home")}</Link>
+                        <Link to="/auth/login">{t("register.link.lb_login")}</Link>
+                        <Link to="/auth/forgot">{t("register.link.lb_forgot_password")}</Link>
                     </div>
                 </div>
             </div>

@@ -12,7 +12,7 @@ const SplashPage = () => {
     const { t } = lang();
     useEffect(() => {
         sleep(2000).then(() => {
-            navigate("/auth")
+            navigate("/auth/login")
         })
     }, []);
 
