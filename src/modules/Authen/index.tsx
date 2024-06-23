@@ -4,6 +4,7 @@ import LoginPage from './pages/Login';
 import RegisterPage from './pages/Register';
 import "./style.css";
 import { useSelector } from 'react-redux';
+import ForgotPassword from './pages/ForgotPassword';
 
 const Authen = () => {
     const { isLoading } = useSelector((state: any) => state.account);
@@ -14,7 +15,7 @@ const Authen = () => {
                 <Routes>
                     <Route path={`/login`} element={<LoginPage/>} />
                     <Route path={`/registry`} element={<RegisterPage/>} />
-                    <Route path={`/forgot`} element={<div>Forget Password</div>} />
+                    <Route path={`/forgot`} element={<ForgotPassword/>} />
                 </Routes>
             </div>
         </Spin>

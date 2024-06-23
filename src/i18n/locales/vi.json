@@ -52,5 +52,40 @@
             "lb_login": "Đăng nhập",
             "lb_forgot_password": "Quên mật khẩu ?"
         }
+    },
+    "forgot_password": {
+        "title": "Quên Mật Khẩu",
+        "form_change_password": {
+            "lb_new_password": "Mật khẩu mới",
+            "msg_valid_new_password": "Mật khẩu không được bỏ trống.",
+            "phd_new_password": "Nhập mật khẩu của bạn",
+            "lb_confirm_password": "Nhập lại mật khẩu",
+            "msg_valid_confirm_password": "Mật khẩu không được bỏ trống và phải giống với mật khẩu bạn đã nhập.",
+            "phd_confirm_password": "Nhập lại mật khẩu của bạn",
+            "lb_confirm_otp": "Xác nhận OTP",
+            "phd_confirm_otp": "Mã OTP có 6 kí tự",
+            "msg_valid_otp": "Phải có OTP",
+            "btn_send": "Xác nhận",
+            "msg_username_unvalid": "Tài khoản không hợp lệ",
+            "msg_update_completed": "Cập nhật tài khoản thành công !",
+            "msg_otp_unvalid": "OTP không hợp lệ",
+            "msg_tooltip_username": "Mã OTP sẽ được gữi đến Email hoặc SĐT này"
+        },
+        "form_send_otp": {
+            "lb_username": "Tài khoản",
+            "msg_tooltip_username": "Mã OTP sẽ được gữi đến Email hoặc SĐT này",
+            "msg_valid_username": "Tài khoản không được bỏ trống.",
+            "phd_username": "Nhập Email hoặc SĐT",
+            "err_username": "Tài khoản không hợp lệ",
+            "btn_send_otp": "Lấy mã OTP",
+            "msg_send_otp_completed": "Đã gửi OTP đến",
+            "msg_username_unexist": "Tài khoản không tồn tại",
+            "msg_resend_otp_completed": "Đã gửi lại mã OTP đến"
+        },
+        "link": {
+            "lb_home": "Trang chủ",
+            "lb_login": "Đăng nhập",
+            "lb_register": "Bạn chưa có tài khoản ?"
+        }
     }
 }
