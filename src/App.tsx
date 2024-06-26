@@ -7,7 +7,7 @@ import {
   persistOptions,
   queryClient,
 } from "@/queries/core";
-import ComposeProviders from "@/components/Providers/ComposeProviders";
+import ComposeProviders from "@/components/composables/Providers/ComposeProviders";
 import Routes from "@/routes";
 
 function App() {

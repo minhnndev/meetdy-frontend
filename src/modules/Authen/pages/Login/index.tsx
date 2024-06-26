@@ -3,15 +3,14 @@ import ReCAPTCHA from "react-google-recaptcha";
 import { Button, Form, Typography, Divider } from "@douyinfe/semi-ui";
 
 import axiosClient from "@/api/_httpAxios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAppDispatch } from "@/redux/store";
-
-import { setLoading } from "@/redux/slice/accountSlice";
-import ServiceAuth from "@/api/loginApi";
-import { setLogin, fetchUserProfile } from "@/redux/slice/globalSlice";
-
+import { setLogin, fetchUserProfile, getUserProfile, UserProfile } from "@/redux/slice/globalSlice";
+import { fetchToken, getTokens, ResponseToken } from '@/redux/slice/accountSlice';
 import { loginSchema } from "@/schemas/auth.schema";
 import lang from "@/i18n";
+import { useSelector } from 'react-redux';
+import storeHelper from "@/utils/storeHelper";
 
 interface LoginFormValues {
   username: string;
@@ -24,11 +23,15 @@ const { Text, Title } = Typography;
 
 const LoginPage = () => {
   const dispatch = useAppDispatch();
+  const navigator = useNavigate();
   const { t } = lang();
 
   const [isError, setError] = useState(false);
   const [isVerify, setVerify] = useState(false);
   const [keyGoogleCaptcha, setKeyGoogleCaptcha] = useState<string | null>(null);
+
+  const { token, refreshToken } = useSelector((state: any) => getTokens(state)) as ResponseToken;
+  const userProfile = useSelector((state: any) => getUserProfile(state)) as UserProfile;
 
   useEffect(() => {
     axiosClient
@@ -36,31 +39,30 @@ const LoginPage = () => {
       .then((res: any) => setKeyGoogleCaptcha(res.KEY_GOOGLE_CAPTCHA));
   }, []);
 
+  useEffect(() => {
+    if (token) {
+      storeHelper.storeToken(token, refreshToken)
+      dispatch(fetchUserProfile());
+    }
+  }, [token, refreshToken])
+
+  useEffect(() => {
+    console.log("🚀 ~ useEffect ~ userProfile:", userProfile)
+
+    if (userProfile && !userProfile.isAdmin) {
+      navigator("/home")
+    }
+  }, [userProfile])
+
   const handleSubmit = async (values: LoginFormValues) => {
-    const { username, password } = values;
     try {
       if (isVerify) {
-        dispatch(setLoading(true));
-        const response: any = await ServiceAuth.login(username, password);
-        const { token, refreshToken } = response;
-        localStorage.setItem("token", token);
-        localStorage.setItem("refreshToken", refreshToken);
-        dispatch(setLogin(true));
-        dispatch(fetchUserProfile())
-          .unwrap()
-          .then((payload: any) => {
-            const { isAdmin } = payload;
-            if (isAdmin) {
-              console.log("isAdmin");
-            }
-          });
+        await dispatch(fetchToken({ username: values.username, password: values.password }));
       }
     } catch (error) {
       console.log("🚀 error:", error);
       setError(true);
     }
-
-    dispatch(setLoading(false));
   };
 
   const onChange = () => {

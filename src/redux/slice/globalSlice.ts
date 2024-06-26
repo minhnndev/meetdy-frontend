@@ -3,8 +3,26 @@ import ServiceMe from "@/api/meApi";
 
 const KEY = "global";
 
-interface UserProfile {
-  avatar?: string;
+// export interface UserProfile {
+//   avatar?: string;
+//   isAdmin?: boolean;
+// }
+
+export type UserProfile = {
+  name?: string,
+  username?: string,
+  dateOfBirth?: DateOfBirth,
+  gender?: boolean,
+  avatar?: string,
+  avatarColor?: string,
+  coverImage?: string,
+  isAdmin?: boolean,
+}
+
+export type DateOfBirth = {
+  day: number,
+  month: number,
+  year: number,
 }
 
 interface GlobalState {
@@ -18,16 +36,16 @@ interface GlobalState {
 
 export const fetchUserProfile = createAsyncThunk(
   `${KEY}/fetchUserProfile`,
-  async () => {
-    const user = await ServiceMe.fetchProfile();
-    return user;
+  async (): Promise<UserProfile> => {
+    const userProfile = await ServiceMe.fetchProfile();
+    return userProfile as UserProfile;
   }
 );
 
 const initialState: GlobalState = {
   isLoading: false,
   isLogin: false,
-  user: {},
+  user: {} as UserProfile,
   isJoinChatLayout: false,
   isJoinFriendLayout: false,
   tabActive: 0,
@@ -57,6 +75,9 @@ const globalSlice = createSlice({
         state.user.avatar = action.payload;
       }
     },
+    removeProfile: (state) => {
+      state.user = null;
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -66,7 +87,7 @@ const globalSlice = createSlice({
       .addCase(fetchUserProfile.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isLogin = true;
-        state.user = action.payload as UserProfile;
+        state.user = action.payload;
       })
       .addCase(fetchUserProfile.rejected, (state) => {
         state.isLoading = false;
@@ -84,5 +105,8 @@ export const {
   setJoinFriendLayout,
   setTabActive,
   setAvatarProfile,
+  removeProfile,
 } = actions;
+
+export const getUserProfile = (state: any) => state.global.user;
 export default reducer;

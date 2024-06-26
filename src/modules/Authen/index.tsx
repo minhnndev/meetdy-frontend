@@ -5,9 +5,10 @@ import RegisterPage from './pages/Register';
 import "./style.css";
 import { useSelector } from 'react-redux';
 import ForgotPassword from './pages/ForgotPassword';
+import { getLoading } from '@/redux/slice/accountSlice';
 
 const Authen = () => {
-    const { isLoading } = useSelector((state: any) => state.account);
+    const isLoading = useSelector((state: any) => getLoading(state));
 
     return (
         <Spin spinning={isLoading} >

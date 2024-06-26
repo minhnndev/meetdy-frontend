@@ -5,7 +5,7 @@ import { IconHelpCircle } from '@douyinfe/semi-icons';
 import loginApi from '@/api/loginApi';
 import { setLoading } from '@/redux/slice/accountSlice';
 import { registerSchema } from '@/schemas/auth.schema';
-import React, { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate, Link } from 'react-router-dom';
 import lang from '@/i18n';
@@ -65,7 +65,7 @@ const RegistryPage = () => {
             duration: 2,
         };
         Notification.error({
-            content: msgError,
+            ...args
         });
     }, [msgError]);
 

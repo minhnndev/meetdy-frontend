@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 
 import { Typography, Spin } from '@douyinfe/semi-ui';
 import "./style.css"
