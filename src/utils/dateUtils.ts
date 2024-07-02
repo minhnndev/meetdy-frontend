@@ -12,11 +12,11 @@ const dateUtils = {
 
     const dateWasMinus7day = nowTempt.setDate(nowTempt.getDate() - 7);
 
-    if (date < dateWasMinus7day)
+    if (date.getDate() < dateWasMinus7day)
       return `0${date.getDate()}/${date.getMonth() + 1}`.slice(-2);
 
     const now = new Date();
-    const numberMiliseconds = now - date;
+    const numberMiliseconds = now.getMilliseconds() - date.getMilliseconds();
 
     // tính ngày
     const day = Math.floor(numberMiliseconds / DAY_MILISECONDS);

@@ -7,7 +7,7 @@ const ServiceMe = {
         return axiosClient.get(`${API_URL}/profile`);
     },
 
-    updateProfile: (name, dateOfBirth, gender) => {
+    updateProfile: (name: string, dateOfBirth: string, gender: string) => {
         return axiosClient.put(`${API_URL}/profile`, {
             name,
             dateOfBirth,
