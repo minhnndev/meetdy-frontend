@@ -1,6 +1,6 @@
 import { Col, Modal, Row } from '@douyinfe/semi-ui';
 import meApi from '@/api/meApi';
-import { setAvatarProfile } from '@/redux/slice/globalSlice';
+import { UserProfile, setAvatarProfile } from '@/redux/slice/accountSlice';
 // import DateOfBirthField from 'customfield/DateOfBirthField';
 // import GenderRadioField from 'customfield/GenderRadioField';
 import { EditCoverImage, EditAvatar, EditDateOfBirth, EditGender } from '@/components/molecules';
@@ -22,7 +22,7 @@ interface ModalUpdateProfileProps {
 const ModalUpdateProfile = (props: ModalUpdateProfileProps) => {
     const { isVisible, onCancel, onOk, loading } = props;
     const dispatch = useDispatch();
-    const { user } = useSelector((state: any) => state.global);
+    const userProfile = useSelector((state: any) => state.account.userProfile) as UserProfile;
     const formRef = useRef();
 
     const [avatar, setAvatar] = useState<File>(null);
@@ -36,7 +36,6 @@ const ModalUpdateProfile = (props: ModalUpdateProfileProps) => {
     };
 
     const handleGetAvatar = (avatar: File) => {
-        console.log('avatar', avatar);
         setAvatar(avatar);
     };
 
@@ -44,9 +43,9 @@ const ModalUpdateProfile = (props: ModalUpdateProfileProps) => {
         if (isVisible) {
             setIsClear(false);
             refInitValue.current = {
-                name: user.name,
-                dateOfBirth: user.dateOfBirth,
-                gender: user.gender,
+                name: userProfile.name,
+                dateOfBirth: userProfile.dateOfBirth,
+                gender: userProfile.gender,
             };
         }
     }, [isVisible]);
@@ -136,7 +135,7 @@ const ModalUpdateProfile = (props: ModalUpdateProfileProps) => {
                     <div className="profile-update_cover-image">
                         <div className="profile-update_upload">
                             <EditCoverImage
-                                coverImg={user.coverImage}
+                                coverImg={userProfile.coverImage}
                                 getFile={handleGetCoverImg}
                                 isClear={isClear}
                             />
@@ -144,7 +143,7 @@ const ModalUpdateProfile = (props: ModalUpdateProfileProps) => {
 
                         <div className="profile-update_avatar">
                             <EditAvatar
-                                avatar={user.avatar}
+                                avatar={userProfile.avatar}
                                 getFile={handleGetAvatar}
                                 isClear={isClear}
                             />
@@ -158,7 +157,7 @@ const ModalUpdateProfile = (props: ModalUpdateProfileProps) => {
                         initialValues={{
                             name: "Nam Nguyễn",
                             dateOfBirth: { day: 24, month: 12, year: 2024 },
-                            gender: user.gender ? 1 : 0,
+                            gender: userProfile.gender ? 1 : 0,
                         }}
                         onSubmit={handleSubmit}
                         validationSchema={formikSchemas}

@@ -23,10 +23,12 @@ const _httpsAxios = axios.create({
 
 _httpsAxios.interceptors.request.use(
   async (config) => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
+    const redux = localStorage.getItem("reduxState") as string;
+    if (redux) {
+      const tokens = JSON.parse(redux).account.tokens;
+      if (tokens) config.headers.Authorization = `Bearer ${tokens.token}`;
     }
+
     return config;
   },
   (error) => {

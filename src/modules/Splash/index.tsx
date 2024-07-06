@@ -1,24 +1,15 @@
-import { useEffect } from 'react';
-
 import { Typography, Spin } from '@douyinfe/semi-ui';
 import "./style.css"
-import { useNavigate } from "react-router-dom";
-import sleep from '@/utils/sleep';
 import lang from '@/i18n';
+import { IconAppCenter } from '@douyinfe/semi-icons';
 
 const SplashPage = () => {
     const { Title } = Typography;
-    const navigate = useNavigate();
     const { t } = lang();
-    useEffect(() => {
-        sleep(2000).then(() => {
-            navigate("/auth/login")
-        })
-    }, []);
 
     return (
         <div id='home-content'>
-            <Spin size='large' spinning={true}>
+            <Spin size='large' spinning={true} indicator={<IconAppCenter color='blue' />}>
                 <section className="home-page" id="home">
                     <div className="content">
                         <Title heading={3} className="app-name">

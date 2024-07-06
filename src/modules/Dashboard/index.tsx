@@ -1,11 +1,10 @@
 import { ModalUpdateProfile } from '@/components/modal';
 import NavbarContainer from '@/components/organisms/pages/Dashboard/NavbarContainer/';
-import { removeProfile } from '@/redux/slice/globalSlice';
 import { Col, Row } from '@douyinfe/semi-ui';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import storeHelper from "@/utils/storeHelper";
+import { defaultAccount } from '@/redux/slice/accountSlice';
 
 const Dashboard = () => {
     const dispatch = useDispatch();
@@ -29,10 +28,10 @@ const Dashboard = () => {
         setIsModalUpdateProfileVisible(true);
     };
 
-    const handleLogout = () => {
-        dispatch(removeProfile());
-        storeHelper.removeStoreToken();
-        navigator("/auth/login");  
+    const handleLogout = async () => {
+        dispatch(defaultAccount());
+        location.reload();
+        navigator("/");
     }
 
     return (

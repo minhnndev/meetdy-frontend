@@ -5,12 +5,11 @@ import { Button, Form, Typography, Divider } from "@douyinfe/semi-ui";
 import axiosClient from "@/api/_httpAxios";
 import { Link, useNavigate } from "react-router-dom";
 import { useAppDispatch } from "@/redux/store";
-import { setLogin, fetchUserProfile, getUserProfile, UserProfile } from "@/redux/slice/globalSlice";
-import { fetchToken, getTokens, ResponseToken } from '@/redux/slice/accountSlice';
+import { ResponseToken, fetchToken, setLoading, setLogged } from '@/redux/slice/accountSlice';
 import { loginSchema } from "@/schemas/auth.schema";
 import lang from "@/i18n";
 import { useSelector } from 'react-redux';
-import storeHelper from "@/utils/storeHelper";
+import direct from "@/constants/direct";
 
 interface LoginFormValues {
   username: string;
@@ -29,9 +28,9 @@ const LoginPage = () => {
   const [isError, setError] = useState(false);
   const [isVerify, setVerify] = useState(false);
   const [keyGoogleCaptcha, setKeyGoogleCaptcha] = useState<string | null>(null);
+  const tokens = useSelector((state: any) => state.account.tokens) as ResponseToken;
 
-  const { token, refreshToken } = useSelector((state: any) => getTokens(state)) as ResponseToken;
-  const userProfile = useSelector((state: any) => getUserProfile(state)) as UserProfile;
+  const { defaultEndpoint } = direct();
 
   useEffect(() => {
     axiosClient
@@ -40,26 +39,23 @@ const LoginPage = () => {
   }, []);
 
   useEffect(() => {
-    if (token) {
-      storeHelper.storeToken(token, refreshToken)
-      dispatch(fetchUserProfile());
+    if (tokens) {
+      handleRedirect();
     }
-  }, [token, refreshToken])
+  }, [tokens])
 
-  useEffect(() => {
-    console.log("🚀 ~ useEffect ~ userProfile:", userProfile)
-
-    if (userProfile && !userProfile.isAdmin) {
-      navigator("/home")
-    }
-  }, [userProfile])
+  const handleRedirect = () => {
+    navigator(defaultEndpoint);
+  }
 
   const handleSubmit = async (values: LoginFormValues) => {
     try {
       if (isVerify) {
         await dispatch(fetchToken({ username: values.username, password: values.password }));
+        dispatch(setLogged(true));
       }
     } catch (error) {
+      dispatch(setLoading(false));
       console.log("🚀 error:", error);
       setError(true);
     }
