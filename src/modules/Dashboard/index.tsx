@@ -1,18 +1,22 @@
-import { ModalUpdateProfile } from '@/components/modal';
+import { ModalChangePassword, ModalUpdateProfile } from '@/components/modal';
 import NavbarContainer from '@/components/organisms/pages/Dashboard/NavbarContainer/';
 import { Col, Row } from '@douyinfe/semi-ui';
-import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { defaultAccount } from '@/redux/slice/accountSlice';
+import { setLogged } from '@/redux/slice/accountSlice';
+import direct from '@/constants/direct';
 
 const Dashboard = () => {
     const dispatch = useDispatch();
     const navigator = useNavigate();
+    const isLogged = useSelector((state: any) => state.account.isLogged) as boolean;
 
     const [confirmLoading, setConfirmLoading] = useState(false);
     const [isModalUpdateProfileVisible, setIsModalUpdateProfileVisible] = useState(false);
     // const [visibleModalChangePassword, setvisibleModalChangePassword] = useState(false);
+
+    const { defaultEndpoint } = direct();
 
     const handleCancelModalUpdateProfile = (value) => {
         setIsModalUpdateProfileVisible(value);
@@ -29,10 +33,14 @@ const Dashboard = () => {
     };
 
     const handleLogout = async () => {
-        dispatch(defaultAccount());
-        location.reload();
-        navigator("/");
+        dispatch(setLogged(false));
     }
+
+    useEffect(() => {
+        if (!isLogged) {
+            navigator(defaultEndpoint);
+        }
+    }, [isLogged])
 
     return (
         <div>
@@ -44,7 +52,6 @@ const Dashboard = () => {
                     md={{ span: 2 }}
                     sm={{ span: 3 }}
                     xs={{ span: 4 }}
-                    // style={{background: 'black'}}
                 >
                     <NavbarContainer 
                         logout={handleLogout} 

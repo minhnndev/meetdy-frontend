@@ -81,7 +81,6 @@ const accountSlice = createSlice({
     defaultAccount: (state) => {
       state.userProfile = null;
       state.tokens = null;
-      state.isLogged = false;
       state.errorMessage = '';
       state.isLoading = false;
     }

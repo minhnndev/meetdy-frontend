@@ -22,7 +22,7 @@ interface ModalUpdateProfileProps {
 const ModalUpdateProfile = (props: ModalUpdateProfileProps) => {
     const { isVisible, onCancel, onOk, loading } = props;
     const dispatch = useDispatch();
-    const userProfile = useSelector((state: any) => state.account.userProfile) as UserProfile;
+    const userProfile = useSelector((state: any) => state.account.userProfile) as UserProfile | null;
     const formRef = useRef();
 
     const [avatar, setAvatar] = useState<File>(null);
@@ -43,9 +43,9 @@ const ModalUpdateProfile = (props: ModalUpdateProfileProps) => {
         if (isVisible) {
             setIsClear(false);
             refInitValue.current = {
-                name: userProfile.name,
-                dateOfBirth: userProfile.dateOfBirth,
-                gender: userProfile.gender,
+                name: userProfile ?? userProfile.name,
+                dateOfBirth: userProfile ?? userProfile.dateOfBirth,
+                gender: userProfile ?? userProfile.gender,
             };
         }
     }, [isVisible]);
@@ -135,7 +135,7 @@ const ModalUpdateProfile = (props: ModalUpdateProfileProps) => {
                     <div className="profile-update_cover-image">
                         <div className="profile-update_upload">
                             <EditCoverImage
-                                coverImg={userProfile.coverImage}
+                                coverImg={userProfile ? userProfile.coverImage : ''}
                                 getFile={handleGetCoverImg}
                                 isClear={isClear}
                             />
@@ -143,7 +143,7 @@ const ModalUpdateProfile = (props: ModalUpdateProfileProps) => {
 
                         <div className="profile-update_avatar">
                             <EditAvatar
-                                avatar={userProfile.avatar}
+                                avatar={userProfile ? userProfile.avatar : ''}
                                 getFile={handleGetAvatar}
                                 isClear={isClear}
                             />
@@ -154,11 +154,11 @@ const ModalUpdateProfile = (props: ModalUpdateProfileProps) => {
                 <div className="profile-update_info">
                     <Formik
                         innerRef={formRef}
-                        initialValues={{
-                            name: "Nam Nguyễn",
-                            dateOfBirth: { day: 24, month: 12, year: 2024 },
+                        initialValues={userProfile ? {
+                            name: userProfile.name,
+                            dateOfBirth: userProfile.dateOfBirth,
                             gender: userProfile.gender ? 1 : 0,
-                        }}
+                        } : {}}
                         onSubmit={handleSubmit}
                         validationSchema={formikSchemas}
                         enableReinitialize={true}

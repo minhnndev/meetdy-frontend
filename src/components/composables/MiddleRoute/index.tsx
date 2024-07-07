@@ -4,6 +4,7 @@ import direct from '@/constants/direct';
 import { UserProfile, defaultAccount, fetchUserProfile } from '@/redux/slice/accountSlice';
 import { ReactNode, useEffect } from 'react';
 import sleep from '@/utils/sleep';
+import { use } from 'i18next';
 
 type MiddleProps = {
   path?: string;
@@ -19,7 +20,13 @@ const MiddleRoute = (props: MiddleProps) => {
 
     useEffect(() => {
       sleep(2000).then(() => {
-        isLogged ? handleDirect() : navigator(loginEndpoint);
+        if (isLogged) {
+          handleDirect();
+          return;
+        }
+
+        defaultValue();
+        navigator(loginEndpoint);
       })
     }, [])
 
