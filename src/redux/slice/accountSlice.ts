@@ -35,7 +35,7 @@ export const  fetchToken = createAsyncThunk(
   `${KEY}/fetchToken`,
   async (params: FetchTokenArgs): Promise<ResponseToken> => {
     const response = await ServiceAuth.login(params.username, params.password);
-    return response as ResponseToken;
+    return response.data as ResponseToken;
   }
 );
 
@@ -43,7 +43,7 @@ export const fetchUserProfile = createAsyncThunk(
   `${KEY}/fetchUserProfile`,
   async (): Promise<UserProfile> => {
     const userProfile = await ServiceMe.fetchProfile();
-    return userProfile as UserProfile;
+    return userProfile.data as UserProfile;
   }
 );
 

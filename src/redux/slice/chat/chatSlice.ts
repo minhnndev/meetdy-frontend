@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import channelApi from "@/api/channelApi";
 import ServiceClassify from "@/api/classifyApi";
@@ -31,16 +31,68 @@ export const fetchListClassify = createAsyncThunk(
   }
 );
 
+export type FetchConverstionsParams = {
+  name?: string;
+  type?: number;
+};
+
+export type AvatarType = {
+  avatar: string;
+  avatarColor: string;
+}
+
+export type Conversation = {
+  avatar: string | AvatarType[];
+  avatarColor: string;
+  friendStatus: string;
+  isJoinFromLink: boolean;
+  isNotify: boolean;
+  lastMessage: LastMessage;
+  managerIds: any[];
+  name: string;
+  numberUnread: number;
+  totalMembers: number;
+  type: boolean;
+  userId: string;
+  leaderId: string;
+  _id: string;
+}
+
+export type LastMessage = {
+  content: string;
+  conversationId: string;
+  createdAt: string;
+  reacts: any;
+  replyMessage: object;
+  type: string;
+  user: any;
+  _id: string;
+}
+
+export type ResponseConversations = {
+  type?: number;
+  conversations?: Conversation[];
+}
+
 export const fetchListConversations = createAsyncThunk(
   `${KEY}/fetchListConversations`,
-  async (params: any) => {
+  async (params: FetchConverstionsParams): Promise<ResponseConversations> => {
     const { name, type } = params;
     const conversations = await conversationApi.getListConversations(
       name,
       type
     );
 
-    return conversations;
+    if (type) {
+      return { 
+        type: type, 
+        conversations: conversations.data as unknown as Conversation[] 
+      };
+    }
+
+    return {
+      conversations: conversations.data as unknown as Conversation[] 
+    };
   }
 );
 
@@ -226,8 +278,11 @@ export const fetchVotes = createAsyncThunk(
 );
 
 type InitialStateType = {
+  isConversationLoading: boolean; 
   isLoading: boolean;
-  conversations: any[];
+  conversations: Conversation[] | null;
+  singleConversations: Conversation[] | null;
+  groupConversations: Conversation[] | null;
   currentConversation: string;
   messages: any[];
   friends: any[];
@@ -249,8 +304,9 @@ type InitialStateType = {
 };
 
 const initialState: InitialStateType = {
+  isConversationLoading: false,
   isLoading: false,
-  conversations: [],
+  conversations: null,
   currentConversation: "",
   messages: [],
   friends: [],
@@ -269,6 +325,8 @@ const initialState: InitialStateType = {
   stickers: [],
   votes: [],
   totalPagesVote: 0,
+  singleConversations: null,
+  groupConversations: null
 };
 
 const chatSlice = createSlice({
@@ -648,15 +706,25 @@ const chatSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchListConversations.pending, (state, action) => {
-        state.isLoading = true;
+      .addCase(fetchListConversations.pending, (state) => {
+        state.isConversationLoading = true;
       })
-      .addCase(fetchListConversations.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.conversations = action.payload;
+      .addCase(fetchListConversations.fulfilled, (state, action: PayloadAction<ResponseConversations | null>) => {
+        state.isConversationLoading = false;
+
+        const type = action.payload.type;
+        if (type != null) {
+          if (type === 1) {
+            state.singleConversations = action.payload.conversations;
+          } else {
+            state.groupConversations = action.payload.conversations;
+          }
+        } else {
+          state.conversations = action.payload.conversations;
+        }
       })
-      .addCase(fetchListMessages.pending, (state, action) => {
-        state.isLoading = true;
+      .addCase(fetchListMessages.pending, (state) => {
+        state.isConversationLoading = false;
       })
       .addCase(fetchListMessages.fulfilled, (state, action) => {
         state.isLoading = false;
@@ -830,5 +898,7 @@ export const {
   updateMemberInconver,
   updateAvatarWhenUpdateMember,
 } = actions;
+
+export const isWaitingConversations = (state: any) => state.chat.isConversationLoading;
 
 export default reducer;

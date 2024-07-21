@@ -1,0 +1,20 @@
+.list-filter_single-conver .single-conver_item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 1rem 0.5rem;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.list-filter_single-conver .single-conver_name {
+    margin-left: 1rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    word-wrap: break-word;
+}
+
+.list-filter_single-conver .single-conver_item:hover {
+    background: #e8eaef; /* Assuming $light-grey is defined as a CSS variable */
+}

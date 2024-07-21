@@ -3,7 +3,7 @@ import axiosClient from "./_httpAxios";
 const API_URL = "/conversations";
 
 const ServiceConversation = {
-  getListConversations: (name, type) => {
+  getListConversations: (name: string, type: number) => {
     return axiosClient.get(API_URL, {
       params: {
         name,

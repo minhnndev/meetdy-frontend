@@ -50,10 +50,15 @@ _httpsAxios.interceptors.response.use(
           : "\x1b[31m"
       }${duration} ms\x1b[0m`
     );
+    
     if (isSuccess(response.status)) {
-      return { ...response.data, time: duration };
+      return {
+        data: response.data,
+        time: duration
+      };
     }
-    return response;
+
+    return {...response.data, time: duration};
   },
   async (error: AxiosError) => {
     // console.log('error:', error.response.data);

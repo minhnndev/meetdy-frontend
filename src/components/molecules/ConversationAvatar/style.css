@@ -1,0 +1,44 @@
+.avatar_conversation .conversation-item_box {
+    width: 100%;
+    display: flex;
+}
+
+.avatar_conversation .conversation-item_box #group-many-user {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+
+.avatar_conversation .conversation-item_box #group-many-user .per-user:nth-child(2),
+.avatar_conversation .conversation-item_box #group-many-user .per-user:nth-child(4) {
+    margin-left: -8px;
+}
+
+.avatar_conversation .conversation-item_box #group-many-user .per-user:nth-child(3),
+.avatar_conversation .conversation-item_box #group-many-user .per-user:nth-child(4) {
+    margin-top: -4px;
+}
+
+.avatar_conversation .conversation-item_box .left-side-box .icon-users-group {
+    display: flex;
+    align-items: center;
+}
+
+.avatar_conversation .conversation-item_box .ant-avatar-group {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.avatar_conversation .conversation-item_box .ant-avatar-group .ant-avatar:nth-child(1),
+.avatar_conversation .conversation-item_box .ant-avatar-group .ant-avatar:nth-child(3) {
+    margin-left: 0 !important;
+}
+
+.avatar_conversation .conversation-item_box .ant-avatar-group .ant-avatar:nth-child(3),
+.avatar_conversation .conversation-item_box .ant-avatar-group .ant-avatar:nth-child(4) {
+    margin-top: -4px;
+}
+
+.avatar_conversation .conversation-item_box .line-group .second-line-group {
+    margin-top: -4px;
+}

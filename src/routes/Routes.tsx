@@ -11,7 +11,7 @@ const ApplicationNavigator = () => {
         <Routes>
           <Route path="/" element={<MiddleRoute component={<SplashPage/>}/>} />
           <Route path="/auth/*" element={<Authen/>} />
-          <Route path="/home" element={<Dashboard/>} />
+          <Route path="/home/*" element={<Dashboard/>} />
         </Routes>
       </BrowserRouter>
     </>

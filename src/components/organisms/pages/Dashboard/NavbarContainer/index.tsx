@@ -1,23 +1,23 @@
-import {useState} from 'react'
 import {useSelector} from 'react-redux'
 import { UserOutlined, LogoutOutlined, MessageOutlined, LockOutlined, SolutionOutlined, SettingOutlined } from "@ant-design/icons"
 import { Popover, Button, Badge } from '@douyinfe/semi-ui'
-import { ModalUpdateProfile } from '@/components/modal'
 import NavbarStyle from './NavbarStyle'
-import PersonalIcon from '../PersonalIcon'
+import PersonalIcon from '@/components/molecules/PersonalIcon'
 import {Link} from 'react-router-dom'
 import './style.css'
 
 type NavbarContainerProps = {
     logout: () => void,
     showModalProfile: () => void,
+    showModalChangePassword: () => void
 }
 
 const NavbarContainer = (props: NavbarContainerProps) => {
-    const { logout, showModalProfile } = props;
+    const { logout, showModalProfile, showModalChangePassword } = props;
 
-    const { conversations, toTalUnread } = useSelector((state: any) => state.chat);
+    const { toTalUnread } = useSelector((state: any) => state.chat);
     const { amountNotify } = useSelector((state: any) => state.friend);
+    const { userProfile } = useSelector((state: any) => state.account);
 
     const checkCurrentPage = (iconName) => {
         if (iconName === 'MESSAGE' && location.pathname === '/chat') {
@@ -29,10 +29,13 @@ const NavbarContainer = (props: NavbarContainerProps) => {
         return false;
     };
 
+    const handleShowModalProfile = () => showModalProfile();
+    const handleShowChangePassword = () => showModalChangePassword();
+
     
     const content = (
         <div className="pop_up-personal">
-            <div className="pop_up-personal--item" onClick={showModalProfile}>
+            <div className="pop_up-personal--item" onClick={handleShowModalProfile}>
                 <div className="pop_up-personal--item-icon">
                     <UserOutlined />
                 </div>
@@ -59,7 +62,12 @@ const NavbarContainer = (props: NavbarContainerProps) => {
                     <LockOutlined />
                 </div>
 
-                <div className="pop_up-personal--item-text">Đổi mật khẩu</div>
+                <div 
+                    className="pop_up-personal--item-text"
+                    onClick={handleShowChangePassword}
+                >
+                    Đổi mật khẩu
+                </div>
             </div>
         </div>
     );
@@ -75,9 +83,10 @@ const NavbarContainer = (props: NavbarContainerProps) => {
                                     <PersonalIcon
                                         isActive={true}
                                         common={false}
-                                        // avatar={user.avatar}
-                                        // name={user.name}
-                                        // color={user.avatarColor}
+                                        avatar={userProfile.avatar}
+                                        name={userProfile.name}
+                                        color={userProfile.avatarColor}
+                                        demention='medium'
                                     />
                                 </div>
                             </Button>

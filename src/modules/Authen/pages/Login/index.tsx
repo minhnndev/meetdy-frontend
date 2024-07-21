@@ -35,7 +35,7 @@ const LoginPage = () => {
   useEffect(() => {
     axiosClient
       .get(COMMON_GOOGLE_CAPTCHA)
-      .then((res: any) => setKeyGoogleCaptcha(res.KEY_GOOGLE_CAPTCHA));
+      .then((res: any) => setKeyGoogleCaptcha(res.data.KEY_GOOGLE_CAPTCHA));
   }, []);
 
   useEffect(() => {
