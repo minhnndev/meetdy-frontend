@@ -26,11 +26,12 @@ type SearchContainerProps = {
     isFriendPage: boolean,
     onFilterClasify: (value: string) => void,
     valueClassify: string,
+    isFilter?: boolean,
 };
 
 const SearchContainer = (props: SearchContainerProps) => {
     const {onSearchChange, onSubmitSearch, onFilterClasify} = props;
-    const {valueText, isFriendPage, valueClassify} = props;
+    const {valueText, isFriendPage, valueClassify, isFilter} = props;
     const [isModalCreateGroupVisible, setIsModalCreateGroupVisible] = useState(false);
     const [confirmLoading, setConfirmLoading] = useState(false);
     const { classifies } = useSelector((state: any) => state.chat);
@@ -49,8 +50,6 @@ const SearchContainer = (props: SearchContainerProps) => {
 
     const handleOnChange = (e: any) => {
         const value = e;
-        console.log("🚀 ~ handleOnChange ~ e.value:", e.value)
-        console.log('value', value);
         if (onFilterClasify) {
             onFilterClasify(value);
         }
@@ -158,7 +157,7 @@ const SearchContainer = (props: SearchContainerProps) => {
                     </div>
                 </div>
 
-                {!isFriendPage && (
+                {(!isFriendPage && !isFilter) && (
                     <>
                         {!(valueText.trim().length > 0) && (
                             <div className="search-bottom">

@@ -573,6 +573,7 @@ const Chat = (props: ChatProps) => {
                                     onSubmitSearch={handleOnSubmitSearch}
                                     onFilterClasify={handleOnFilterClassfiy}
                                     valueClassify={valueClassify}
+                                    isFilter={visibleFilter}
                                 />
                             </div>
 
