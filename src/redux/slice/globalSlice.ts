@@ -4,11 +4,16 @@ import ServiceMe from "@/api/meApi";
 const KEY = "global";
 
 
-interface GlobalState {
+export type GlobalState = {
   isLoading: boolean;
   isJoinChatLayout: boolean;
   isJoinFriendLayout: boolean;
-  tabActive: number;
+  tabActive: TabActive;
+}
+
+export enum TabActive {
+  Chat = 0,
+  Friend,
 }
 
 
@@ -16,7 +21,7 @@ const initialState: GlobalState = {
   isLoading: false,
   isJoinChatLayout: false,
   isJoinFriendLayout: false,
-  tabActive: 0,
+  tabActive: TabActive.Chat,
 };
 
 const globalSlice = createSlice({
@@ -32,7 +37,7 @@ const globalSlice = createSlice({
     setJoinFriendLayout: (state, action: PayloadAction<boolean>) => {
       state.isJoinFriendLayout = action.payload;
     },
-    setTabActive: (state, action: PayloadAction<number>) => {
+    setTabActive: (state, action: PayloadAction<TabActive>) => {
       state.tabActive = action.payload;
     },
   },

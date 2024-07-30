@@ -1,10 +1,12 @@
-import {useSelector} from 'react-redux'
+import {useDispatch, useSelector} from 'react-redux'
 import { UserOutlined, LogoutOutlined, MessageOutlined, LockOutlined, SolutionOutlined, SettingOutlined } from "@ant-design/icons"
 import { Popover, Button, Badge } from '@douyinfe/semi-ui'
 import NavbarStyle from './NavbarStyle'
 import PersonalIcon from '@/components/molecules/PersonalIcon'
 import {Link} from 'react-router-dom'
 import './style.css'
+import direct from '@/constants/direct'
+import { GlobalState, setTabActive, TabActive } from '@/redux/slice/globalSlice'
 
 type NavbarContainerProps = {
     logout: () => void,
@@ -18,19 +20,21 @@ const NavbarContainer = (props: NavbarContainerProps) => {
     const { toTalUnread } = useSelector((state: any) => state.chat);
     const { amountNotify } = useSelector((state: any) => state.friend);
     const { userProfile } = useSelector((state: any) => state.account);
+    const { tabActive } = useSelector((state: any) => state.global) as GlobalState;
 
-    const checkCurrentPage = (iconName) => {
-        if (iconName === 'MESSAGE' && location.pathname === '/chat') {
-            return true;
-        }
-        if (iconName === 'FRIEND' && location.pathname === '/chat/friends') {
-            return true;
-        }
-        return false;
-    };
+    const { chatEndpoint, friendEndpoint } = direct();
+    const dispatch = useDispatch();
+
+    const isChatPage = (location.pathname === chatEndpoint && tabActive === TabActive.Chat);
+
+    const isFriendPage = (location.pathname === friendEndpoint && tabActive === TabActive.Friend);
 
     const handleShowModalProfile = () => showModalProfile();
     const handleShowChangePassword = () => showModalChangePassword();
+
+    const handleSetTabActive = (tab: TabActive) => {
+        dispatch(setTabActive(tab))
+    }
 
     
     const content = (
@@ -93,12 +97,12 @@ const NavbarContainer = (props: NavbarContainerProps) => {
                         </Popover>
                     </li>
 
-                    <Link className="link-icon" to="/chat">
+                    <Link className="link-icon" to={chatEndpoint}>
                         <li
                             className={`sidebar_nav_item  ${
-                                checkCurrentPage('MESSAGE') ? 'active' : ''
+                                isChatPage ? 'active' : ''
                             }`}
-                            // onClick={() => handleSetTabActive(1)}
+                            onClick={() => handleSetTabActive(TabActive.Chat)}
                         >
                             <div className="sidebar_nav_item--icon">
                                 <Badge 
@@ -111,11 +115,12 @@ const NavbarContainer = (props: NavbarContainerProps) => {
                         </li>
                     </Link>
 
-                    <Link className="link-icon" to="/chat/friends">
+                    <Link className="link-icon" to={friendEndpoint}>
                         <li
                             className={`sidebar_nav_item  ${
-                                checkCurrentPage('FRIEND') ? 'active' : ''
+                                isFriendPage ? 'active' : ''
                             }`}
+                            onClick={() => handleSetTabActive(TabActive.Friend)}
                         >
                             <div className="sidebar_nav_item--icon">
                                 <Badge count={amountNotify} countStyle={amountNotify <= 0 ? { visibility: 'hidden' } : {}}>
