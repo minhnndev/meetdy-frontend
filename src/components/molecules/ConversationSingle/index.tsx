@@ -4,14 +4,17 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import classifyUtils from '@/utils/classifyUtils';
 import ConversationAvatar from '../ConversationAvatar';
-import './style.css';
 import ShortMessage from '@/components/composables/ShortMessage';
-ConversationSingle.propTypes = {
-    conversation: PropTypes.object,
-    onClick: PropTypes.func,
+import './style.css';
+
+type ConversationSingleProps = {
+    conversation: any,
+    onClick: (id: string) => void,
 };
 
-function ConversationSingle({ conversation, onClick }) {
+const ConversationSingle = (props: ConversationSingleProps) => {
+    const { conversation, onClick } = props;
+
     const { _id, name, avatar, numberUnread, lastMessage, totalMembers, avatarColor } =
         conversation;
     const { type, createdAt } = lastMessage;
@@ -80,5 +83,11 @@ function ConversationSingle({ conversation, onClick }) {
         </div>
     );
 }
+
+ConversationSingle.propTypes = {
+    conversation: PropTypes.object,
+    onClick: PropTypes.func,
+};
+
 
 export default ConversationSingle;

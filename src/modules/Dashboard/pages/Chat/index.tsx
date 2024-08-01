@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { useLocation, useNavigate, } from 'react-router-dom';
 import useWindowDimensions from '@/hooks/useWindowDimensions';
-import { Conversation, fetchListConversations, setTotalChannelNotify } from '@/redux/slice/chat/chatSlice';
+import { ChatStateType, Conversation, createGroup, fetchListConversations, fetchListFriends, setTotalChannelNotify } from '@/redux/slice/chat/chatSlice';
 import conversationApi from '@/api/conversationApi';
 import {
     Col,
@@ -64,8 +64,11 @@ init();
 import './style.css';
 import { DoubleLeftOutlined, DownOutlined } from '@ant-design/icons';
 import SearchContainer from '@/components/organisms/pages/Chat/SearchContainer';
-import FilterContainer from '@/components/molecules/FilterContainer';
+import FilterContainer from '@/components/organisms/pages/Chat/FilterContainer';
 import ConversationContainer from '@/components/organisms/pages/Chat/ConversationContainer';
+import HeaderChatContainer from '@/components/organisms/pages/Chat/HeaderChatContainer';
+import direct from '@/constants/direct';
+import ModalAddMemberToConver from '@/components/modal/ModalAddMemberToConver';
 
 type ChatProps = {
     socket: any;
@@ -75,7 +78,8 @@ type ChatProps = {
 const Chat = (props: ChatProps) => {
     const dispatch = useDispatch();
     const { singleConversations, groupConversations, conversations, currentConversation, pinMessages, isLoading, currentChannel, channels } =
-        useSelector((state: any) => state.chat);
+        useSelector((state: any) => state.chat) as ChatStateType;
+        console.log("🚀 ~ Chat ~ currentConversation:", currentConversation)
     const [scrollId, setScrollId] = useState('');
     // const [idNewMessage, setIdNewMessage] = useState('')
     const [isShow, setIsShow] = useState(false);
@@ -106,6 +110,14 @@ const Chat = (props: ChatProps) => {
     const [openDrawerInfo, setOpenDrawerInfo] = useState(false);
     const { width } = useWindowDimensions();
 
+    // modal add member
+    const [confirmLoading, setConfirmLoading] = useState(false);
+    const [isVisibleModalAddMember, setIsvisibleModalAddMember] = useState<boolean>(false);
+    const [typeModalAddMember, setTypeModalAddMember] = useState<number>(1);
+
+    //direct point path
+    const { chatEndpoint } = direct();
+
     useEffect(() => {
         if (width > 1199) {
             setOpenDrawerInfo(false);
@@ -120,17 +132,17 @@ const Chat = (props: ChatProps) => {
         dispatch(fetchListConversations({}) as any)
     }, [])
 
-    useEffect(() => {
-        refCurrentConversation.current = currentConversation;
-    }, [currentConversation]);
+    // useEffect(() => {
+    //     refCurrentConversation.current = currentConversation;
+    // }, [currentConversation]);
 
-    useEffect(() => {
-        refConversations.current = conversations;
-    }, [conversations]);
+    // useEffect(() => {
+    //     refConversations.current = conversations;
+    // }, [conversations]);
 
-    useEffect(() => {
-        refCurrentChannel.current = currentChannel;
-    }, [currentChannel]);
+    // useEffect(() => {
+    //     refCurrentChannel.current = currentChannel;
+    // }, [currentChannel]);
 
     useEffect(() => {
         setUsersTyping([]);
@@ -178,21 +190,21 @@ const Chat = (props: ChatProps) => {
     }, []);
 
     useEffect(() => {
-        // dispatch(
-        //     fetchListFriends({
-        //         name: '',
-        //     }),
-        // );
+        dispatch(
+            fetchListFriends({
+                name: '',
+            }) as any,
+        );
     }, []);
 
-    useEffect(() => {
-        if (
-            currentConversation &&
-            conversations.find((ele) => ele._id === currentConversation).type
-        ) {
-            // dispatch(fetchPinMessages({ conversationId: currentConversation }));
-        }
-    }, [currentConversation]);
+    // useEffect(() => {
+    //     if (
+    //         currentConversation &&
+    //         conversations.find((ele) => ele._id === currentConversation._id).type
+    //     ) {
+    //         // dispatch(fetchPinMessages({ conversationId: currentConversation }));
+    //     }
+    // }, [currentConversation]);
 
     useEffect(() => {
         if (!isJoinChatLayout) {
@@ -393,11 +405,10 @@ const Chat = (props: ChatProps) => {
         // dispatch(setJoinChatLayout(true));
     }, []);
 
-    const emitUserOnline = (currentConver) => {
+    const emitUserOnline = (currentConver: Conversation) => {
         if (currentConver) {
-            const conver = conversations.find((ele) => ele._id === currentConver);
-            if (!conver.type) {
-                const userId = conver.userId;
+            if (!currentConver.type) {
+                const userId = currentConver.userId;
                 // socket.emit('get-user-online', userId, ({ isOnline, lastLogin }) => {
                 //     dispatch(
                 //         updateTimeForConver({
@@ -541,6 +552,41 @@ const Chat = (props: ChatProps) => {
         setValueClassify(value);
     };
 
+    // Handle Modal Add Member
+
+    const handleAddMemberToGroup = () => {
+        setIsvisibleModalAddMember(true);
+        if (currentConversation.type) {
+            setTypeModalAddMember(2);
+        } else {
+            setTypeModalAddMember(1);
+        }
+    };
+
+    const hanleOnCancelAddMember = (value: boolean) => {
+        setIsvisibleModalAddMember(value);
+    };
+
+    const handleOkAddMember = async (userIds: string[], name: string) => {
+        if (typeModalAddMember === 1) {
+            setConfirmLoading(true);
+            dispatch(
+                createGroup({
+                    name,
+                    userIds,
+                }) as any,
+            );
+            setConfirmLoading(false);
+        } else {
+            // socket (đối với user đc add): io.emit('added-group', conversationId).
+            setConfirmLoading(true);
+            await conversationApi.addMembersToConver(userIds, currentConversation);
+            setConfirmLoading(false);
+        }
+
+        setIsvisibleModalAddMember(false);
+    };
+
     return (
         <Spin spinning={isLoading}>
             {/* {Object.keys(summaryGroup).length > 0 && (
@@ -595,7 +641,7 @@ const Chat = (props: ChatProps) => {
                             )}
                         </div>
                     </Col>
-                    {location.pathname === '/chat' && currentConversation ? (
+                    {location.pathname === chatEndpoint && currentConversation ? (
                         <>
                             <Col
                                 span={isOpenInfo ? 13 : 19}
@@ -607,10 +653,12 @@ const Chat = (props: ChatProps) => {
                             >
                                 <div className="main_chat">
                                     <div className="main_chat-header">
-                                        {/* <HeaderChatContainer
+                                        <HeaderChatContainer
+                                            info={currentConversation}
                                             onPopUpInfo={() => setIsOpenInfo(!isOpenInfo)}
                                             onOpenDrawer={() => setOpenDrawerInfo(true)}
-                                        /> */}
+                                            addMemberToGroup={handleAddMemberToGroup}
+                                        />
                                     </div>
 
                                     <div className="main_chat-body">
@@ -626,9 +674,7 @@ const Chat = (props: ChatProps) => {
                                             /> */}
 
                                             {pinMessages.length > 1 &&
-                                                conversations.find(
-                                                    (ele) => ele._id === currentConversation,
-                                                ).type &&
+                                                currentConversation.type &&
                                                 !currentChannel && (
                                                     <div className="pin-message">
                                                         {/* <DrawerPinMessage
@@ -640,9 +686,7 @@ const Chat = (props: ChatProps) => {
                                                 )}
 
                                             {pinMessages.length > 0 &&
-                                                conversations.find(
-                                                    (ele) => ele._id === currentConversation,
-                                                ).type &&
+                                                currentConversation.type &&
                                                 !currentChannel && (
                                                     <div className="nutshell-pin-message">
                                                         {/* <NutshellPinMessage
@@ -816,6 +860,14 @@ const Chat = (props: ChatProps) => {
                         </Col>
                     )}
                 </Row>
+
+                <ModalAddMemberToConver
+                    isVisible={isVisibleModalAddMember}
+                    onCancel={hanleOnCancelAddMember}
+                    onOk={handleOkAddMember}
+                    loading={confirmLoading}
+                    typeModal={typeModalAddMember}
+                />
 
                 {/* <ModalCreateGroup
                 isVisible={isModalCreateGroupVisible}

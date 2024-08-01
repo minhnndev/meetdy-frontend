@@ -8,7 +8,8 @@ import {
     setCurrentChannel,
     setTypeOfConversation,
     getMembersConversation,
-    Conversation
+    Conversation,
+    setCurrentConversation
 } from '@/redux/slice/chat/chatSlice';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
@@ -41,7 +42,7 @@ const ConversationContainer = (props: ConversationContainerProps) => {
         return conversations.filter((ele) => checkConverInClassify(ele._id));
     }
 
-    const handleConversationClick = async (conversationId) => {
+    const handleConversationClick = async (conversationId: string) => {
         // dispatch(setCurrentConversation(conversationId));
 
         dispatch(setCurrentChannel(''));

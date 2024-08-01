@@ -19,20 +19,20 @@ interface PersonalIconProps {
 const PersonalIcon = (props: PersonalIconProps) => {
     const { avatar, isActive, demention, common, isHost, name, color, noneUser } = props;
     return (
-        <div
-            className={
-                isActive && common
-                    ? 'user-icon common'
-                    : !isActive && common
-                    ? 'user-icon no-online common'
-                    : isActive && !common
-                    ? 'user-icon'
-                    : 'user-icon no-online'
-            }
-        >
+        // <div
+        //     className={
+        //         isActive && common
+        //             ? 'user-icon common'
+        //             : !isActive && common
+        //             ? 'user-icon no-online common'
+        //             : isActive && !common
+        //             ? 'user-icon'
+        //             : 'user-icon no-online'
+        //     }
+        // >
             <Badge
                 dot={isActive}
-                style={{ transform: 'none' }}
+                style={{ transform: 'none', height: '12px', minWidth: '12px' }}
                 type='success'
                 position='rightBottom'
                 count={
@@ -67,7 +67,7 @@ const PersonalIcon = (props: PersonalIconProps) => {
                     </Avatar>
                 )}
             </Badge>
-        </div>
+        // </div>
     );
 };
 

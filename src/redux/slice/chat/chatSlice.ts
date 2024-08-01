@@ -56,6 +56,8 @@ export type Conversation = {
   userId: string;
   leaderId: string;
   _id: string;
+  isOnline: boolean;
+  lastLogin: string;
 }
 
 export type LastMessage = {
@@ -147,12 +149,24 @@ export const fetchNextPageMessageOfChannel = createAsyncThunk(
 
 // FRIEND API
 
+export type Friend = {
+  avatar: string,
+  avatarColor: string,
+  name: string,
+  username: string,
+  _id: string,
+};
+
+export type FetchListFriendsParams = {
+  name: string;
+}
+
 export const fetchListFriends = createAsyncThunk(
   `${KEY}/fetchListFriends`,
-  async (params: any) => {
+  async (params: FetchListFriendsParams): Promise<Friend[]> => {
     const { name } = params;
     const friends = await friendApi.fetchFriends(name);
-    return friends;
+    return friends.data;
   }
 );
 
@@ -277,15 +291,15 @@ export const fetchVotes = createAsyncThunk(
   }
 );
 
-type InitialStateType = {
+export type ChatStateType = {
   isConversationLoading: boolean; 
   isLoading: boolean;
   conversations: Conversation[] | null;
   singleConversations: Conversation[] | null;
   groupConversations: Conversation[] | null;
-  currentConversation: string;
+  currentConversation: Conversation;
   messages: any[];
-  friends: any[];
+  friends: Friend[];
   memberInConversation: any[];
   type: boolean;
   currentPage: string | number;
@@ -303,11 +317,11 @@ type InitialStateType = {
   totalPagesVote: number;
 };
 
-const initialState: InitialStateType = {
+const initialState: ChatStateType = {
   isConversationLoading: false,
   isLoading: false,
   conversations: null,
-  currentConversation: "",
+  currentConversation: null,
   messages: [],
   friends: [],
   memberInConversation: [],
@@ -395,9 +409,7 @@ const chatSlice = createSlice({
     },
 
     setTotalChannelNotify: (state, action) => {
-      let notify = state.conversations.find(
-        (ele) => ele._id === state.currentConversation
-      ).numberUnread;
+      let notify = state.currentConversation.numberUnread;
 
       if (state.channels.length > 0) {
         state.channels.forEach((ele) => {
@@ -425,7 +437,7 @@ const chatSlice = createSlice({
         (ele) => ele._id !== conversationId
       );
       state.conversations = newConversations;
-      state.currentConversation = "";
+      state.currentConversation = null;
     },
 
     setTypeOfConversation: (state, action) => {
@@ -512,7 +524,7 @@ const chatSlice = createSlice({
         (ele) => ele._id !== conversationId
       );
       state.conversations = newConvers;
-      state.currentConversation = "";
+      state.currentConversation = null;
     },
     isDeletedFromGroup: (state, action) => {
       const idConver = action.payload;
@@ -521,8 +533,10 @@ const chatSlice = createSlice({
       );
       state.conversations = newConver;
     },
-    setCurrentConversation: (state, action) => {
-      state.currentConversation = action.payload;
+    setCurrentConversation: (state, action: PayloadAction<String>) => {
+      const conversationId = action.payload;
+      state.currentConversation = state.conversations.find((conver) => conver._id === conversationId);
+      console.log("🚀 ~ state.currentConversation:", state.currentConversation)
     },
     updateClassifyToConver: (state, action) => {
       state.conversations = action.payload;
@@ -739,7 +753,7 @@ const chatSlice = createSlice({
           numberUnread: 0,
         };
 
-        state.currentConversation = conversationId;
+        state.currentConversation = state.conversations.find((conver) => conver._id === conversationId);
         state.messages = action.payload.messages.data;
         state.currentPage = action.payload.messages.page;
         state.totalPages = action.payload.messages.totalPages;
@@ -900,5 +914,6 @@ export const {
 } = actions;
 
 export const isWaitingConversations = (state: any) => state.chat.isConversationLoading;
+export const getChatStateValue = (state: any) => state.chat;
 
 export default reducer;
