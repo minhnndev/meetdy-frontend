@@ -106,7 +106,7 @@ const Chat = (props: ChatProps) => {
     const [singleConverFilter, setSingleConverFilter] = useState<Conversation[]>(null);
     const [mutipleConverFilter, setMutipleConverFilter] = useState([]);
     const [valueClassify, setValueClassify] = useState('0');
-    const [isOpenInfo, setIsOpenInfo] = useState(true);
+    const [isOpenInfo, setIsOpenInfo] = useState(false);
     const [openDrawerInfo, setOpenDrawerInfo] = useState(false);
     const { width } = useWindowDimensions();
 
@@ -654,6 +654,7 @@ const Chat = (props: ChatProps) => {
                                 <div className="main_chat">
                                     <div className="main_chat-header">
                                         <HeaderChatContainer
+                                            isOpenInfo={isOpenInfo}
                                             info={currentConversation}
                                             onPopUpInfo={() => setIsOpenInfo(!isOpenInfo)}
                                             onOpenDrawer={() => setOpenDrawerInfo(true)}

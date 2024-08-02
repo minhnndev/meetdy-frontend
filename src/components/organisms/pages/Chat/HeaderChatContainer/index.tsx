@@ -7,6 +7,7 @@ import './style.css';
 
 type HeaderChatContainerProps = {
     info: Conversation,
+    isOpenInfo: boolean,
     onPopUpInfo: () => void,
     onOpenDrawer: () => void,
     addMemberToGroup: () => void,
@@ -14,7 +15,7 @@ type HeaderChatContainerProps = {
 
 const HeaderChatContainer = (props: HeaderChatContainerProps) => {
 
-    const { info } = props;
+    const { info, isOpenInfo } = props;
     const { onPopUpInfo, onOpenDrawer, addMemberToGroup } = props;
 
     const { memberInConversation } = useSelector(
@@ -24,6 +25,7 @@ const HeaderChatContainer = (props: HeaderChatContainerProps) => {
     return (
         <div id="header-main">
             <HeaderOptional
+                isOpenInfo={isOpenInfo}
                 avatar={info.avatar}
                 totalMembers={memberInConversation.length}
                 name={info.name}

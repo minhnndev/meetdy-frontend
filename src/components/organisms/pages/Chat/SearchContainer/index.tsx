@@ -175,13 +175,11 @@ const SearchContainer = (props: SearchContainerProps) => {
                                         autoHide={true}
                                         autoHideTimeout={1000}
                                         autoHideDuration={200}
-                                        style={{ height: '42px', width: '100%' }}
+                                        style={{ width: '100%' }}
                                     >
                                         <Radio.Group
                                             onChange={handleOnChange}
                                             value={valueClassify}
-                                            // size="small"
-
                                         >
                                             <Radio value={'0'}>Tất cả</Radio>
                                             {classifies.map((ele, index) => (

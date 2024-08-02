@@ -91,6 +91,7 @@
 .header_wrapper .header_leftside .info_user .lastime-access .member-hover {
     cursor: pointer;
     transition: 0.2s;
+    color: #87929e;
 }
 
 .header_wrapper .header_leftside .info_user .lastime-access .member-hover:hover {

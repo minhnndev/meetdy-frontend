@@ -1,11 +1,11 @@
-import {
-    LeftOutlined,
-    NumberOutlined,
-    RollbackOutlined,
-    SplitCellsOutlined,
-    UsergroupAddOutlined,
-    UserOutlined,
-} from '@ant-design/icons';
+import { 
+    IcCloseDrawer, 
+    IcOpenDrawer, 
+    IcDefaultUser, 
+    IcBack,
+    IcChannel,
+    IcUserAddGroup,
+} from '@/theme/icons/MDIcons';
 
 import {
     AvatarType,
@@ -23,6 +23,8 @@ import dateUtils from '@/utils/dateUtils';
 import ConversationAvatar from '../ConversationAvatar';
 import './style.css';
 
+
+
 type HeaderOptionProps = {
     avatar: string | AvatarType[],
     totalMembers: number,
@@ -31,11 +33,11 @@ type HeaderOptionProps = {
     isLogin: boolean,
     lastLogin: string,
     avatarColor: string,
+    isOpenInfo: boolean,
     onPopUpInfo: () => void,
     onOpenDrawer: () => void,
     addMemberToGroup: () => void,
 }
-
 
 const HeaderOptional = (props: HeaderOptionProps) => {
     const {
@@ -45,7 +47,8 @@ const HeaderOptional = (props: HeaderOptionProps) => {
         typeConver,
         isLogin,
         lastLogin,
-        avatarColor
+        avatarColor,
+        isOpenInfo
     } = props;
     const { onPopUpInfo, onOpenDrawer, addMemberToGroup } = props
     const type = typeof avatar;
@@ -88,7 +91,7 @@ const HeaderOptional = (props: HeaderOptionProps) => {
         dispatch(getLastViewOfMembers({ conversationId: currentConversation }) as any);
     };
 
-    const handleOpenDraweer = () => {
+    const handleOpenDrawer = () => {
         if (onOpenDrawer) {
             onOpenDrawer();
         }
@@ -103,7 +106,7 @@ const HeaderOptional = (props: HeaderOptionProps) => {
             <div className="header_wrapper">
                 <div className="header_leftside">
                     <div className="icon-header back-list" onClick={handleBackToListConver}>
-                        <LeftOutlined />
+                        <IcBack />
                     </div>
                     <div className="icon_user">
                         {
@@ -126,7 +129,7 @@ const HeaderOptional = (props: HeaderOptionProps) => {
                         {currentChannel ? (
                             <div className="channel_info">
                                 <div className="channel-icon">
-                                    <NumberOutlined />
+                                    <IcChannel />
                                 </div>
 
                                 <div className="channel-name">
@@ -137,7 +140,7 @@ const HeaderOptional = (props: HeaderOptionProps) => {
                             <div className="lastime-access">
                                 {typeConver ? (
                                     <div className="member-hover">
-                                        <UserOutlined />
+                                        <IcDefaultUser size='small'/>
                                         &nbsp;{totalMembers}
                                         <span>&nbsp;Thành viên</span>
                                     </div>
@@ -171,7 +174,7 @@ const HeaderOptional = (props: HeaderOptionProps) => {
                             className="icon-header back-channel"
                             onClick={handleViewGeneralChannel}
                         >
-                            <RollbackOutlined />
+                            <IcBack />
                         </div>
                     ) : (
                         <>
@@ -179,18 +182,21 @@ const HeaderOptional = (props: HeaderOptionProps) => {
                                 className="icon-header create-group"
                                 onClick={addMemberToGroup}
                             >
-                                <UsergroupAddOutlined />
+                                <IcUserAddGroup />
                             </div>
                         </>
                     )}
 
-                    <div className="icon-header pop-up-layout">
-                        <SplitCellsOutlined onClick={handlePopUpInfo} />
+                    <div 
+                        className="icon-header pop-up-layout"
+                        onClick={handlePopUpInfo}
+                    >
+                        { isOpenInfo ? (<IcOpenDrawer />) : (<IcCloseDrawer />) }
                     </div>
 
-                    <div className="icon-header pop-up-responsive">
-                        <SplitCellsOutlined onClick={handleOpenDraweer} />
-                    </div>
+                    {/* <div className="icon-header pop-up-responsive">
+                        <SplitCellsOutlined onClick={handleOpenDrawer} />
+                    </div> */}
                 </div>
             </div>
         </div>
