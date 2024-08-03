@@ -8,14 +8,6 @@ const COVERSATION_STYLE = {
         };
     },
 
-    styleGroup4: (demension) => {
-        return {
-            position: 'relative',
-            left: '50%',
-            transform: 'translateX(0%)',
-            marginTop: (demension / 6) * -11.5,
-        };
-    },
 
     styleGroup2: {
         display: 'flex',

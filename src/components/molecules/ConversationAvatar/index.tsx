@@ -1,4 +1,4 @@
-import { UserOutlined } from '@ant-design/icons';
+// import { UserOutlined } from '@ant-design/icons';
 import { Avatar, AvatarGroup, Badge, Popover, Tooltip } from '@douyinfe/semi-ui';
 import DEFAULT_AVATAR from '@/assets/images/user/user_default.jpg';
 import PropTypes from 'prop-types';
@@ -8,6 +8,7 @@ import { AvatarCustom } from '@/components/molecules';
 import { convertAvatarSize } from '@/utils/convertAvatarSize';
 import { AvatarType } from '@/redux/slice/chat/chatSlice';
 import { useEffect, useState } from 'react';
+import { IconUser } from '@douyinfe/semi-icons';
 
 type ConversationAvatarProps = {
     avatar: string | AvatarType[];
@@ -48,6 +49,7 @@ const ConversationAvatar = (props: ConversationAvatarProps) => {
 
     const renderAvatar = () => {
         let tempAvatar = [];
+        console.log("🚀 ~ renderAvatar ~ tempAvatar:", tempAvatar)
 
         for (let index = 0; index < totalMembers; index++) {
             if (avatarGroup[index]?.avatar) {
@@ -82,8 +84,9 @@ const ConversationAvatar = (props: ConversationAvatarProps) => {
                                 }
                         }
                         size={avatarSize}
-                        icon={<UserOutlined />}
-                    />,
+                    >
+                        <IconUser />
+                    </Avatar>,
                 );
             }
         }
@@ -143,8 +146,9 @@ const ConversationAvatar = (props: ConversationAvatarProps) => {
                                 }
                         }
                         size={avatarSize}
-                        icon={<UserOutlined />}
-                    />,
+                    >
+                        <IconUser />
+                    </Avatar>,
                 );
             }
         }
