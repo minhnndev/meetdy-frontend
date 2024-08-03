@@ -38,7 +38,6 @@ const ConversationAvatar = (props: ConversationAvatarProps) => {
 
     const avatarSize = convertAvatarSize(demension);
     const converStyle3 = COVERSATION_STYLE.styleGroup3(demension) as object;
-    // const converStyle4 = COVERSATION_STYLE.styleGroup4(demension) as object;
     const [avatarGroup, setAvatarGroup] = useState<AvatarType[]>([]);
 
     console.log("list", avatarGroup)
@@ -158,7 +157,6 @@ const ConversationAvatar = (props: ConversationAvatarProps) => {
     return (
         <div className="avatar_conversation">
             {typeof avatar === 'string' ? (
-                // <Avatar size={48} src={avatar ? avatar : DEFAULT_AVATAR} />
                 <Badge dot={isActived} style={{ offset: '-5 40', backgroundColor: isActived ? 'green' : 'red' }}>
                     <AvatarCustom size={sizeAvatar} src={avatar} color={avatarColor} name={name} />
                 </Badge>
@@ -181,7 +179,6 @@ const ConversationAvatar = (props: ConversationAvatarProps) => {
                                 >
                                     <AvatarGroup
                                         maxCount={3}
-                                        // maxPopoverPlacement={false}
                                         overlapFrom='start'
                                         size='small'
                                     >
@@ -207,7 +204,6 @@ const ConversationAvatar = (props: ConversationAvatarProps) => {
                                 >
                                     <AvatarGroup
                                         maxCount={3}
-                                    // maxPopoverPlacement={none}
                                     >
                                         {renderAvatar()}
                                     </AvatarGroup>
@@ -233,7 +229,6 @@ const ConversationAvatar = (props: ConversationAvatarProps) => {
                                         <AvatarGroup
                                             maxCount={2}
                                             renderMore={renderMore}
-                                            // maxPopoverPlacement={false}
                                             overlapFrom='start'
                                             size='small'>
                                             {renderGroupManyUser()}
@@ -247,7 +242,6 @@ const ConversationAvatar = (props: ConversationAvatarProps) => {
                             <Avatar
                                 size={convertAvatarSize(sizeAvatar)}
                                 src={avatar[0] ? avatar[0].avatar : DEFAULT_AVATAR}
-                            //     { width: `${frameSize}px`, height: `${frameSize}px` }
                             />
                         </div>
                     )}
