@@ -1,6 +1,5 @@
 // import { message, Modal, notification } from 'antd';
 import { Button, Form, Typography, Divider, Tooltip, Modal, Notification } from '@douyinfe/semi-ui';
-import { IconHelpCircle } from '@douyinfe/semi-icons';
 
 import loginApi from '@/api/loginApi';
 import { setLoading } from '@/redux/slice/accountSlice';
@@ -9,6 +8,7 @@ import { useEffect, useState, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate, Link } from 'react-router-dom';
 import lang from '@/i18n';
+import { IcHelper } from '@/theme/icons/MDIcons';
 
 const RESEND_OTP_TIME_LIMIT = 60;
 const { Text, Title } = Typography;
@@ -171,7 +171,7 @@ const RegistryPage = () => {
                                                         text: t("register.form_confirm_otp.lb_otp"),
                                                         extra: (
                                                             <Tooltip content={t("register.form_confirm_otp.msg_completed_send_otp")}>
-                                                                <IconHelpCircle
+                                                                <IcHelper
                                                                     style={{
                                                                         color: 'var(--semi-color-text-2)',
                                                                     }}

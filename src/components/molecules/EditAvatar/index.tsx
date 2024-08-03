@@ -1,7 +1,7 @@
 import './style.css'
 import { useState, useEffect } from 'react';
-import { CameraOutlined } from '@ant-design/icons'
 import PropTypes from 'prop-types';
+import { IcCamera } from '@/theme/icons/MDIcons';
 
 type EditAvatarProps = {
   avatar?: string,
@@ -52,7 +52,7 @@ const EditAvatar = (props: EditAvatarProps) => {
 
               <div className="upload-avatar_icon">
                   <label htmlFor="upload-photo_custom">
-                      <CameraOutlined style={{ fontSize: '13px' }} />
+                      <IcCamera style={{ fontSize: '13px' }} />
                   </label>
                   <input
                       id="upload-photo_custom"

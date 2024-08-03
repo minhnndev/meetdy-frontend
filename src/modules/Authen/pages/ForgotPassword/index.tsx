@@ -1,5 +1,4 @@
 import { Button, Form, Typography, Divider, Tooltip, Modal, Notification } from '@douyinfe/semi-ui';
-import { IconHelpCircle } from '@douyinfe/semi-icons';
 import loginApi from '@/api/loginApi';
 import { setLoading } from '@/redux/slice/accountSlice';
 import { forgotPasswordSchema } from '@/schemas/auth.schema';
@@ -7,6 +6,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate, Link } from 'react-router-dom';
 import lang from '@/i18n';
+import { IcHelper } from '@/theme/icons/MDIcons';
 
 const RESEND_OTP_TIME_LIMIT = 60;
 const { Text, Title } = Typography;
@@ -171,7 +171,7 @@ const ForgotPassword = (props: Props) => {
                             text: t("forgot_password.form_change_password.lb_confirm_otp"),
                             extra: (
                                 <Tooltip content={t("forgot_password.form_change_password.msg_tooltip_username")}>
-                                <IconHelpCircle style={{ color: 'var(--semi-color-text-2)' }} />
+                                <IcHelper style={{ color: 'var(--semi-color-text-2)' }} />
                                 </Tooltip>
                             ),
                             }}
@@ -196,7 +196,7 @@ const ForgotPassword = (props: Props) => {
                         text: t("forgot_password.form_send_otp.lb_username"),
                         extra: (
                             <Tooltip content={t("forgot_password.form_send_otp.msg_tooltip_username")}>
-                            <IconHelpCircle style={{ color: 'var(--semi-color-text-2)' }} />
+                            <IcHelper style={{ color: 'var(--semi-color-text-2)' }} />
                             </Tooltip>
                         ),
                         }}

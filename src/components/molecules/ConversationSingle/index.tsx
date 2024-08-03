@@ -1,11 +1,11 @@
-import { TagFilled } from '@ant-design/icons';
 import PropTypes from 'prop-types';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import classifyUtils from '@/utils/classifyUtils';
 import ConversationAvatar from '../ConversationAvatar';
 import ShortMessage from '@/components/composables/ShortMessage';
 import './style.css';
+import { IcTag } from '@/theme/icons/MDIcons';
 
 type ConversationSingleProps = {
     conversation: any,
@@ -63,7 +63,7 @@ const ConversationSingle = (props: ConversationSingleProps) => {
                         <div className="lastest-message">
                             {classify && (
                                 <span className="tag-classify">
-                                    <TagFilled style={{ color: `${classify.color?.code}` }} />
+                                    <IcTag color={`${classify.color?.code}`} />
                                 </span>
                             )}
 

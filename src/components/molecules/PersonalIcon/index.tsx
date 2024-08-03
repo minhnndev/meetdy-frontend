@@ -1,9 +1,9 @@
-import { KeyOutlined, UserOutlined } from '@ant-design/icons';
 import { Avatar, Badge } from '@douyinfe/semi-ui';
 import PropTypes from 'prop-types';
 import getSummaryName from '@/utils/nameHelper';
 import './style.css';
 import { AvatarSize } from '@douyinfe/semi-ui/lib/es/avatar';
+import { IcKey, IcUserDefault } from '@/theme/icons/MDIcons';
 
 interface PersonalIconProps {
     avatar?: string;
@@ -37,7 +37,7 @@ const PersonalIcon = (props: PersonalIconProps) => {
                 position='rightBottom'
                 count={
                     isHost ? (
-                        <KeyOutlined
+                        <IcKey
                             style={{
                                 backgroundColor: 'rgba(0,0,0,0.3)',
                                 padding: '0.24rem',
@@ -57,7 +57,7 @@ const PersonalIcon = (props: PersonalIconProps) => {
                             backgroundColor: '#87d068',
                         }}
                         size={demention}
-                        icon={<UserOutlined />}
+                        icon={<IcUserDefault />}
                     />
                 ) : avatar ? (
                     <Avatar  size={demention} src={avatar} />

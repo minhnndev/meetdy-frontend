@@ -1,5 +1,5 @@
-// import { UserOutlined } from '@ant-design/icons';
-import { Avatar, AvatarGroup, Badge, Popover, Tooltip } from '@douyinfe/semi-ui';
+import { IcUserDefault } from "@/theme/icons/MDIcons"
+import { Avatar, AvatarGroup, Badge } from '@douyinfe/semi-ui';
 import DEFAULT_AVATAR from '@/assets/images/user/user_default.jpg';
 import PropTypes from 'prop-types';
 import COVERSATION_STYLE from './ConversationAvatarStyle';
@@ -85,7 +85,7 @@ const ConversationAvatar = (props: ConversationAvatarProps) => {
                         }
                         size={avatarSize}
                     >
-                        <IconUser />
+                        <IcUserDefault size="small" />
                     </Avatar>,
                 );
             }
@@ -130,7 +130,7 @@ const ConversationAvatar = (props: ConversationAvatarProps) => {
                         }
                         size={avatarSize}
                         src={avatarGroup[index].avatar}
-                    />,
+                    />
                 );
             } else {
                 tempAvatar.push(
@@ -147,8 +147,8 @@ const ConversationAvatar = (props: ConversationAvatarProps) => {
                         }
                         size={avatarSize}
                     >
-                        <IconUser />
-                    </Avatar>,
+                        <IcUserDefault size="small" />
+                    </Avatar>
                 );
             }
         }

@@ -1,4 +1,3 @@
-import { DeleteFilled, ExclamationCircleOutlined } from '@ant-design/icons';
 import { Dropdown, Notification, Modal } from '@douyinfe/semi-ui';
 import conversationApi from '@/api/conversationApi';
 import {
@@ -16,6 +15,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import './style.css';
 import SubMenuClassify from '@/components/organisms/SubMenuClassify/SubMenuClassify';
 import ConversationSingle from '@/components/molecules/ConversationSingle';
+import { IcDelete, IcHelper } from '@/theme/icons/MDIcons';
 
 type ConversationContainerProps = {
     valueClassify: string,
@@ -72,7 +72,7 @@ const ConversationContainer = (props: ConversationContainerProps) => {
     const confirm = (id) => {
         Modal.confirm({
             title: 'Xác nhận',
-            icon: <ExclamationCircleOutlined />,
+            icon: <IcHelper />,
             content: (
                 <span>Toàn bộ nội dung cuộc trò chuyện sẻ bị xóa, bạn có chắc chắn muốn xóa ?</span>
             ),
@@ -106,7 +106,7 @@ const ConversationContainer = (props: ConversationContainerProps) => {
                                                     <Dropdown.Item
                                                         type='danger'
                                                         key="1"
-                                                        icon={<DeleteFilled />}
+                                                        icon={<IcDelete />}
                                                     >
                                                         Xoá hội thoại
                                                     </Dropdown.Item>

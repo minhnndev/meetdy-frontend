@@ -1,5 +1,12 @@
 import {useDispatch, useSelector} from 'react-redux'
-import { UserOutlined, LogoutOutlined, MessageOutlined, LockOutlined, SolutionOutlined, SettingOutlined } from "@ant-design/icons"
+import {
+    IcUserDefault,
+   IcLock,
+   IcLogout,
+   IcListConversations,
+   IcSetting,
+   IcListFriends,
+} from "@/theme/icons/MDIcons";
 import { Popover, Button, Badge } from '@douyinfe/semi-ui'
 import NavbarStyle from './NavbarStyle'
 import PersonalIcon from '@/components/molecules/PersonalIcon'
@@ -41,7 +48,7 @@ const NavbarContainer = (props: NavbarContainerProps) => {
         <div className="pop_up-personal">
             <div className="pop_up-personal--item" onClick={handleShowModalProfile}>
                 <div className="pop_up-personal--item-icon">
-                    <UserOutlined />
+                    <IcUserDefault />
                 </div>
 
                 <div className="pop_up-personal--item-text">Tài khoản</div>
@@ -49,7 +56,7 @@ const NavbarContainer = (props: NavbarContainerProps) => {
 
             <div className="pop_up-personal--item" onClick={logout}>
                 <div className="pop_up-personal--item-icon">
-                    <LogoutOutlined />
+                    <IcLogout />
                 </div>
 
                 <div className="pop_up-personal--item-text">
@@ -63,7 +70,7 @@ const NavbarContainer = (props: NavbarContainerProps) => {
         <div className="pop_up-personal">
             <div className="pop_up-personal--item">
                 <div className="pop_up-personal--item-icon">
-                    <LockOutlined />
+                    <IcLock />
                 </div>
 
                 <div 
@@ -109,7 +116,7 @@ const NavbarContainer = (props: NavbarContainerProps) => {
                                     count={toTalUnread > 0 ? toTalUnread : 0} 
                                     countStyle={toTalUnread <= 0 ? { visibility: 'hidden' } : {}} 
                                 >
-                                    <MessageOutlined />
+                                    <IcListConversations size='extra-large' />
                                 </Badge>
                             </div>
                         </li>
@@ -124,7 +131,7 @@ const NavbarContainer = (props: NavbarContainerProps) => {
                         >
                             <div className="sidebar_nav_item--icon">
                                 <Badge count={amountNotify} countStyle={amountNotify <= 0 ? { visibility: 'hidden' } : {}}>
-                                    <SolutionOutlined />
+                                    <IcListFriends size='extra-large' />
                                 </Badge>
                             </div>
                         </li>
@@ -136,7 +143,7 @@ const NavbarContainer = (props: NavbarContainerProps) => {
                         <div className="sidebar_nav_item--icon">
                             <Popover position="rightTop" showArrow content={setting} trigger="focus">
                                 <Button style={NavbarStyle.BUTTON_SETTING}>
-                                    <SettingOutlined />
+                                    <IcSetting size='extra-large' />
                                 </Button>
                             </Popover>
                         </div>

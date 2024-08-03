@@ -1,12 +1,3 @@
-import {
-    DeleteOutlined,
-    EditOutlined,
-    ExclamationCircleOutlined,
-    InfoCircleFilled,
-    LeftOutlined,
-    PlusOutlined,
-    TagTwoTone,
-} from '@ant-design/icons';
 import { Button, Input, Notification, Modal, Popover, Typography } from '@douyinfe/semi-ui';
 import classifyApi from '@/api/classifyApi';
 import PropTypes from 'prop-types';
@@ -14,6 +5,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchListClassify } from '@/redux/slice/chat/chatSlice';
 import './style.css';
+import { IcDelete, IcHelper, IcInfo, IcLeft, IcPlus, IcTagColor } from '@/theme/icons/MDIcons';
 
 const { Text } = Typography;
 
@@ -173,7 +165,7 @@ const ModalClassify = (props: ModalClassifyProps) => {
     function confirm(value) {
         Modal.confirm({
             title: 'Cảnh báo',
-            icon: <ExclamationCircleOutlined />,
+            icon: <IcHelper />,
             content: `Bạn có thực sự muốn xóa ? `,
             okText: 'Đồng ý',
             cancelText: 'Hủy',
@@ -199,7 +191,7 @@ const ModalClassify = (props: ModalClassifyProps) => {
                             <div className="modal-classify-item" key={index}>
                                 <div className="modal-classify-item--left">
                                     <div className="classify-item-tag">
-                                        <TagTwoTone twoToneColor={ele.color.code} />
+                                        <IcTagColor />
                                     </div>
 
                                     <div className="classify-item-name">{ele.name}</div>
@@ -210,14 +202,14 @@ const ModalClassify = (props: ModalClassifyProps) => {
                                         className="classify-item-edit icon-classify"
                                         onClick={() => handleEditClasify(ele)}
                                     >
-                                        <EditOutlined />
+                                        <IcDelete />
                                     </div>
 
                                     <div
                                         className="classify-item-remove icon-classify"
                                         onClick={() => confirm(ele)}
                                     >
-                                        <DeleteOutlined />
+                                        <IcDelete />
                                     </div>
                                 </div>
 
@@ -227,7 +219,7 @@ const ModalClassify = (props: ModalClassifyProps) => {
                     </div>
 
                     <div className="modal-classify_add" onClick={handleShowModalAdd}>
-                        <PlusOutlined />
+                        <IcPlus />
                         &nbsp;Thêm phân loại
                     </div>
                 </div>
@@ -237,7 +229,7 @@ const ModalClassify = (props: ModalClassifyProps) => {
                 title={
                     <div className="modal-add_header">
                         <div className="modal-add_header--icon" onClick={handleBackModal}>
-                            <LeftOutlined />
+                            <IcLeft />
                         </div>
                         <span>{isModalEdit ? 'Chi Tiết thẻ phân loại' : 'Thêm thẻ phân loại'}</span>
                     </div>
@@ -271,7 +263,7 @@ const ModalClassify = (props: ModalClassifyProps) => {
                                 <div className="tag-select-icon">
                                     <Popover content={content} trigger="click">
                                         <Button
-                                            icon={<TagTwoTone twoToneColor={color.code} />}
+                                            icon={<IcTagColor />}
                                         />
                                     </Popover>
                                 </div>
@@ -282,7 +274,7 @@ const ModalClassify = (props: ModalClassifyProps) => {
                     <div className="check-name-classify">
                         {isShowError && (
                             <Text type="danger">
-                                <InfoCircleFilled />
+                                <IcInfo />
                                 Tên phân loại đã tồn tại
                             </Text>
                         )}

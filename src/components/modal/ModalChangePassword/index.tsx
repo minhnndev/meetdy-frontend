@@ -1,12 +1,11 @@
-import { ExclamationCircleOutlined } from '@ant-design/icons';
+import { IcHelper } from "@/theme/icons/MDIcons"
 import { Form, Input, Notification, Modal, Tooltip } from '@douyinfe/semi-ui';
 import meApi from '@/api/meApi';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import generateCode from '@/utils/generateCode';
 import { resetPasswordSchema } from '@/schemas/auth.schema';
 import { ResponseToken } from '@/redux/slice/accountSlice';
 import lang from '@/i18n';
-import { IconHelpCircle } from '@douyinfe/semi-icons';
 import './style.css'
 
 interface ModalChangePasswordProps {
@@ -70,7 +69,7 @@ const ModalChangePassword = (props: ModalChangePasswordProps) => {
     const showPromiseConfirm = (password: string) => {
         confirm({
             title: 'Bạn có muốn đăng xuất ra khỏi các thiết bị khác ? ',
-            icon: <ExclamationCircleOutlined />,
+            icon: <IcHelper size="large" />,
             content: 'Khi chọn "Đồng ý" tất cả các tài khoản ở các thiết bị khác sẻ tự động đăng xuất',
             onOk: () => handleRevokeToken(password),
             okText: 'Đồng ý',

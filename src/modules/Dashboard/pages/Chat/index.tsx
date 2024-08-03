@@ -15,8 +15,6 @@ import {
 import { init, socket } from '@/utils/socketClient'
 init();
 
-
-// import { DoubleLeftOutlined, DownOutlined } from '@ant-design/icons';
 // import { Col, Drawer, message as messageNotify, notification, Row, Spin } from 'antd';
 // import conversationApi from 'api/conversationApi';
 // import { setJoinChatLayout } from 'app/globalSlice';
@@ -62,13 +60,13 @@ init();
 //     updateVoteMessage,
 // } from '@/slice/chatSlice';
 import './style.css';
-import { DoubleLeftOutlined, DownOutlined } from '@ant-design/icons';
 import SearchContainer from '@/components/organisms/pages/Chat/SearchContainer';
 import FilterContainer from '@/components/organisms/pages/Chat/FilterContainer';
 import ConversationContainer from '@/components/organisms/pages/Chat/ConversationContainer';
 import HeaderChatContainer from '@/components/organisms/pages/Chat/HeaderChatContainer';
 import direct from '@/constants/direct';
 import ModalAddMemberToConver from '@/components/modal/ModalAddMemberToConver';
+import { IcDoubleLeft, IcDown } from '@/theme/icons/MDIcons';
 
 type ChatProps = {
     socket: any;
@@ -719,12 +717,12 @@ const Chat = (props: ChatProps) => {
                                                 {hasMessage ? (
                                                     <div className="db-arrow-new-message">
                                                         <span className="arrow">
-                                                            <DoubleLeftOutlined />
+                                                            <IcDoubleLeft />
                                                         </span>
                                                         <span>&nbsp;{hasMessage}</span>
                                                     </div>
                                                 ) : (
-                                                    <DownOutlined />
+                                                    <IcDown />
                                                 )}
                                             </div>
 

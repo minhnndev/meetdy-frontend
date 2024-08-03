@@ -1,7 +1,7 @@
 import './style.css'
 import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { EditOutlined } from '@ant-design/icons'
+import { IcEdit } from '@/theme/icons/MDIcons';
 
 type EditCoverImageProps = {
     coverImg?: string,
@@ -52,7 +52,7 @@ const EditCoverImage = (props: EditCoverImageProps) => {
 
             <div className="upload-cover_icon">
                 <label htmlFor="upload-cover_custom">
-                    <EditOutlined style={{ fontSize: '13px' }} />
+                    <IcEdit style={{ fontSize: '13px' }} />
                 </label>
                 <input
                     id="upload-cover_custom"

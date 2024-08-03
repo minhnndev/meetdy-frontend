@@ -1,11 +1,15 @@
-import { EditOutlined, InfoCircleFilled, SearchOutlined } from '@ant-design/icons';
 import { Checkbox, Col, Divider, Input, Modal, Row, Typography } from '@douyinfe/semi-ui';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import './style.css';
 import { ItemsSelected, PersonalIcon } from '@/components/molecules';
 import { ChatStateType, Friend } from '@/redux/slice/chat/chatSlice';
+import { 
+    IcEdit, 
+    IcInfo, 
+    IcSearch,
+} from '@/theme/icons/MDIcons';
 
 const { Text } = Typography;
 
@@ -158,7 +162,7 @@ const ModalAddMemberToConver = (props: ItemsSelectedProps) => {
                     <>
                         <div className="heading-group">
                             <div className="select-background">
-                                <EditOutlined />
+                                <IcEdit />
                             </div>
 
                             <div className="input-name-group">
@@ -173,7 +177,7 @@ const ModalAddMemberToConver = (props: ItemsSelectedProps) => {
 
                                 {isShowError && (
                                     <Text type="danger">
-                                        <InfoCircleFilled /> Tên nhóm không được để trống
+                                        <IcInfo /> Tên nhóm không được để trống
                                     </Text>
                                 )}
                             </div>
@@ -189,7 +193,7 @@ const ModalAddMemberToConver = (props: ItemsSelectedProps) => {
                         size="default"
                         placeholder="Nhập tên bạn muốn tìm kiếm"
                         style={{ width: '100%' }}
-                        prefix={<SearchOutlined />}
+                        prefix={<IcSearch />}
                         onChange={handleSearch}
                         value={frInput}
                     />

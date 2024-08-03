@@ -1,16 +1,14 @@
-import {
-    EditOutlined,
-    FileImageOutlined,
-    FileOutlined,
-    KeyOutlined,
-    NumberOutlined,
-    PlaySquareOutlined,
-    PushpinOutlined,
-    SmileOutlined,
-    UserAddOutlined,
-    UserDeleteOutlined,
-    UserOutlined,
-} from '@ant-design/icons';
+import { 
+    IcAddUser, 
+    IcChannel, 
+    IcDefaultUser, 
+    IcDelete, 
+    IcEdit, 
+    IcImage, 
+    IcKey, 
+    IcPin, 
+    IcPlayVideo 
+} from '@/theme/icons/MDIcons';
 import PropTypes from 'prop-types';
 import { FcBarChart } from 'react-icons/fc';
 import { useSelector } from 'react-redux';
@@ -59,7 +57,7 @@ const ShortMessage = (props: ShortMessageProps) => {
                     {message.type === 'IMAGE' && (
                         <span>
                             {renderName()}
-                            <FileImageOutlined />
+                            <IcImage />
                             &nbsp;đã gửi một hình ảnh
                         </span>
                     )}
@@ -67,7 +65,7 @@ const ShortMessage = (props: ShortMessageProps) => {
                     {message.type === 'VIDEO' && (
                         <span>
                             {renderName()}
-                            <PlaySquareOutlined />
+                            <IcPlayVideo />
                             &nbsp;đã gửi một Video
                         </span>
                     )}
@@ -75,7 +73,7 @@ const ShortMessage = (props: ShortMessageProps) => {
                     {message.type === 'FILE' && (
                         <span>
                             {renderName()}
-                            <FileOutlined />
+                            <IcImage />
                             &nbsp;đã gửi một tệp
                         </span>
                     )}
@@ -83,7 +81,7 @@ const ShortMessage = (props: ShortMessageProps) => {
                     {message.type === 'NOTIFY' && message.content === 'PIN_MESSAGE' && (
                         <span>
                             {renderName()}
-                            <PushpinOutlined />
+                            <IcPin />
                             &nbsp;đã ghim một tin nhắn
                         </span>
                     )}
@@ -91,7 +89,7 @@ const ShortMessage = (props: ShortMessageProps) => {
                     {message.type === 'NOTIFY' && message.content === 'NOT_PIN_MESSAGE' && (
                         <span>
                             {renderName()}
-                            <PushpinOutlined />
+                            <IcPin />
                             &nbsp;đã ghim bỏ ghim một tin nhắn
                         </span>
                     )}
@@ -99,7 +97,7 @@ const ShortMessage = (props: ShortMessageProps) => {
                     {message.type === 'NOTIFY' && message.content === 'Đã thêm vào nhóm' && (
                         <span>
                             {renderName()}
-                            <UserAddOutlined />
+                            <IcAddUser />
                             &nbsp;đã thêm thành viên vào nhóm
                         </span>
                     )}
@@ -107,7 +105,7 @@ const ShortMessage = (props: ShortMessageProps) => {
                     {message.type === 'NOTIFY' && message.content === 'Đã xóa ra khỏi nhóm' && (
                         <span>
                             {renderName()}
-                            <UserDeleteOutlined />
+                            <IcDelete />
                             &nbsp;đã xóa thành viên ra khỏi nhóm
                         </span>
                     )}
@@ -120,7 +118,7 @@ const ShortMessage = (props: ShortMessageProps) => {
                         message.content.startsWith('Đã đổi tên nhóm thành') && (
                             <span>
                                 {renderName()}
-                                <EditOutlined />
+                                <IcEdit />
                                 &nbsp;đã đổi tên nhóm thành
                             </span>
                         )}
@@ -128,7 +126,7 @@ const ShortMessage = (props: ShortMessageProps) => {
                     {message.type === 'NOTIFY' && message.content.startsWith('Đã là bạn bè') && (
                         <span>
                             {renderName()}
-                            <UserOutlined />
+                            <IcDefaultUser />
                             &nbsp;đã trở thành bạn bè
                         </span>
                     )}
@@ -136,7 +134,7 @@ const ShortMessage = (props: ShortMessageProps) => {
                     {message.type === 'NOTIFY' && message.content === 'UPDATE_CHANNEL' && (
                         <span>
                             {renderName()}
-                            <NumberOutlined />
+                            <IcChannel />
                             &nbsp;đã đổi tên Channel
                         </span>
                     )}
@@ -144,7 +142,7 @@ const ShortMessage = (props: ShortMessageProps) => {
                     {message.type === 'NOTIFY' && message.content === 'DELETE_CHANNEL' && (
                         <span>
                             {renderName()}
-                            <NumberOutlined />
+                            <IcChannel />
                             &nbsp;đã xóa Channel
                         </span>
                     )}
@@ -152,7 +150,7 @@ const ShortMessage = (props: ShortMessageProps) => {
                     {message.type === 'NOTIFY' && message.content === 'CREATE_CHANNEL' && (
                         <span>
                             {renderName()}
-                            <NumberOutlined />
+                            <IcChannel />
                             &nbsp;đã tạo Channel
                         </span>
                     )}
@@ -164,7 +162,7 @@ const ShortMessage = (props: ShortMessageProps) => {
                     {message.type === 'STICKER' && (
                         <span>
                             {renderName()}
-                            <SmileOutlined />
+                            <IcPin />
                             &nbsp;đã gửi một sticker
                         </span>
                     )}
@@ -173,7 +171,7 @@ const ShortMessage = (props: ShortMessageProps) => {
                         message.content === 'Ảnh đại diện nhóm đã thay đổi' && (
                             <span>
                                 {renderName()}
-                                <EditOutlined />
+                                <IcEdit />
                                 &nbsp;đã đổi ảnh nhóm
                             </span>
                         )}
@@ -181,7 +179,7 @@ const ShortMessage = (props: ShortMessageProps) => {
                     {message.type === 'NOTIFY' && message.content === 'ADD_MANAGERS' && (
                         <span>
                             {renderName()}
-                            <KeyOutlined />
+                            <IcKey />
                             &nbsp;đã thêm phó nhóm
                         </span>
                     )}
@@ -189,7 +187,7 @@ const ShortMessage = (props: ShortMessageProps) => {
                     {message.type === 'NOTIFY' && message.content === 'DELETE_MANAGERS' && (
                         <span>
                             {renderName()}
-                            <KeyOutlined />
+                            <IcKey />
                             &nbsp;đã xóa phó nhóm
                         </span>
                     )}

@@ -1,7 +1,7 @@
 import { Typography, Spin } from '@douyinfe/semi-ui';
 import "./style.css"
 import lang from '@/i18n';
-import { IconAppCenter } from '@douyinfe/semi-icons';
+import { IcApp } from '@/theme/icons/MDIcons';
 
 const SplashPage = () => {
     const { Title } = Typography;
@@ -9,7 +9,7 @@ const SplashPage = () => {
 
     return (
         <div id='home-content'>
-            <Spin size='large' spinning={true} indicator={<IconAppCenter color='blue' />}>
+            <Spin size='large' spinning={true} indicator={<IcApp color='blue' />}>
                 <section className="home-page" id="home">
                     <div className="content">
                         <Title heading={3} className="app-name">

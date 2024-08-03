@@ -1,8 +1,8 @@
-import { CloseCircleFilled, UsergroupAddOutlined } from '@ant-design/icons';
 import { Avatar, Tooltip } from '@douyinfe/semi-ui';
 import PropTypes from 'prop-types';
 import PersonalIcon from '../PersonalIcon';
 import './style.css';
+import { IcCloseDefault, IcUserAddGroup } from '@/theme/icons/MDIcons';
 
 type ItemsSelectedProps = {
     items: any[],
@@ -48,7 +48,7 @@ const ItemsSelected = (props: ItemsSelectedProps) => {
                                     <Tooltip>
                                         <Avatar
                                             style={{ backgroundColor: '#f56a00' }}
-                                            icon={<UsergroupAddOutlined />}
+                                            icon={<IcUserAddGroup />}
                                             size="small"
                                         />
                                     </Tooltip>
@@ -64,7 +64,7 @@ const ItemsSelected = (props: ItemsSelectedProps) => {
                             className="item-selected-remove"
                             onClick={() => handleRemoveSelect(item._id)}
                         >
-                            <CloseCircleFilled />
+                            <IcCloseDefault />
                         </div>
                     </div>
                 ))}

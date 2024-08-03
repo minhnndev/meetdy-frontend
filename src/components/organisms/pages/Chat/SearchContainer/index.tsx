@@ -1,11 +1,3 @@
-import {
-    AlignLeftOutlined,
-    AppstoreAddOutlined,
-    CloseCircleFilled,
-    SearchOutlined,
-    UserAddOutlined,
-    UsergroupAddOutlined,
-} from '@ant-design/icons';
 import { Input, Notification, Radio } from '@douyinfe/semi-ui';
 import userApi from '@/api/userApi';
 // import ModalAddFriend from 'components/ModalAddFriend';
@@ -18,6 +10,7 @@ import { useRef, useState } from 'react';
 import Scrollbars from 'react-custom-scrollbars';
 import { useDispatch, useSelector } from 'react-redux';
 import './style.css';
+import { IcAddGroup, IcAddUser, IcAlignLeft, IcSearch, IcUserAddGroup } from '@/theme/icons/MDIcons';
 
 type SearchContainerProps = {
     onSearchChange: (value: string) => void,
@@ -141,7 +134,7 @@ const SearchContainer = (props: SearchContainerProps) => {
                     <div className="search-top_input-search">
                         <Input
                             placeholder="Tìm kiếm"
-                            prefix={<SearchOutlined />}
+                            prefix={<IcSearch />}
                             onChange={(e) => handleInputChange(e)}
                             showClear
                             className='search-input'
@@ -149,11 +142,11 @@ const SearchContainer = (props: SearchContainerProps) => {
                     </div>
 
                     <div className="search-top_add-friend" onClick={handleOpenModalAddFriend}>
-                        <UserAddOutlined />
+                        <IcAddUser />
                     </div>
 
                     <div className="search-top_create-group" onClick={handleCreateGroup}>
-                        <UsergroupAddOutlined />
+                        <IcUserAddGroup />
                     </div>
                 </div>
 
@@ -163,11 +156,11 @@ const SearchContainer = (props: SearchContainerProps) => {
                             <div className="search-bottom">
                                 <div className="classify-title">
                                     <div>
-                                        <AlignLeftOutlined /> &nbsp;
+                                        <IcAlignLeft /> &nbsp;
                                         <span>Phân loại</span>
                                     </div>
                                     <div className="add-classify" onClick={handleCreateClasify}>
-                                        <AppstoreAddOutlined />
+                                        <IcAddGroup />
                                     </div>
                                 </div>
                                 <div className="classify-element">

@@ -1,7 +1,7 @@
 import { 
     IcCloseDrawer, 
     IcOpenDrawer, 
-    IcDefaultUser, 
+    IcUserDefault, 
     IcBack,
     IcChannel,
     IcUserAddGroup,
@@ -140,7 +140,7 @@ const HeaderOptional = (props: HeaderOptionProps) => {
                             <div className="lastime-access">
                                 {typeConver ? (
                                     <div className="member-hover">
-                                        <IcDefaultUser size='small'/>
+                                        <IcUserDefault size='small'/>
                                         &nbsp;{totalMembers}
                                         <span>&nbsp;Thành viên</span>
                                     </div>
@@ -182,7 +182,7 @@ const HeaderOptional = (props: HeaderOptionProps) => {
                                 className="icon-header create-group"
                                 onClick={addMemberToGroup}
                             >
-                                <IcUserAddGroup />
+                                <IcUserAddGroup size='large' />
                             </div>
                         </>
                     )}
@@ -191,7 +191,7 @@ const HeaderOptional = (props: HeaderOptionProps) => {
                         className="icon-header pop-up-layout"
                         onClick={handlePopUpInfo}
                     >
-                        { isOpenInfo ? (<IcOpenDrawer />) : (<IcCloseDrawer />) }
+                        { isOpenInfo ? (<IcOpenDrawer size='large' />) : (<IcCloseDrawer size='large' />) }
                     </div>
 
                     {/* <div className="icon-header pop-up-responsive">

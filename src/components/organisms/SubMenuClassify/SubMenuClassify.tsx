@@ -1,4 +1,3 @@
-import { TagFilled } from '@ant-design/icons';
 import { Divider, Dropdown } from '@douyinfe/semi-ui';
 import classifyApi from '@/api/classifyApi';
 import { fetchListClassify } from '@/redux/slice/chat/chatSlice';
@@ -6,6 +5,7 @@ import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { ModalClassify } from '@/components/modal';
+import { IcTag } from '@/theme/icons/MDIcons';
 
 SubMenuClassify.propTypes = {
     data: PropTypes.array,
@@ -31,7 +31,7 @@ function SubMenuClassify({ data, idConver }) {
                 data.map((ele) => (
                     <Dropdown.Item
                         key={ele._id}
-                        icon={<TagFilled style={{ color: `${ele.color.code}` }} />}
+                        icon={<IcTag style={{ color: `${ele.color.code}` }} />}
                         onClick={() => handleClickClassify(ele._id)}
                     >
                         {ele.name}
@@ -39,7 +39,7 @@ function SubMenuClassify({ data, idConver }) {
                 ))}
 
             <Divider style={{ margin: '1rem 2rem' }} />
-            <Dropdown.Item key="0" icon={<TagFilled />} onClick={() => setVisible(true)}>
+            <Dropdown.Item key="0" icon={<IcTag />} onClick={() => setVisible(true)}>
                 <span className="menu-item--highlight">Quản lý thẻ phân loại</span>
             </Dropdown.Item>
 
