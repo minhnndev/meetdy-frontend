@@ -48,6 +48,7 @@ const ConversationAvatar = (props: ConversationAvatarProps) => {
 
     const renderAvatar = () => {
         let tempAvatar = [];
+
         for (let index = 0; index < totalMembers; index++) {
             if (avatarGroup[index]?.avatar) {
                 tempAvatar.push(
@@ -55,10 +56,12 @@ const ConversationAvatar = (props: ConversationAvatarProps) => {
                         key={index}
                         style={
                             totalMembers === 3 && index === 2
-                                ? {position: 'relative',
+                                ? {
+                                    position: 'relative',
                                     left: '50%',
-                                    transform: 'translateX(-50%)',
-                                    marginTop: (demension / 6) * -1,}
+                                    transform: 'translateX(-30%)',
+                                    marginTop: (demension / 6) * -2,
+                                }
                                 : {}
                         }
                         size={avatarSize}
@@ -69,14 +72,14 @@ const ConversationAvatar = (props: ConversationAvatarProps) => {
                 tempAvatar.push(
                     <Avatar
                         key={index}
-                        style={ 
-                            totalMembers === 3 && index === 2 
-                                ?   {
-                                        backgroundColor: avatarGroup[index]?.avatarColor, ...converStyle3
-                                    } 
-                                :   {
-                                        backgroundColor: avatarGroup[index]?.avatarColor
-                                    } 
+                        style={
+                            totalMembers === 3 && index === 2
+                                ? {
+                                    backgroundColor: avatarGroup[index]?.avatarColor, ...converStyle3
+                                }
+                                : {
+                                    backgroundColor: avatarGroup[index]?.avatarColor
+                                }
                         }
                         size={avatarSize}
                         icon={<UserOutlined />}
@@ -87,64 +90,70 @@ const ConversationAvatar = (props: ConversationAvatarProps) => {
         return tempAvatar;
     };
 
-    const renderMore = (restNumber, restAvatars) => {
+    const renderMore = (restNumber) => {
         return (
-            <Avatar style={{ marginBottom: '10px' }}>
+            <Avatar size='small'
+                style={
+                    {
+                        position: 'relative',
+                        left: '45%',
+                        top: '-2%',
+                        transform: 'translateX(-55%)',
+                        marginTop: (demension / 6) * -2,
+                    }
+                }
+            >
                 {`+${restNumber}`}
-            </Avatar>
+            </Avatar >
         );
     };
 
     const renderGroupManyUser = () => {
         let tempAvatar = [];
-
-        for (let index = 0; index < avatarGroup.length; index++) {
+        for (let index = 0; index < totalMembers; index++) {
             if (avatarGroup[index]?.avatar) {
-                
                 tempAvatar.push(
                     <Avatar
                         key={index}
                         style={
-                            totalMembers === 3 && index === 2
+                            index === 1
                                 ? {
                                     position: 'relative',
-                                    left: '50%',
-                                    transform: 'translateX(-50%)',
-                                    marginTop: "10px",
+                                    left: '70%',
+                                    transform: 'translateX(0%)',
+                                    marginTop: (demension / 6) * -11.5,
                                 }
                                 : {}
                         }
                         size={avatarSize}
-                        src={avatarGroup[index]?.avatar}
-                    />
+                        src={avatarGroup[index].avatar}
+                    />,
                 );
             } else {
                 tempAvatar.push(
                     <Avatar
                         key={index}
-                        style={ 
-                            totalMembers === 3 && index === 2 
-                                ?   {
-                                        backgroundColor: avatarGroup[index]?.avatarColor, ...converStyle3
-                                    } 
-                                :   {
-                                        backgroundColor: avatarGroup[index]?.avatarColor
-                                    } 
+                        style={
+                            index === 1
+                                ? {
+                                    backgroundColor: avatarGroup[index]?.avatarColor, ...converStyle3
+                                }
+                                : {
+                                    backgroundColor: avatarGroup[index]?.avatarColor
+                                }
                         }
                         size={avatarSize}
                         icon={<UserOutlined />}
-                    />
+                    />,
                 );
             }
         }
-
         return tempAvatar;
     };
 
     return (
         <div className="avatar_conversation">
             {typeof avatar === 'string' ? (
-                // <Avatar size={48} src={avatar ? avatar : DEFAULT_AVATAR} />
                 <Badge dot={isActived} style={{ offset: '-5 40', backgroundColor: isActived ? 'green' : 'red' }}>
                     <AvatarCustom size={sizeAvatar} src={avatar} color={avatarColor} name={name} />
                 </Badge>
@@ -159,15 +168,14 @@ const ConversationAvatar = (props: ConversationAvatarProps) => {
                                             ? COVERSATION_STYLE.friendCardAvatar(demension)
                                             : {},
                                         {
-                                            width: `${frameSize}px`,
+                                            width: `60px`,
                                             height: `${frameSize}px`,
                                         })
                                     }
                                     className="icon-users-group"
                                 >
-                                    <AvatarGroup 
-                                        maxCount={3} 
-                                        // maxPopoverPlacement={false}
+                                    <AvatarGroup
+                                        maxCount={3}
                                         overlapFrom='start'
                                         size='small'
                                     >
@@ -191,9 +199,8 @@ const ConversationAvatar = (props: ConversationAvatarProps) => {
                                         })
                                     }
                                 >
-                                    <AvatarGroup 
-                                        maxCount={3} 
-                                        // maxPopoverPlacement={none}
+                                    <AvatarGroup
+                                        maxCount={3}
                                     >
                                         {renderAvatar()}
                                     </AvatarGroup>
@@ -203,7 +210,7 @@ const ConversationAvatar = (props: ConversationAvatarProps) => {
                     ) : totalMembers > 3 ? (
                         <div className="conversation-item_box">
                             <div className="left-side-box">
-                                {/* <div
+                                <div
                                     className="icon-users-group"
                                     style={
                                         (isGroupCard
@@ -214,13 +221,17 @@ const ConversationAvatar = (props: ConversationAvatarProps) => {
                                             height: `${frameSize}px`,
                                         })
                                     }
-                                > */}
+                                >
                                     <div id="group-many-user">
-                                        <AvatarGroup maxCount={1} renderMore={renderMore}>
+                                        <AvatarGroup
+                                            maxCount={2}
+                                            renderMore={renderMore}
+                                            overlapFrom='start'
+                                            size='small'>
                                             {renderGroupManyUser()}
                                         </AvatarGroup>
                                     </div>
-                                {/* </div> */}
+                                </div>
                             </div>
                         </div>
                     ) : (
@@ -228,7 +239,6 @@ const ConversationAvatar = (props: ConversationAvatarProps) => {
                             <Avatar
                                 size={convertAvatarSize(sizeAvatar)}
                                 src={avatar[0] ? avatar[0].avatar : DEFAULT_AVATAR}
-                                //     { width: `${frameSize}px`, height: `${frameSize}px` }
                             />
                         </div>
                     )}
@@ -256,7 +266,7 @@ ConversationAvatar.defaultProps = {
     isGroupCard: false,
     isActived: false,
     avatar: '',
-    sizeAvatar: 48,
+    sizeAvatar: 40,
     frameSize: 48,
     avatarColor: '',
 };

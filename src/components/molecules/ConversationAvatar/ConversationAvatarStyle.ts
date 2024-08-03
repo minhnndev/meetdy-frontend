@@ -2,9 +2,18 @@ const COVERSATION_STYLE = {
     styleGroup3: (demension) => {
         return {
             position: 'relative',
+            left: '70%',
+            transform: 'translateX(0%)',
+            marginTop: (demension / 6) * -11.5,
+        };
+    },
+
+    styleGroup4: (demension) => {
+        return {
+            position: 'relative',
             left: '50%',
-            transform: 'translateX(-50%)',
-            marginTop: (demension / 6) * -1,
+            transform: 'translateX(0%)',
+            marginTop: (demension / 6) * -11.5,
         };
     },
 
@@ -16,10 +25,12 @@ const COVERSATION_STYLE = {
     friendCardAvatar: (size) => {
         const demesion = size * 2 - 8;
         return {
+            display: `flex`,
             height: `${demesion}px`,
             width: `${demesion}px`,
         };
     },
+
     friendCardAvatarMixStyle2: (size) => {
         const demesion = size * 2 - 8;
         return {
