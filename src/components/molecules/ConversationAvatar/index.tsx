@@ -8,7 +8,6 @@ import { AvatarCustom } from '@/components/molecules';
 import { convertAvatarSize } from '@/utils/convertAvatarSize';
 import { AvatarType } from '@/redux/slice/chat/chatSlice';
 import { useEffect, useState } from 'react';
-import { IconUser } from '@douyinfe/semi-icons';
 
 type ConversationAvatarProps = {
     avatar: string | AvatarType[];

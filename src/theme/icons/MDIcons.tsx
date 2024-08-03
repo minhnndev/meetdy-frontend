@@ -51,8 +51,8 @@ export const IcOpenDrawer = (props: IconProps) => <IconIndentRight style={{ colo
 export const IcUserDefault = (props: IconProps) => <IconUser style={{ color: props.color, ...props.style }} size={ props.size ? props.size : 'default' }/>
 export const IcUserAddGroup = (props: IconProps) => <IconCustomize style={{ color: props.color, ...props.style }} size={ props.size ? props.size : 'default' }/>
 export const IcAddGroup = (props: IconProps) => <IconCustomize style={{ color: props.color, ...props.style }} size={ props.size ? props.size : 'default' }/>
-export const IcAddUser = (props: IconProps) => <IconCustomize style={{ color: props.color, ...props.style }} size={ props.size ? props.size : 'default' }/>
-export const IcBack = (props: IconProps) => <IconUserAdd style={{ color: props.color, ...props.style }} size={ props.size ? props.size : 'default' }/>
+export const IcAddUser = (props: IconProps) => <IconUserAdd style={{ color: props.color, ...props.style }} size={ props.size ? props.size : 'default' }/>
+export const IcBack = (props: IconProps) => <IconArrowLeft style={{ color: props.color, ...props.style }} size={ props.size ? props.size : 'default' }/>
 export const IcChannel = (props: IconProps) => <IconHash style={{ color: props.color, ...props.style }} size={ props.size ? props.size : 'default' }/>
 export const IcLogout = (props: IconProps) => <IconExit style={{ color: props.color, ...props.style }} size={ props.size ? props.size : 'default' }/>
 export const IcListConversations = (props: IconProps) => <IconComment style={{ color: props.color, ...props.style }} size={ props.size ? props.size : 'default' }/>

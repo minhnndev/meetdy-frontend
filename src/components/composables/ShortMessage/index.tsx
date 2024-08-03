@@ -1,7 +1,7 @@
 import { 
     IcAddUser, 
     IcChannel, 
-    IcDefaultUser, 
+    IcUserDefault, 
     IcDelete, 
     IcEdit, 
     IcImage, 
@@ -126,7 +126,7 @@ const ShortMessage = (props: ShortMessageProps) => {
                     {message.type === 'NOTIFY' && message.content.startsWith('Đã là bạn bè') && (
                         <span>
                             {renderName()}
-                            <IcDefaultUser />
+                            <IcUserDefault />
                             &nbsp;đã trở thành bạn bè
                         </span>
                     )}

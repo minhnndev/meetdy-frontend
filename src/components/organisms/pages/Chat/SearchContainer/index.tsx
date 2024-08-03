@@ -10,7 +10,7 @@ import { useRef, useState } from 'react';
 import Scrollbars from 'react-custom-scrollbars';
 import { useDispatch, useSelector } from 'react-redux';
 import './style.css';
-import { IcAddGroup, IcAddUser, IcAlignLeft, IcSearch, IcUserAddGroup } from '@/theme/icons/MDIcons';
+import { IcAddUser, IcAlignLeft, IcPlus, IcSearch, IcUserAddGroup } from '@/theme/icons/MDIcons';
 
 type SearchContainerProps = {
     onSearchChange: (value: string) => void,
@@ -160,7 +160,7 @@ const SearchContainer = (props: SearchContainerProps) => {
                                         <span>Phân loại</span>
                                     </div>
                                     <div className="add-classify" onClick={handleCreateClasify}>
-                                        <IcAddGroup />
+                                        <IcPlus />
                                     </div>
                                 </div>
                                 <div className="classify-element">
