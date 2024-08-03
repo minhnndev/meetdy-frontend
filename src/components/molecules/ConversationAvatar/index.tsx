@@ -40,9 +40,6 @@ const ConversationAvatar = (props: ConversationAvatarProps) => {
     const converStyle3 = COVERSATION_STYLE.styleGroup3(demension) as object;
     const [avatarGroup, setAvatarGroup] = useState<AvatarType[]>([]);
 
-    console.log("list", avatarGroup)
-
-
     useEffect(() => {
         if (typeof avatar !== 'string') {
             setAvatarGroup(avatar)
