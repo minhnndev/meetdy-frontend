@@ -266,7 +266,7 @@ const RegistryPage = () => {
                                                                 t("register.form_register.msg_valid_password_confirm"),
                                                         },
                                                     ]}
-                                                    placeholder={t("register.form_register.phd_password_confirm")}
+                                                    placeholder={t("register.form_register.lb_password_confirm")}
                                                 />
                                                 <Form.Checkbox field="agree" noLabel>
                                                     {t("register.form_register.msg_agree")}

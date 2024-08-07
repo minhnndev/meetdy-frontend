@@ -33,7 +33,7 @@
             "lb_password": "Mật khẩu",
             "msg_valid_password": "Mật khẩu không được bỏ trống.",
             "phd_password": "Nhập mật khẩu của bạn",
-            "lb_confirm_password": "Nhập lại mật khẩu",
+            "lb_password_confirm": "Nhập lại mật khẩu",
             "msg_valid_confirm_password": "Mật khẩu không được bỏ trống và phải giống với mật khẩu bạn đã nhập.",
             "phd_confirm_password": "Nhập lại mật khẩu của bạn",
             "btn_register": "Đăng ký",

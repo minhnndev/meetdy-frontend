@@ -7,6 +7,7 @@ import { useDispatch } from 'react-redux';
 import { useNavigate, Link } from 'react-router-dom';
 import lang from '@/i18n';
 import { IcHelper } from '@/theme/icons/MDIcons';
+import direct from '@/constants/direct';
 
 const RESEND_OTP_TIME_LIMIT = 60;
 const { Text, Title } = Typography;
@@ -35,6 +36,7 @@ const ForgotPassword = (props: Props) => {
   const [account, setAccount] = useState<any | null>(null);
   const [isSubmit, setIsSubmit] = useState<boolean>(false);
   const [isSentOTP, setIsSendOTP] = useState<boolean>(false);
+  const pathes = direct()
   const {t} = lang();
 
   const sendOTPCompleted = (username: string) => {
@@ -53,10 +55,10 @@ const ForgotPassword = (props: Props) => {
     Modal.success({
       content: t("forgot_password.form_change_password.msg_update_completed"),
       onOk: () => {
-        navigate('/account/login');
+        navigate(pathes.loginEndpoint);
       },
       onCancel: () => {
-        navigate('/account/login');
+        navigate(pathes.loginEndpoint);
       },
     });
   };
@@ -236,9 +238,9 @@ const ForgotPassword = (props: Props) => {
           <Divider margin={24} />
 
           <div className="addtional-link">
-            <Link to="/">{t("forgot_password.link.lb_home")}</Link>
-            <Link to="/account/login">{t("forgot_password.link.lb_login")}</Link>
-            <Link to="/account/registry">{t("forgot_password.link.lb_register")}</Link>
+            <Link to={pathes.defaultEndpoint}>{t("forgot_password.link.lb_home")}</Link>
+            <Link to={pathes.loginEndpoint}>{t("forgot_password.link.lb_login")}</Link>
+            <Link to={pathes.forgotEndpoint}>{t("forgot_password.link.lb_register")}</Link>
           </div>
         </div>
       </div>
