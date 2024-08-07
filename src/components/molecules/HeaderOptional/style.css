@@ -171,9 +171,3 @@
 .header_wrapper .header_rightside .pop-up-responsive {
     display: none;
 }
-
-.center {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}

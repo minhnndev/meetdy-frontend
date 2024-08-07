@@ -108,9 +108,3 @@
 .semi-input-prefix {
     margin-right: 10px;
 }
-
-.center {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
