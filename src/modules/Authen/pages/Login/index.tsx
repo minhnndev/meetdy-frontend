@@ -30,7 +30,7 @@ const LoginPage = () => {
   const [keyGoogleCaptcha, setKeyGoogleCaptcha] = useState<string | null>(null);
   const tokens = useSelector((state: any) => state.account.tokens) as ResponseToken;
 
-  const { defaultEndpoint } = direct();
+  const { defaultEndpoint, loginEndpoint, forgotEndpoint, registryEndpoint} = direct();
 
   useEffect(() => {
     axiosClient
@@ -148,9 +148,9 @@ const LoginPage = () => {
           </div>
           <Divider margin={24} />
           <div className="addtional-link">
-            <Link to="/">{t("login.link.lb_home")}</Link>
-            <Link to="/auth/forgot">{t("login.link.lb_forgot_password")}</Link>
-            <Link to="/auth/registry">{t("login.link.lb_register")}</Link>
+            <Link to={defaultEndpoint}>{t("login.link.lb_home")}</Link>
+            <Link to={forgotEndpoint}>{t("login.link.lb_forgot_password")}</Link>
+            <Link to={registryEndpoint}>{t("login.link.lb_register")}</Link>
           </div>
         </div>
       </div>

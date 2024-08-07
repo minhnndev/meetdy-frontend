@@ -60,7 +60,11 @@
 
 .account-common-page .addtional-link a {
     margin: 0.5rem 0;
+    text-decoration: none;
+    font-size: 1.4rem;
+    color: inherit;
 }
+
 
 /* @media only screen and (min-width: 992px) and (max-width: 1199px) {
     .account-common-page .account-wrapper {
