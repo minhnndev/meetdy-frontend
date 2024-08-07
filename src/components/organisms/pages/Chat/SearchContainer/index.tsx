@@ -149,13 +149,13 @@ const SearchContainer = (props: SearchContainerProps) => {
           </div>
 
           <div
-            className="search-top_add-friend"
+            className="search-top_add-friend center"
             onClick={handleOpenModalAddFriend}
           >
             <IcAddUser />
           </div>
 
-          <div className="search-top_create-group" onClick={handleCreateGroup}>
+          <div className="search-top_create-group center" onClick={handleCreateGroup}>
             <IcUserAddGroup />
           </div>
         </div>
@@ -169,7 +169,7 @@ const SearchContainer = (props: SearchContainerProps) => {
                     <IcAlignLeft /> &nbsp;
                     <span>Phân loại</span>
                   </div>
-                  <div className="add-classify" onClick={handleCreateClasify}>
+                  <div className="add-classify center" onClick={handleCreateClasify}>
                     <IcPlus />
                   </div>
                 </div>

@@ -171,7 +171,7 @@ const HeaderOptional = (props: HeaderOptionProps) => {
                     {currentChannel ? (
                         <div
                             title="Trở lại kênh chính"
-                            className="icon-header back-channel"
+                            className="icon-header back-channel center"
                             onClick={handleViewGeneralChannel}
                         >
                             <IcBack />
@@ -179,7 +179,7 @@ const HeaderOptional = (props: HeaderOptionProps) => {
                     ) : (
                         <>
                             <div
-                                className="icon-header create-group"
+                                className="icon-header create-group center"
                                 onClick={addMemberToGroup}
                             >
                                 <IcUserAddGroup size='large' />
@@ -188,7 +188,7 @@ const HeaderOptional = (props: HeaderOptionProps) => {
                     )}
 
                     <div 
-                        className="icon-header pop-up-layout"
+                        className="icon-header pop-up-layout center"
                         onClick={handlePopUpInfo}
                     >
                         { isOpenInfo ? (<IcOpenDrawer size='large' />) : (<IcCloseDrawer size='large' />) }
