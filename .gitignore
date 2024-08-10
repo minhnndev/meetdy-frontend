@@ -10,6 +10,7 @@
 
 # production
 /build
+.env
 
 # misc
 .DS_Store
@@ -19,5 +20,8 @@
 .env.production.local
 
 npm-debug.log*
+/.yarn
 yarn-debug.log*
 yarn-error.log*
+.pnp.cjs
+.pnp.loader.mjs
