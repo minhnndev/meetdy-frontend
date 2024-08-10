@@ -1,7 +1,7 @@
 import FileItem from 'components/FileItem';
 import PropTypes from 'prop-types';
 import React from 'react';
-import './style.scss';
+import './style.css';
 
 ContentTabPaneFile.propTypes = {
     items: PropTypes.array,
@@ -16,7 +16,7 @@ function ContentTabPaneFile(props) {
 
 
     return (
-        <div id='conten-tabpane-file'>
+        <div id='content-tabpane-file'>
             {items.map((itemEle, index) => (
                 <FileItem
                     key={index}

@@ -16,7 +16,7 @@
         position: absolute;
         height: 40px;
         width: 2px;
-        background: $base-color;
+        background: var(--base-color);
         transform: translateX(-1rem);
     }
 

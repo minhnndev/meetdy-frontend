@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import './style.scss';
 import ConversationAvatar from 'features/Chat/components/ConversationAvatar';
 import { Empty } from 'antd';
 import { useDispatch } from 'react-redux';

@@ -1,0 +1,136 @@
+.info_member {
+    background: #fff;
+    padding: 1rem 0;
+}
+
+.info_member-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    padding: 0.8rem 1.2rem;
+}
+
+.info_member-header-title {
+    font-weight: 600;
+    font-size: 1.6rem;
+}
+
+.info_member-header-icon {
+    transition: 0.2s;
+    font-size: 1.6rem;
+    color: #neutral-500; /* Adjust based on actual $neutral-500 value */
+}
+
+.info_member-interact {
+    position: relative;
+    overflow-y: hidden;
+    max-height: 300px;
+    transition: max-height 0.2s ease;
+}
+
+.info_member-interact_button.flex-end {
+    justify-content: flex-end;
+}
+
+.info_member-interact_button {
+    position: absolute;
+    right: 1.2rem;
+    display: flex;
+    justify-content: space-between;
+    width: 20%;
+}
+
+.info_member-interact_button .cirle-button.green {
+    background: #50a960;
+    transition: 0.4s;
+}
+
+.info_member-interact_button .cirle-button.green svg {
+    color: #fff;
+}
+
+.info_member-interact_button .cirle-button.red {
+    background: #db342e;
+    transition: 0.4s;
+}
+
+.info_member-interact_button .cirle-button.red svg {
+    color: #fff;
+}
+
+.info_member-interact_button .authorize-toggle.red:hover {
+    background: #fff;
+}
+
+.info_member-interact_button .authorize-toggle.red:hover svg {
+    color: #db342e;
+}
+
+.info_member-interact_button .authorize-toggle.green:hover {
+    background: #fff;
+}
+
+.info_member-interact_button .authorize-toggle.green:hover svg {
+    color: #db342e;
+}
+
+.info_member-interact_button .copy-link {
+    transition: 0.4s;
+}
+
+.info_member-interact_button .copy-link:hover {
+    background: #fff;
+    color: #blue-meetdy; /* Adjust based on actual $blue-meetdy value */
+}
+
+.info_member-interact_button .cirle-button {
+    width: 3rem;
+    height: 3rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(210, 239, 255, 0.5);
+    border-radius: 50%;
+}
+
+.info_member-interact_button svg {
+    font-size: 1.6rem;
+    color: var(--base-color); /* Adjust based on actual --base-color value */
+}
+
+.info_member-interact_link-des {
+    font-size: 1.2rem;
+    width: 70%;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    word-wrap: break-word;
+    color: #blue-meetdy; /* Adjust based on actual $blue-meetdy value */
+}
+
+.info_member-interact-amount {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0.8rem 1.4rem;
+    cursor: pointer;
+}
+
+.info_member-interact-amount-icon {
+    font-size: 1.8rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.4rem;
+    transition: 0.2s;
+}
+
+.info_member-interact-amount-text {
+    padding-left: 1rem;
+}
+
+.info_member-interact-amount:hover {
+    background: #grey-500; /* Adjust based on actual $grey-500 value */
+}

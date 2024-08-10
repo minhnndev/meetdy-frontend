@@ -15,7 +15,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { FcBarChart } from "react-icons/fc";
 import { useSelector } from 'react-redux';
-import './style.scss';
 
 ShortMessage.propTypes = {
     message: PropTypes.object,

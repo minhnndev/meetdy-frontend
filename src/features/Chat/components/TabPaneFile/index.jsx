@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Col, Row, Select, DatePicker } from 'antd';
 import {
     FileExcelFilled,

@@ -1,0 +1,26 @@
+.suggest_card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: #fff;
+    width: 25rem;
+    height: 25rem;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.suggest_card-info {
+    text-align: center;
+    margin-top: 1rem;
+}
+
+.suggest_card-info span {
+    display: block;
+    font-size: 1.3rem;
+    color: var(--neutral-500); /* Adjust based on actual $neutral-500 value */
+}
+
+.suggest_card-btn {
+    margin-top: 1rem;
+}

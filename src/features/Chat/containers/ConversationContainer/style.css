@@ -1,0 +1,103 @@
+.conversation-item {
+    padding: 0.5rem 0.8rem;
+    list-style: none;
+    transition: background-color 0.2s;
+    cursor: pointer;
+    height: 68px;
+}
+
+.conversation-item .conversation-item_box {
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.conversation-item .left-side-box .icon-users-group {
+    height: 48px;
+    width: 48px;
+}
+
+.conversation-item .middle-side-box {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding-left: 0.8rem;
+    padding-right: 0.4rem;
+    width: calc(100% - 94px);
+}
+
+.conversation-item .middle-side-box .name-box {
+    font-weight: 500;
+    text-overflow: ellipsis;
+}
+
+.conversation-item .middle-side-box .lastest-message {
+    font-size: 14px;
+    color: #888888; /* Assuming $thumbnail-text is #888888 */
+    word-wrap: break-word;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.conversation-item .right-side-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 4.6rem;
+}
+
+.conversation-item .right-side-box .lastest-time {
+    font-size: 1.2rem;
+    color: #888888; /* Assuming $thumbnail-text is #888888 */
+    text-align: center;
+}
+
+.conversation-item .right-side-box .message-count {
+    display: none;
+    height: 2rem;
+    width: 2rem;
+    color: #ffffff; /* Assuming $white-color is #ffffff */
+    text-align: center;
+    line-height: 2rem;
+    background-color: #ff0000; /* Assuming $red-color is #ff0000 */
+    font-weight: 500;
+    border-radius: 50%;
+    font-size: 1.2rem;
+}
+
+.conversation-item .line-group .second-line-group {
+    margin-top: -8px;
+}
+
+.conversation-item .ant-avatar-group .ant-avatar:nth-child(1),
+.conversation-item .ant-avatar-group .ant-avatar:nth-child(3) {
+    margin-left: 0 !important;
+}
+
+.conversation-item .ant-avatar-group .ant-avatar:nth-child(3),
+.conversation-item .ant-avatar-group .ant-avatar:nth-child(4) {
+    margin-top: -8px;
+}
+
+.conversation-item .ant-avatar-group {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.conversation-item.arrived-message .right-side-box .message-count {
+    display: block;
+}
+
+.conversation-item.arrived-message .middle-side-box .name-box {
+    font-weight: bold;
+}
+
+.conversation-item.arrived-message .middle-side-box .lastest-message {
+    color: #000000; /* Assuming $black-color is #000000 */
+    font-weight: 500;
+}
+
+.conversation-item:hover {
+    background-color: #f0f0f0; /* Assuming $light-grey is #f0f0f0 */
+}

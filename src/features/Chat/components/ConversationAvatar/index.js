@@ -1,11 +1,11 @@
 import { UserOutlined } from '@ant-design/icons';
 import { Avatar, Badge, Tooltip } from 'antd';
-import DEFAULT_AVATAR from 'assets/images/user/meetdy_user_default.jpg';
+import DEFAULT_AVATAR from 'assets/images/user/user_default.jpg';
 import AvatarCustom from 'components/AvatarCustom';
 import PropTypes from 'prop-types';
 import React from 'react';
 import COVERSATION_STYLE from './ConversationAvatarStyle';
-import './style.scss';
+import './style.css';
 ConversationAvatar.propTypes = {
     demension: PropTypes.number,
     isGroupCard: PropTypes.bool,

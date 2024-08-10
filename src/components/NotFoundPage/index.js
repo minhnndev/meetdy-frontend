@@ -1,13 +1,11 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { Result, Button } from 'antd';
-import './style.scss';
+import { Result } from 'antd';
 
 NotFoundPage.propTypes = {};
 
 function NotFoundPage(props) {
     return (
-        <div id="not-found-page">
+        <div id="not-found-page" class="w-11/12 mx-auto bg-white">
             <div className="main">
                 <Result
                     status="404"

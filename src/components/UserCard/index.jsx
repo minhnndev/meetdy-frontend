@@ -2,7 +2,7 @@ import { ExclamationCircleOutlined, UserDeleteOutlined } from '@ant-design/icons
 import { Button, Image, message, Modal, Avatar } from 'antd';
 import conversationApi from 'api/conversationApi';
 import friendApi from 'api/friendApi';
-import DEFAULT_AVATAR from 'assets/images/user/meetdy_user_default.jpg';
+import DEFAULT_AVATAR from 'assets/images/user/user_default.jpg';
 import {
     fetchChannels,
     fetchListFriends,
@@ -21,7 +21,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import dateUtils from 'utils/dateUtils';
 import getSummaryName from 'utils/nameHelper';
-import './style.scss';
+import './style.css';
 import UserCardStyle from './UserCardStyle';
 UserCard.propTypes = {
     title: PropTypes.string,

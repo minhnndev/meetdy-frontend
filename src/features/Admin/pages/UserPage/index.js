@@ -1,5 +1,4 @@
 import { Divider, Input, message, Pagination } from 'antd';
-import 'antd/dist/antd.css';
 import adminApi from 'api/adminApi';
 import { setLoading } from 'features/Account/accountSlice';
 import UserTable from 'features/Admin/components/UserTable';
