@@ -46,7 +46,7 @@ export default defineConfig({
         const version = new Date().toISOString();
         return html.replace(
           /<head>/,
-          `<head>\n    <meta name="version" content="${version}">`
+          `<head>\n<meta name="version" content="${version}">`
         );
       },
     },
