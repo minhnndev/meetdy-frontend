@@ -1,0 +1,37 @@
+@import url("../../../../scss/variables.css");
+
+#drawer-pin #summary-pin {
+    position: absolute;
+}
+
+#drawer-pin .drawer-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.3rem 1rem;
+    font-size: 1.3rem;
+    background: var(--white-smoke);
+}
+
+#drawer-pin .drawer-header-title {
+    color: var(--normal-text);
+}
+
+#drawer-pin .drawer-header-collapse {
+    cursor: pointer;
+}
+
+#drawer-pin .drawer-footer {
+    padding: 0.6rem;
+    text-align: center;
+    font-size: 1.3rem;
+    background: var(--grey-500);
+    cursor: pointer;
+}
+
+#drawer-pin .ant-drawer-content-wrapper,
+#drawer-pin .ant-drawer-body {
+    min-height: 50px;
+    height: unset !important;
+}

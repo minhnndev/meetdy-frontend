@@ -1,0 +1,61 @@
+@import url("../../../../scss/variables.css");
+
+.info_setting {
+    background: #fff;
+}
+
+.info_setting-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    padding: 0.8rem 1.2rem;
+}
+
+.info_setting-header-title {
+    font-weight: 600;
+    font-size: 1.6rem;
+}
+
+.info_setting-header-icon {
+    transition: 0.2s;
+    font-size: 1.6rem;
+    color: var(--neutral-500);
+}
+
+.info_setting-interact {
+    position: relative;
+    overflow-y: hidden;
+    max-height: 300px;
+    transition: max-height 0.2s ease;
+}
+
+.info_setting-interact-amount {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0.8rem 1.4rem;
+    cursor: pointer;
+}
+
+.info_setting-interact-amount-icon {
+    font-size: 1.8rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.4rem;
+    transition: 0.2s;
+}
+
+.info_setting-interact-amount-text {
+    padding-left: 1rem;
+}
+
+.info_setting-interact .danger {
+    color: red !important;
+}
+
+.info_setting-interact-amount:hover {
+    background: var(--grey-400);
+}

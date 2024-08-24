@@ -1,0 +1,66 @@
+@import url("../../../../scss/variables.css");
+
+:root {
+    --size: 3rem;
+}
+
+.info_file {
+    background: #fff;
+    padding: 1rem 0;
+}
+
+.info_file-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    padding: 0.8rem 0;
+    margin: 0 1.2rem;
+}
+
+.info_file-header-title {
+    font-weight: 600;
+    font-size: 1.6rem;
+}
+
+.info_file-header-icon {
+    transition: 0.2s;
+    font-size: 1.6rem;
+    color: var(--neutral-500);
+}
+
+.info_file-interact {
+    position: relative;
+    overflow-y: hidden;
+    transition: max-height 0.2s ease;
+}
+
+.info_file-interact-file {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem 0;
+}
+
+.info_file-interact-button {
+    margin: 0 1.4rem;
+}
+
+.info_file-interact-button button {
+    width: 100%;
+    font-weight: 600;
+    border: none;
+    outline: none;
+    padding: 0.5rem 0;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.info_file-interact-button button:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.info_file-interact-amount:hover {
+    background: var(--grey-400);
+}
+

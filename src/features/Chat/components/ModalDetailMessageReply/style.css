@@ -1,0 +1,99 @@
+@import url("../../../../scss/variables.css");
+
+.modal-detail-reply .reply-info {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.modal-detail-reply .reply-info .time-user {
+    margin-left: 1rem;
+    color: var(--neutral-500);
+}
+
+.modal-detail-reply .reply-item {
+    min-height: 40px;
+    border-radius: 8px;
+    background: var(--blue-700);
+    padding: 1.3rem;
+    display: flex;
+    align-items: center;
+    position: relative;
+    word-break: break-all;
+}
+
+.modal-detail-reply .reply-item.smoker {
+    background: var(--white-smoker);
+}
+
+.modal-detail-reply .reply-item.video {
+    cursor: pointer;
+}
+
+.modal-detail-reply .reply-item.smoker::after {
+    background: var(--white-smoker);
+}
+
+.modal-detail-reply .reply-item.center {
+    justify-content: center;
+}
+
+.modal-detail-reply .reply-item::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 12px;
+    background: var(--blue-700);
+    width: 15px;
+    height: 15px;
+    transform: rotate(45deg) translateY(-50%);
+    /* transform: translateY(-50%); */
+}
+
+.modal-detail-reply .file_info {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex: 1;
+    cursor: pointer;
+}
+
+.modal-detail-reply .file_info-name {
+    margin-left: 1rem;
+    font-weight: 500;
+}
+
+.modal-detail-reply .file_info-icon {
+    max-height: 6rem;
+    max-width: 6rem;
+}
+
+.modal-detail-reply .file_info-icon svg {
+    width: 5rem;
+}
+
+.modal-detail-reply .file_info-wrapper-reply {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    min-width: 30rem;
+    padding: 1rem;
+    border-radius: 5px;
+    background: var(--grey-500);
+}
+
+.modal-detail-reply .file_info-wrapper-reply .icon-download {
+    cursor: pointer;
+    margin-left: 1rem;
+    font-size: 2rem;
+    height: 30px;
+    width: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+    border-radius: 5px;
+    border: 1px solid var(--grey-300);
+}
