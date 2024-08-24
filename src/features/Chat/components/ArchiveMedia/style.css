@@ -1,0 +1,61 @@
+@import url("../../../../scss/variables.css");
+
+.info_media {
+    background: #fff;
+    padding: 1rem 0;
+}
+
+.info_media-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    padding: 0.8rem 1.2rem;
+}
+
+.info_media-header-title {
+    font-weight: 600;
+    font-size: 1.6rem;
+}
+
+.info_media-header-icon {
+    transition: 0.2s;
+    font-size: 1.6rem;
+    color: var(--neutral-500);
+}
+
+.info_media-interact {
+    position: relative;
+    overflow-y: hidden;
+    max-height: 300px;
+    transition: max-height 0.2s ease;
+    padding: 0rem 1.4rem;
+}
+
+.info_media-interact-media {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap;
+    cursor: pointer;
+    padding-bottom: 1rem;
+}
+
+.info_media-interact-button button {
+    width: 100%;
+    font-weight: 600;
+    border: none;
+    outline: none;
+    padding: 0.5rem 0;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.info_media-interact-button button:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.info_media-interact-amount:hover {
+    background: var(--grey-400);
+}

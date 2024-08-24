@@ -1,0 +1,9 @@
+.input-add-friend_wrapper input::-webkit-outer-spin-button,
+.input-add-friend_wrapper input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0; /* Removes default margin */
+}
+
+.input-add-friend_wrapper input[type="number"] {
+    -moz-appearance: textfield; /* Removes spin buttons in Firefox */
+}
