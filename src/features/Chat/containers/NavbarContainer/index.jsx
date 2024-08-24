@@ -4,7 +4,8 @@ import {
     MessageOutlined,
     SettingOutlined, UserOutlined
 } from '@ant-design/icons';
-import { Badge, Button, Popover } from 'antd';
+// import { Button } from 'antd';
+import { Popover, Badge, Button } from '@douyinfe/semi-ui';
 import { setTabActive } from 'app/globalSlice';
 import ModalChangePassword from 'components/ModalChangePassword';
 import ModalUpdateProfile from "features/Chat/components/ModalUpdateProfile";
@@ -80,7 +81,7 @@ function NavbarContainer({ onSaveCodeRevoke }) {
     };
 
     const content = (
-        <div className="pop_up-personal">
+        <div className="pop_up-personal" style={{ padding: '12px' }}>
             <div className="pop_up-personal--item" onClick={handleUpdateProfile}>
                 <div className="pop_up-personal--item-icon">
                     <UserOutlined />
@@ -108,10 +109,8 @@ function NavbarContainer({ onSaveCodeRevoke }) {
         setvisibleModalChangePassword(true);
     }
 
-
-
     const setting = (
-        <div className="pop_up-personal">
+        <div className="pop_up-personal" style={{ padding: '12px' }}>
             <div className="pop_up-personal--item" onClick={handleChangePassword}>
                 <div className="pop_up-personal--item-icon">
                     <LockOutlined />
@@ -158,6 +157,8 @@ function NavbarContainer({ onSaveCodeRevoke }) {
                             <div className="sidebar_nav_item--icon">
                                 <Badge
                                     count={toTalUnread > 0 ? toTalUnread : 0}
+                                    dot={toTalUnread <= 0}
+                                    type='danger'
                                 >
                                     <MessageOutlined />
                                 </Badge>
@@ -171,7 +172,11 @@ function NavbarContainer({ onSaveCodeRevoke }) {
                             onClick={() => handleSetTabActive(2)}
                         >
                             <div className="sidebar_nav_item--icon">
-                                <Badge count={amountNotify}>
+                                <Badge 
+                                    count={amountNotify > 0 ? amountNotify : 0}
+                                    dot={amountNotify <= 0}
+                                    type='danger'
+                                >
                                     <ContactsOutlined />
                                 </Badge>
                             </div>
