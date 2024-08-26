@@ -1,3 +1,5 @@
+@import url("../../../../scss/variables.css");
+
 .bg-white {
     background: #fff;
 }
@@ -8,7 +10,7 @@
 }
 
 .user-name-strong .blue {
-    color: #00f; /* Replace $blue-meetdy with actual color */
+    color: var(--blue-fund);
 }
 
 .user-name-strong .blue:hover {
@@ -21,9 +23,6 @@
 
 .user-message {
     padding: 0 2rem;
-    transition: visibility 0.4s, opacity 0.4s;
-    visibility: visible;
-    opacity: 1;
 }
 
 .user-message.top {
@@ -40,46 +39,51 @@
     padding: 1rem 0;
 }
 
-.last-view-avatar {
+.user-message {
+    transition: visibility 0.4s;
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.4s;
+}
+
+.user-message .time-and-last_view {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.user-message .last-view-avatar {
     display: flex;
 }
 
-.last-view-avatar.reverse {
+.user-message .last-view-avatar.reverse {
     flex-direction: row-reverse;
 }
 
-.interact-conversation {
+.user-message .interact-conversation {
     display: flex;
     flex-direction: row;
 }
 
-.avatar-user.hidden {
+.user-message .interact-conversation .avatar-user.hidden {
     visibility: hidden;
 }
 
-.reverse {
+.user-message .reverse {
     flex-direction: row-reverse !important;
 }
 
-.list-conversation {
+.user-message .list-conversation {
     display: flex;
     flex-direction: column;
     width: calc(100% - 40px);
 }
 
-.message {
-    margin: 1rem;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    position: relative;
-}
-
-.sub-message.same-user {
+.user-message .list-conversation .message .sub-message.same-user {
     margin-top: 0;
 }
 
-.sub-message {
+.user-message .list-conversation .message .sub-message {
     display: flex;
     flex-direction: row;
     margin: 1rem;
@@ -87,19 +91,19 @@
     position: relative;
 }
 
-.content-message.content-media {
+.user-message .list-conversation .message .sub-message .content-message.content-media {
     padding: 0;
     background: none;
     box-shadow: none;
 }
 
-.content-message.my-message-bg {
-    background: #007bff; /* Replace $blue-700 with actual color */
+.user-message .list-conversation .message .sub-message .content-message.my-message-bg {
+    background: var(--blue-700);
 }
 
-.content-message {
-    background: #fff; /* Replace $white-color with actual color */
-    padding: 1.4rem;
+.user-message .list-conversation .message .sub-message .content-message {
+    background: var(--white-color);
+    padding: 1.4rem 1.4rem;
     display: flex;
     flex-direction: column;
     border-radius: 0.8rem;
@@ -109,47 +113,64 @@
     max-width: 75%;
 }
 
-.content-message-description {
-    white-space: normal;
-    word-break: break-word;
+.user-message .list-conversation .message .sub-message .content-message .content-message-description {
+    word-break: break-all;
 }
 
-.reacted-block.media {
+.user-message .list-conversation .message .sub-message .content-message .content-message-description .undo-message {
+    color: var(--silver);
+}
+
+.user-message .list-conversation .message .sub-message .content-message .content-message-description .messsage-image-wrapper,
+.user-message .list-conversation .message .sub-message .content-message .content-message-description .message-video-wrapper {
+    position: relative;
+}
+
+.user-message .list-conversation .message .sub-message .content-message .reacted-block.media {
     position: absolute;
     bottom: 0;
     transform: translateY(-50%);
 }
 
-.reacted-block.right {
+.user-message .list-conversation .message .sub-message .content-message .reacted-block.media .list-user-react,
+.user-message .list-conversation .message .sub-message .content-message .reacted-block.media .your-react {
+    background: #fff;
+}
+
+.user-message .list-conversation .message .sub-message .content-message .reacted-block.right {
     right: 1.4rem;
 }
 
-.reacted-block.left {
+.user-message .list-conversation .message .sub-message .content-message .reacted-block.left {
     left: 1.4rem;
 }
 
-.reacted-block {
+.user-message .list-conversation .message .sub-message .content-message .reacted-block {
     margin-top: 1rem;
     display: flex;
     align-items: center;
     cursor: pointer;
 }
 
-.list-user-react-icon > div {
+.user-message .list-conversation .message .sub-message .content-message .reacted-block .list-user-react-icon > div {
     display: flex;
     align-items: center;
 }
 
-.list-user-react {
+.user-message .list-conversation .message .sub-message .content-message .reacted-block .list-user-react-icon {
+    position: relative;
+}
+
+.user-message .list-conversation .message .sub-message .content-message .reacted-block .list-user-react {
     padding: 0.4rem 0.8rem;
-    border: 0.05rem solid #ccc; /* Replace $grey-300 with actual color */
+    border: 0.05rem solid var(--grey-300);
     border-radius: 14px;
 }
 
-.list-user-detail {
+.user-message .list-conversation .message .sub-message .content-message .reacted-block .list-user-react .list-user-detail {
     position: absolute;
-    background: #1a73e8; /* Replace $blue-1f4 with actual color */
-    color: #fff; /* Replace $white-color with actual color */
+    background: var(--blue-1f4);
+    color: var(--white-color);
     top: 0;
     left: 0;
     transform: translate(-40%, -150%);
@@ -162,60 +183,50 @@
     transition: 0.2s;
 }
 
-.list-user-detail::before {
+.user-message .list-conversation .message .sub-message .content-message .reacted-block .list-user-react .list-user-detail::before {
     position: absolute;
-    content: '';
+    content: "";
     height: 10px;
     width: 10px;
-    background: #1a73e8; /* Replace $blue-1f4 with actual color */
+    background: var(--blue-1f4);
     bottom: -4px;
     left: 50%;
     transform: translateX(-50%) rotate(45deg);
 }
 
-.your-react {
+.user-message .list-conversation .message .sub-message .content-message .reacted-block .your-react {
     margin-left: 0.6rem;
     padding: 0.3rem;
     border-radius: 50%;
-    border: 0.05rem solid #ccc; /* Replace $grey-300 with actual color */
+    border: 0.05rem solid var(--grey-300);
     position: relative;
 }
 
-.list-user-react:hover .list-user-detail {
+.user-message .list-conversation .message .sub-message .content-message .reacted-block .list-user-react:hover .list-user-detail {
     display: flex;
 }
 
-.reaction.reaction-reverse {
+.user-message .list-conversation .message .sub-message .content-message .reaction.reaction-reverse {
     right: initial;
     left: 10%;
 }
 
-.author-message {
+.user-message .list-conversation .message .sub-message .content-message .author-message {
     font-size: 1.3rem;
-    color: #333; /* Replace $normal-text with actual color */
+    color: var(--normal-text);
     padding-bottom: 0.4rem;
 }
 
-.time-send {
+.user-message .list-conversation .message .sub-message .content-message .time-send {
     font-size: 1.3rem;
-    color: #999; /* Replace $thumbnail-text with actual color */
+    color: var(--thumbnail-text);
 }
 
-.last-message {
-    padding-bottom: 3rem;
-}
-
-.is-seen-message {
-    font-size: 1.3rem;
-    color: #999; /* Replace $thumbnail-text with actual color */
-    padding-left: 1rem;
-}
-
-.interaction {
+.user-message .list-conversation .interaction {
     display: flex;
     flex-direction: row;
     align-items: center;
-    background: #f5f5f5; /* Replace $ghost-white with actual color */
+    background: var(--ghost-white);
     margin-left: 1rem;
     margin-right: 1rem;
     justify-content: center;
@@ -226,12 +237,17 @@
     flex-wrap: wrap;
 }
 
-.interaction.hidden {
+.user-message .list-conversation .interaction .ant-btn:hover,
+.user-message .list-conversation .interaction .ant-btn:focus {
+    color: var(--cyan-light) !important;
+}
+
+.user-message .list-conversation .interaction.hidden {
     display: none;
 }
 
-.icon-interact {
-    color: #333; /* Replace $normal-text with actual color */
+.user-message .list-conversation .icon-interact {
+    color: var(--normal-text);
     font-size: 1.7rem;
     width: 3rem;
     height: 3rem;
@@ -241,31 +257,31 @@
     justify-content: center;
 }
 
-.icon-interact:hover {
-    color: #00f; /* Replace $blue-light with actual color */
+.user-message .list-conversation .icon-interact:hover {
+    color: var(--cyan-light);
 }
 
-.message .sub-message:hover .interaction,
-.message .sub-message:hover .reaction,
-.message .sub-message:hover .reaction-reverse {
+.user-message .list-conversation .message .sub-message:hover .interaction,
+.user-message .list-conversation .message .sub-message:hover .reaction,
+.user-message .list-conversation .message .sub-message:hover .reaction-reverse {
     visibility: visible;
 }
 
-.message .sub-message .reaction-reverse:hover + .list_icon-reaction,
-.message
-    .sub-message
-    .content-message
-    .reaction
-    .reaction-thumbnail:hover
-    .list_icon-reaction {
+.user-message .list-conversation .message .sub-message .reaction-reverse:hover + .list_icon-reaction,
+.user-message .list-conversation .message .sub-message .content-message .reaction .reaction-thumbnail:hover .list_icon-reaction {
     display: flex;
 }
 
-.message
-    .sub-message
-    .content-message
-    .reacted-block
-    .your-react:hover
-    .list_icon-reaction {
+.user-message .list-conversation .message .sub-message .content-message .reacted-block .your-react:hover .list_icon-reaction {
     display: flex;
+}
+
+.user-message .last-message {
+    padding-bottom: 3rem;
+}
+
+.user-message .is-seen-message {
+    font-size: 1.3rem;
+    color: var(--thumbnail-text);
+    padding-left: 1rem;
 }
