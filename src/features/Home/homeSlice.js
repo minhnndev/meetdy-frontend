@@ -29,14 +29,22 @@ const homeSlice = createSlice({
     extraReducers: {
         [fetchInfoWebs.fulfilled]: (state, action) => {
             const data = action.payload;
-            state.infoWebApps = data.find(
-                (ele) => ele.name === 'infoweb'
-            ).value;
-            state.developers = data.find(
-                (ele) => ele.name === 'developers'
-            ).value;
-            state.infoApp = data.find((ele) => ele.name === 'infoapp').value;
-            state.features = data.find((ele) => ele.name === 'features').value;
+
+            if (Array.isArray(data)) {
+                state.infoWebApps = data.find(
+                    (ele) => ele.name === 'infoweb'
+                ).value;
+                state.developers = data.find(
+                    (ele) => ele.name === 'developers'
+                ).value;
+                state.infoApp = data.find(
+                    (ele) => ele.name === 'infoapp'
+                ).value;
+                state.features = data.find(
+                    (ele) => ele.name === 'features'
+                ).value;
+            }
+
             state.isLoading = false;
         },
 
