@@ -35,9 +35,6 @@ jobs:
           docker push nghiaphamln/meetdy-frontend:${{ env.VERSION }}
           docker push nghiaphamln/meetdy-frontend:latest
 
-      - name: Install sshpass
-        run: sudo apt-get update && sudo apt-get install -y sshpass
-
       - name: Pull and restart Docker Compose on VPS
         env:
           VPS_USER: ${{ secrets.VPS_USER }}
