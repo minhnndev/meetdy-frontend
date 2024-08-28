@@ -75,6 +75,8 @@
     }
     .account-common-page .account_right {
         width: 100%;
+        margin-left: 10px;
+        margin-right: 10px;
     }
     .account-common-page .account-wrapper {
         width: 90%;
@@ -91,5 +93,7 @@
     }
     .account-common-page .account_right {
         width: 100%;
+        margin-left: 10px;
+        margin-right: 10px;
     }
 }

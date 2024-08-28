@@ -1,6 +1,6 @@
-import { CloseCircleOutlined, HomeOutlined } from '@ant-design/icons';
+import { IconCrossCircleStroked } from '@douyinfe/semi-icons'
 import { unwrapResult } from '@reduxjs/toolkit';
-import { Button, Col, Divider, message, Row, Tag, Typography } from 'antd';
+import { Button, Col, Row, Divider, Notification, Tag, Typography } from '@douyinfe/semi-ui';
 import axiosClient from 'api/axiosClient';
 import loginApi from 'api/loginApi';
 import { fetchUserProfile, setLogin } from 'app/globalSlice';
@@ -11,8 +11,7 @@ import { FastField, Form, Formik } from 'formik';
 import React, { useEffect, useState } from 'react';
 import ReCAPTCHA from 'react-google-recaptcha';
 import { useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import IMAGE_ACCOUNT_PAGE from 'assets/images/account/account-bg.png';
 
 const { Text, Title } = Typography;
@@ -28,7 +27,6 @@ function LoginPage(props) {
 
     const handleSubmit = async (values) => {
         const { username, password } = values;
-        console.log(isVerify);
         try {
             if (isVerify) {
                 dispatch(setLoading(true));
@@ -36,17 +34,20 @@ function LoginPage(props) {
                     username,
                     password
                 );
-                console.log('🚀 handleSubmit ~ token:', token)
                 localStorage.setItem('token', token);
                 localStorage.setItem('refreshToken', refreshToken);
                 dispatch(setLogin(true));
-                const { isAdmin } = unwrapResult(
-                    await dispatch(fetchUserProfile())
+                const { isAdmin } = await unwrapResult(
+                     dispatch(fetchUserProfile())
                 );
                 if (isAdmin) history.push('/admin');
                 else history.push('/chat');
             } else {
-                message.error('Hãy xác thực capcha', 5);
+                Notification.error({
+                    position:'top',
+                    content: 'Hãy xác thực capcha', 
+                    with:5
+                });
             }
         } catch (error) {
             setError(true);
@@ -77,7 +78,7 @@ function LoginPage(props) {
                     <Title level={2} style={{ textAlign: 'center' }}>
                         <Text style={{ color: '#4d93ff' }}>Đăng Nhập</Text>
                     </Title>
-                    <Divider />
+                    <Divider margin={24}/>
                     <div className="form-account">
                         <Formik
                             initialValues={{ ...loginValues.initial }}
@@ -128,13 +129,11 @@ function LoginPage(props) {
                                             {isError ? (
                                                 <Col span={24}>
                                                     <Tag
-                                                        color="error"
-                                                        style={{
-                                                            fontWeight: 'bold',
-                                                        }}
-                                                        icon={
-                                                            <CloseCircleOutlined />
-                                                        }
+                                                        color="red"
+                                                        style={{ fontWeight: 'bold', }}
+                                                        prefixIcon={ <IconCrossCircleStroked color='red' /> }
+                                                        type='ghost'
+                                                        size='large'
                                                     >
                                                         Tài khoản không hợp lệ
                                                     </Tag>
@@ -147,6 +146,7 @@ function LoginPage(props) {
                                                 <br />
                                                 <Button
                                                     type="primary"
+                                                    theme='solid'
                                                     htmlType="submit"
                                                     block
                                                 >
@@ -159,7 +159,7 @@ function LoginPage(props) {
                             }}
                         </Formik>
                     </div>
-                    <Divider />
+                    <Divider margin={24}/>
                     <div className="addtional-link">
                         <Link to="/">Trang chủ</Link>
                         <Link to="/account/forgot">Quên mật khẩu</Link>
