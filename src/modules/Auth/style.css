@@ -7,13 +7,15 @@
 #auth-left {
   flex: 1;
   position: relative;
+  background-color: #F9F7F8;
 }
 
 #auth-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 1.5rem;
+  margin-left: 0.5rem;
+  margin-right: 1rem;
 }
 
 #auth-main-content {
@@ -37,7 +39,7 @@
   margin: auto;
   flex-direction: column;
   border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
   background-color: white !important;
   width: 400px;
   padding: 2rem;

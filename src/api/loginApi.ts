@@ -1,32 +1,29 @@
+import {
+  TLoginResponse,
+  TLogin,
+  TRegister,
+  TConfirmAccount,
+  TConfirmPassword,
+} from "@/models/auth.model";
 import axiosClient from "./_httpAxios";
+import { API } from "@/constants/APIurl";
 
 const ServiceAuth = {
-  login: (username: string, password: string) => {
-    const url = "/auth/login";
-    return axiosClient.post(url, { username, password });
-  },
-  registry: (name, username, password) => {
-    const url = "/auth/registry";
+  login: (params: TLogin) =>
+    axiosClient.post<any, TLoginResponse>(API.AUTH.LOGIN, params),
 
-    return axiosClient.post(url, { name, username, password });
-  },
-  forgot: (username) => {
-    const url = "/auth/reset-otp";
+  register: (params: TRegister) => axiosClient.post(API.AUTH.REGISTER, params),
 
-    return axiosClient.post(url, { username });
-  },
-  confirmAccount: (username, otp) => {
-    const url = "/auth/confirm-account";
-    return axiosClient.post(url, { username, otp });
-  },
-  confirmPassword: (username, otp, password) => {
-    const url = "/auth/confirm-password";
-    return axiosClient.post(url, { username, otp, password });
-  },
-  fetchUser: (username) => {
-    const url = `/auth/users/${username}`;
-    return axiosClient.get(url);
-  },
+  forgot: (username: string) => axiosClient.post(API.AUTH.FORGOT, { username }),
+
+  confirmAccount: (params: TConfirmAccount) =>
+    axiosClient.post(API.AUTH.CONFIRM_ACCOUNT, params),
+
+  confirmPassword: (params: TConfirmPassword) =>
+    axiosClient.post(API.AUTH.CONFIRM_PASSWORD, params),
+
+  fetchUser: (username: string) =>
+    axiosClient.get(`${API.AUTH.FETCH_USER}/${username}`),
 };
 
 export default ServiceAuth;

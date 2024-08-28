@@ -16,6 +16,10 @@ const commonFunc = {
             reader.onerror = (error) => reject(error);
         });
     },
+
+    isEmpty: (obj: any) =>
+        [Object, Array].includes((obj || {}).constructor) &&
+        !Object.entries(obj || {}).length
 };
 
 export default commonFunc;

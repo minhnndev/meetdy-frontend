@@ -1,3 +1,22 @@
+export const API = {
+  AUTH: {
+    LOGIN: "/auth/login",
+    REGISTER: "/auth/registry",
+    FORGOT: "/auth/reset-otp",
+    CONFIRM_ACCOUNT: "/auth/confirm-account",
+    CONFIRM_PASSWORD: "/auth/confirm-password",
+    FETCH_USER: "/auth/users",
+  },
+  ME: {
+    FETCH_PROFILE: "/me/profile",
+    UPDATE_PROFILE: "/me/profile",
+    UPDATE_AVATAR: "/me/avatar",
+    UPDATE_COVER_IMAGE: "/me/cover-image",
+    CHANGE_PASSWORD: "/me/password",
+    REVOKE_TOKEN: "/me/revoke-token",
+  },
+};
+
 const URL = {
   dev: {
     API_URL: import.meta.env.VITE_API_URL_DEV,

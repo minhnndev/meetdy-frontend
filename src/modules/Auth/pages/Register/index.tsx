@@ -1,63 +1,46 @@
 import ServiceAuth from "@/api/loginApi";
 import { setLoading } from "@/redux/slice/accountSlice";
 import { useAppDispatch } from "@/redux/store";
-import { Form, Typography } from "@douyinfe/semi-ui";
+import { Form, Modal, Notification, Typography } from "@douyinfe/semi-ui";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import RegisterForm from "./RegisterForm";
 import OTPForm from "./OTPForm";
+import { RESEND_OTP_TIME_LIMIT } from "@/constants/auth.constant";
 
 const { Title } = Typography;
-export const RESEND_OTP_TIME_LIMIT = 60;
 const RegisterPage = () => {
   const dispatch = useAppDispatch();
   let resendOTPTimerInterval;
   const navigate = useNavigate();
   //set time counter
-  const [counter, setCounter] = useState<number>(0);
+  const [counter, setCounter] = useState(0);
   //set OTP value
-  const [isSubmit, setIsSubmit] = useState<boolean>(false);
-
-  // const openNotification = () => {
-  //   const args = {
-  //     message: mes ? mes : "Xác thực OTP để hoàn tất việc đăng ký",
-  //   };
-  //   notification.info(args);
-  // };
-
-  function success() {
-    // Display a modal success
-    navigate("/account/login");
-    // Modal.success({
-    //   content: "Đăng ký thành công !",
-    //   onOk: () => {
-    //     navigate("/account/login");
-    //   },
-    //   onCancel: () => {
-    //     navigate("/account/login");
-    //   },
-    // });
-  }
+  const [isSubmit, setIsSubmit] = useState(false);
 
   const handleRegister = async (values) => {
     const { name, username, password, otpValue } = values;
     dispatch(setLoading(true));
-    if (isSubmit) {
+    if (!isSubmit) {
       handleConfirmAccount(username, otpValue);
     } else {
       await ServiceAuth.fetchUser(username)
         .then(() => {
-          // message.error("Email hoặc số điện thoại đã được đăng ký");
+          Notification.error({
+            title: "Email hoặc số điện thoại đã được đăng ký",
+          });
         })
         .catch(async () => {
           try {
-            await ServiceAuth.registry(name, username, password);
+            await ServiceAuth.register({ name, username, password });
             setIsSubmit(true);
-            // openNotification();
+            Notification.info({
+              title: "Xác thực OTP để hoàn tất việc đăng ký",
+            });
             setCounter(RESEND_OTP_TIME_LIMIT);
             startResendOTPTimer();
           } catch (error) {
-            // message.error("Đã có lỗi xảy ra");
+            Notification.error({ title: "Đã có lỗi xảy ra" });
           }
         });
     }
@@ -86,9 +69,9 @@ const RegisterPage = () => {
     dispatch(setLoading(true));
     try {
       await ServiceAuth.forgot(username);
-      // openNotification(`Đã gửi lại mã OTP đến  ${username}`);
+      Notification.info({ title: `Đã gửi lại mã OTP đến ${username}` });
     } catch (error) {
-      console.log("error");
+      Notification.error({ title: "Đã có lỗi xảy ra" });
     }
     dispatch(setLoading(false));
   };
@@ -106,10 +89,15 @@ const RegisterPage = () => {
 
   const handleConfirmAccount = async (username, otp) => {
     try {
-      await ServiceAuth.confirmAccount(username, otp);
-      success();
+      await ServiceAuth.confirmAccount({ username, otpValue: otp });
+      Modal.success({
+        title: "Đăng ký thành công",
+        okText: "Xong",
+        hasCancel: false,
+        onOk: () => navigate("/auth/login"),
+      });
     } catch (error) {
-      console.log("OTP không hợp lệ");
+      Notification.error({ title: "OTP không hợp lệ" });
     }
   };
 

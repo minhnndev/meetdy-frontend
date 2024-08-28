@@ -1,42 +1,23 @@
-import { Form, Typography } from "@douyinfe/semi-ui";
-import { Link } from "react-router-dom";
-import { RESEND_OTP_TIME_LIMIT } from "../Register";
+import { Form, Modal, Notification, Typography } from "@douyinfe/semi-ui";
+import { Link, useNavigate } from "react-router-dom";
 import { setLoading } from "@/redux/slice/accountSlice";
 import { useEffect, useState } from "react";
 import ServiceAuth from "@/api/loginApi";
 import { useAppDispatch } from "@/redux/store";
 import NewPasswordForm from "./NewPasswordForm";
 import ResendOTPForm from "./ResendOTPForm";
+import { RESEND_OTP_TIME_LIMIT } from "@/constants/auth.constant";
 
 const { Title } = Typography;
 const ForgotPassword = () => {
   const dispatch = useAppDispatch();
   let resendOTPTimerInterval;
-  // const history = useHistory();
+  const navigate = useNavigate();
   //set time counter
   const [counter, setCounter] = useState<number>(0);
   //set OTP value
   const [account, setAccount] = useState(null);
   const [isSubmit, setIsSubmit] = useState<boolean>(false);
-
-  // const openNotification = (mes) => {
-  //   const args = {
-  //     message: `Đã gửi OTP đến ${mes}`,
-  //   };
-  //   notification.info(args);
-  // };
-
-  function success() {
-    // Modal.success({
-    //   content: "Cập nhật tài khoản thành công !",
-    //   onOk: () => {
-    //     history.push("/account/login");
-    //   },
-    //   onCancel: () => {
-    //     history.push("/account/login");
-    //   },
-    // });
-  }
 
   const handleForgot = async (values) => {
     dispatch(setLoading(true));
@@ -45,14 +26,21 @@ const ForgotPassword = () => {
     if (isSubmit) {
       try {
         if (account.isActived) {
-          await ServiceAuth.confirmPassword(username, otpValue, password);
+          await ServiceAuth.confirmPassword({ username, otpValue, password });
         } else {
-          await ServiceAuth.confirmAccount(username, otpValue);
-          await ServiceAuth.confirmPassword(username, otpValue, password);
+          Promise.all([
+            ServiceAuth.confirmAccount({ username, otpValue }),
+            ServiceAuth.confirmPassword({ username, otpValue, password }),
+          ]);
         }
-        success();
+        Modal.success({
+          title: "Cập nhật tài khoản thành công",
+          okText: "Xong",
+          hasCancel: false,
+          onOk: () => navigate("/auth/login"),
+        });
       } catch (error) {
-        // message.error("OTP không hợp lệ");
+        Notification.error({ title: "OTP không hợp lệ" });
       }
     } else {
       try {
@@ -61,10 +49,10 @@ const ForgotPassword = () => {
         const account = await ServiceAuth.fetchUser(username);
         setAccount(account);
         await ServiceAuth.forgot(username);
-        // openNotification(username);
+        Notification.info({ title: `Đã gửi OTP đến ${username}` });
         setIsSubmit(true);
       } catch (error) {
-        // message.error("Tài khoản không tồn tại");
+        Notification.error({ title: "Tài khoản không tồn tại" });
       }
     }
 
@@ -103,9 +91,9 @@ const ForgotPassword = () => {
     dispatch(setLoading(true));
     try {
       await ServiceAuth.forgot(username);
-      // openNotification(`Đã gửi lại mã OTP đến  ${username}`);
+      Notification.info({ title: `Đã gửi lại mã OTP đến ${username}` });
     } catch (error) {
-      console.log("error");
+      Notification.error({ title: "Đã có lỗi xảy ra" });
     }
     dispatch(setLoading(false));
   };

@@ -1,15 +1,10 @@
 import { useAppSelector } from "@/redux/store";
-import { Navigate, useLocation } from "react-router-dom";
+import commonFunc from "@/utils/commonFunc";
+import { Navigate, Outlet } from "react-router-dom";
 
-const ProtectedRoute = ({ component: Component }) => {
+const ProtectedRoute = () => {
   const { user } = useAppSelector((state) => state.global);
-  const location = useLocation();
-
-  if (user && !user.isAdmin) {
-    return <Component />;
-  } else {
-    return <Navigate to="/account/login" state={{ from: location }} />;
-  }
+  return !commonFunc.isEmpty(user) ? <Outlet /> : <Navigate to="/auth/login" />;
 };
 
 export default ProtectedRoute;

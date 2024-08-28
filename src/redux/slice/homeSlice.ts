@@ -29,7 +29,7 @@ const homeSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchInfoWebs.fulfilled, (state, action) => {
-        const data = action.payload.data;
+        const data = Object.values(action.payload);
         state.infoWebApps = data.find((ele) => ele.name === "infoweb").value;
         state.developers = data.find((ele) => ele.name === "developers").value;
         state.infoApp = data.find((ele) => ele.name === "infoapp").value;

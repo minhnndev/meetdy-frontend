@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-// import { unwrapResult } from "@reduxjs/toolkit";
+import { unwrapResult } from "@reduxjs/toolkit";
 import ReCAPTCHA from "react-google-recaptcha";
-import { Button, Form, Typography } from "@douyinfe/semi-ui";
+import { Button, Form, Notification, Typography } from "@douyinfe/semi-ui";
 
 import axiosClient from "@/api/_httpAxios";
 import { Link, useNavigate } from "react-router-dom";
@@ -9,17 +9,11 @@ import { useAppDispatch } from "@/redux/store";
 
 import { setLoading } from "@/redux/slice/accountSlice";
 import ServiceAuth from "@/api/loginApi";
-import { setLogin } from "@/redux/slice/globalSlice";
-
-interface LoginFormValues {
-  username: string;
-  password: string;
-}
-
-const COMMON_GOOGLE_CAPTCHA = "/common/google-captcha";
+import { fetchUserProfile, setLogin } from "@/redux/slice/globalSlice";
+import { TLogin } from "@/models/auth.model";
+import { COMMON_GOOGLE_CAPTCHA } from "@/constants/auth.constant";
 
 const { Text, Title } = Typography;
-
 const LoginPage = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -34,24 +28,27 @@ const LoginPage = () => {
       .then((res: any) => setKeyGoogleCaptcha(res.KEY_GOOGLE_CAPTCHA));
   }, []);
 
-  const handleSubmit = async (values: LoginFormValues) => {
+  const handleSubmit = async (values: TLogin) => {
     const { username, password } = values;
     console.log("CAPTCHA:", isVerify);
     try {
       if (isVerify) {
         dispatch(setLoading(true));
-        const response: any = await ServiceAuth.login(username, password);
-        const { token, refreshToken } = response;
+        const { token, refreshToken } = await ServiceAuth.login({
+          username,
+          password,
+        });
         localStorage.setItem("token", token);
         localStorage.setItem("refreshToken", refreshToken);
         dispatch(setLogin(true));
-        // const resultAction = await dispatch();
-        // const { isAdmin } = unwrapResult(resultAction);
-        navigate("/chat");
-        // navigate("/admin");
+        const userProfile = unwrapResult(await dispatch(fetchUserProfile()));
+        if (userProfile.isAdmin) navigate("/admin");
+        else navigate("/chat");
       } else {
-        // props.message.error("Hãy xác thực captcha", 5);
-        console.log("Hãy xác thực captcha");
+        Notification.error({
+          title: "Hãy xác thực captcha",
+          duration: 5,
+        });
       }
     } catch (error) {
       console.log("🚀 error:", error);
