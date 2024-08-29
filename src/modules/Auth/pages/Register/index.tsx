@@ -1,50 +1,56 @@
 import ServiceAuth from "@/api/loginApi";
 import { setLoading } from "@/redux/slice/accountSlice";
 import { useAppDispatch } from "@/redux/store";
-import { Form, Modal, Notification, Typography } from "@douyinfe/semi-ui";
+import { Modal, Notification, Typography } from "@douyinfe/semi-ui";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import RegisterForm from "./RegisterForm";
-import OTPForm from "./OTPForm";
 import { RESEND_OTP_TIME_LIMIT } from "@/constants/auth.constant";
+import OTPForm from "./OTPForm";
+import RegisterForm from "./RegisterForm";
+import { TUser } from "@/models/auth.model";
 
 const { Title } = Typography;
 const RegisterPage = () => {
   const dispatch = useAppDispatch();
   let resendOTPTimerInterval;
   const navigate = useNavigate();
+  const [username, setUsername] = useState<string>("");
   //set time counter
-  const [counter, setCounter] = useState(0);
+  const [counter, setCounter] = useState<number>(0);
   //set OTP value
-  const [isSubmit, setIsSubmit] = useState(false);
+  const [isSubmit, setIsSubmit] = useState<boolean>(false);
 
   const handleRegister = async (values) => {
-    const { name, username, password, otpValue } = values;
+    const { name, username, password } = values;
     dispatch(setLoading(true));
-    if (!isSubmit) {
-      handleConfirmAccount(username, otpValue);
-    } else {
-      await ServiceAuth.fetchUser(username)
-        .then(() => {
+    await ServiceAuth.fetchUser(username)
+      .then((value: TUser) => {
+        if (value.isActived)
           Notification.error({
             title: "Email hoặc số điện thoại đã được đăng ký",
           });
-        })
-        .catch(async () => {
-          try {
-            await ServiceAuth.register({ name, username, password });
-            setIsSubmit(true);
-            Notification.info({
-              title: "Xác thực OTP để hoàn tất việc đăng ký",
-            });
-            setCounter(RESEND_OTP_TIME_LIMIT);
-            startResendOTPTimer();
-          } catch (error) {
-            Notification.error({ title: "Đã có lỗi xảy ra" });
-          }
-        });
-    }
-
+        else {
+          setIsSubmit(true);
+          setUsername(username);
+          Notification.info({
+            title: "Xác thực OTP để hoàn tất việc đăng ký",
+          });
+        }
+      })
+      .catch(async () => {
+        try {
+          await ServiceAuth.register({ name, username, password });
+          setIsSubmit(true);
+          setUsername(username);
+          Notification.info({
+            title: "Xác thực OTP để hoàn tất việc đăng ký",
+          });
+          setCounter(RESEND_OTP_TIME_LIMIT);
+          startResendOTPTimer();
+        } catch (error) {
+          Notification.error({ title: "Đã có lỗi xảy ra" });
+        }
+      });
     dispatch(setLoading(false));
   };
 
@@ -62,7 +68,7 @@ const RegisterPage = () => {
     }, 1000);
   };
 
-  const handleResendOTP = async (username) => {
+  const handleResendOTP = async (username: string) => {
     setCounter(RESEND_OTP_TIME_LIMIT);
     startResendOTPTimer();
 
@@ -87,9 +93,10 @@ const RegisterPage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [counter]);
 
-  const handleConfirmAccount = async (username, otp) => {
+  const handleConfirmAccount = async (otp: string) => {
+    dispatch(setLoading(true));
     try {
-      await ServiceAuth.confirmAccount({ username, otpValue: otp });
+      await ServiceAuth.confirmAccount({ username, otp });
       Modal.success({
         title: "Đăng ký thành công",
         okText: "Xong",
@@ -99,6 +106,7 @@ const RegisterPage = () => {
     } catch (error) {
       Notification.error({ title: "OTP không hợp lệ" });
     }
+    dispatch(setLoading(false));
   };
 
   return (
@@ -113,23 +121,15 @@ const RegisterPage = () => {
       >
         Chào mừng đến với Meetdy
       </Title>
-      <Form initValues={{}} onSubmit={(values) => handleRegister(values)}>
-        {({ formState, values }) => {
-          return (
-            <>
-              {isSubmit ? (
-                <OTPForm
-                  formState={formState}
-                  counter={counter}
-                  handleResendOTP={handleResendOTP}
-                />
-              ) : (
-                <RegisterForm values={values} />
-              )}
-            </>
-          );
-        }}
-      </Form>
+      {isSubmit ? (
+        <OTPForm
+          counter={counter}
+          handleConfirm={handleConfirmAccount}
+          handleResendOTP={() => handleResendOTP(username)}
+        />
+      ) : (
+        <RegisterForm handleRegister={handleRegister} />
+      )}
       <Link to="/auth/login" style={{ fontSize: 14 }}>
         Đăng nhập
       </Link>

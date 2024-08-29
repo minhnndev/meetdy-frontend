@@ -4,6 +4,7 @@ import {
   TRegister,
   TConfirmAccount,
   TConfirmPassword,
+  TUser,
 } from "@/models/auth.model";
 import axiosClient from "./_httpAxios";
 import { API } from "@/constants/APIurl";
@@ -23,7 +24,7 @@ const ServiceAuth = {
     axiosClient.post(API.AUTH.CONFIRM_PASSWORD, params),
 
   fetchUser: (username: string) =>
-    axiosClient.get(`${API.AUTH.FETCH_USER}/${username}`),
+    axiosClient.get<any, TUser>(`${API.AUTH.FETCH_USER}/${username}`),
 };
 
 export default ServiceAuth;

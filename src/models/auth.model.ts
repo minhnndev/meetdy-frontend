@@ -25,6 +25,13 @@ export type TUserProfile = {
   username: string;
 };
 
+export type TUser = {
+  avatar: string;
+  name: string;
+  username: string;
+  isActived: boolean;
+};
+
 export type TRegister = {
   name: string;
   username: string;
@@ -33,7 +40,7 @@ export type TRegister = {
 
 export type TConfirmAccount = {
   username: string;
-  otpValue: string;
+  otp: string;
 };
 
 export type TConfirmPassword = {

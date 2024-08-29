@@ -29,7 +29,7 @@ const ForgotPassword = () => {
           await ServiceAuth.confirmPassword({ username, otpValue, password });
         } else {
           Promise.all([
-            ServiceAuth.confirmAccount({ username, otpValue }),
+            ServiceAuth.confirmAccount({ username, otp: otpValue }),
             ServiceAuth.confirmPassword({ username, otpValue, password }),
           ]);
         }
