@@ -14,7 +14,7 @@ const AuthLayoutRight = () => {
           Nền tảng toàn diện cho bạn
         </p>
         <p style={{ paddingLeft: "20%", paddingRight: "20%" }}>
-          Quản lý thông tin, quy trình làm việc và nhân sự trong một nơi.
+          Quản lý thông tin, làm việc và nhân sự trong cùng một nền tảng.
         </p>
       </div>
     </div>

@@ -1,9 +1,9 @@
 import { IconHelpCircle } from "@douyinfe/semi-icons";
 import { Button, Form, Tooltip } from "@douyinfe/semi-ui";
 
-const ResendOTPForm = ({ formState, counter, handleResendOTP }) => {
+const OTPForm = ({ handleGetOTP }) => {
   return (
-    <>
+    <Form onSubmit={(values) => handleGetOTP(values.username)}>
       <Form.Input
         field="username"
         label={{
@@ -24,18 +24,16 @@ const ResendOTPForm = ({ formState, counter, handleResendOTP }) => {
         placeholder="Nhập Email hoặc SĐT"
       ></Form.Input>
       <Button
-        onClick={() => handleResendOTP(formState.values.username)}
         htmlType="submit"
         theme="solid"
         type="primary"
         block
-        disabled={counter > 0 ? true : false}
         className="submit-button"
       >
-        Lấy mã OTP {`${counter > 0 ? `sau ${counter}` : ""}`}
+        Xác nhận
       </Button>
-    </>
+    </Form>
   );
 };
 
-export default ResendOTPForm;
+export default OTPForm;

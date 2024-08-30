@@ -45,6 +45,6 @@ export type TConfirmAccount = {
 
 export type TConfirmPassword = {
   username: string;
-  otpValue: string;
+  otp: string;
   password: string;
 };
