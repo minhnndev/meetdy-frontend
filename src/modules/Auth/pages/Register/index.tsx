@@ -7,7 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { RESEND_OTP_TIME_LIMIT } from "@/constants/auth.constant";
 import OTPForm from "./OTPForm";
 import RegisterForm from "./RegisterForm";
-import { TUser } from "@/models/auth.model";
+import { TRegister, TUser } from "@/models/auth.model";
 
 const { Title } = Typography;
 const RegisterPage = () => {
@@ -20,7 +20,7 @@ const RegisterPage = () => {
   //set OTP value
   const [isSubmit, setIsSubmit] = useState<boolean>(false);
 
-  const handleRegister = async (values) => {
+  const handleRegister = async (values: TRegister) => {
     const { name, username, password } = values;
     dispatch(setLoading(true));
     await ServiceAuth.fetchUser(username)

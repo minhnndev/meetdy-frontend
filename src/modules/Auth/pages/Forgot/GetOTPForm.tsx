@@ -1,7 +1,7 @@
 import { IconHelpCircle } from "@douyinfe/semi-icons";
 import { Button, Form, Tooltip } from "@douyinfe/semi-ui";
 
-const OTPForm = ({ handleGetOTP }) => {
+const GetOTPForm = ({ handleGetOTP }) => {
   return (
     <Form onSubmit={(values) => handleGetOTP(values.username)}>
       <Form.Input
@@ -36,4 +36,4 @@ const OTPForm = ({ handleGetOTP }) => {
   );
 };
 
-export default OTPForm;
+export default GetOTPForm;

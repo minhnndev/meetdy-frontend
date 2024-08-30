@@ -1,53 +1,34 @@
-import { IconHelpCircle } from "@douyinfe/semi-icons";
-import { Button, Form, Tooltip } from "@douyinfe/semi-ui";
+import InputOTP from "@/components/InputOTP";
+import { Button } from "@douyinfe/semi-ui";
+import { useState } from "react";
 
 const OTPForm = ({ counter, handleConfirm, handleResendOTP }) => {
+  const [otpValue, setOtpValue] = useState<string>("");
   return (
-    <Form
-      initValues={{ otpValue: "" }}
-      onSubmit={(values) => handleConfirm(values.otpValue)}
-    >
-      {({ values }) => (
-        <>
-          <Form.Input
-            field="otpValue"
-            type="text"
-            label={{
-              text: "Xác nhận OTP",
-              extra: (
-                <Tooltip content="Mã OTP được gửi đến Email bạn đã đăng ký">
-                  <IconHelpCircle
-                    style={{ color: "var(--semi-color-text-2)" }}
-                  />
-                </Tooltip>
-              ),
-            }}
-            placeholder="Mã OTP có 6 kí tự"
-            rules={[{ required: true }]}
-          />
-
-          <Button
-            onClick={handleResendOTP}
-            theme="solid"
-            type="primary"
-            block
-            disabled={counter > 0}
-          >
-            Gửi lại OTP {`${counter > 0 ? `sau ${counter}` : ""}`}
-          </Button>
-          <Button
-            block
-            htmlType="submit"
-            theme="solid"
-            type="primary"
-            disabled={values.otpValue === undefined}
-            className="submit-button"
-          >
-            Xác nhận
-          </Button>
-        </>
-      )}
-    </Form>
+    <>
+      <InputOTP otpValue={otpValue} setOtpValue={setOtpValue} />
+      <Button
+        onClick={handleResendOTP}
+        theme="solid"
+        type="primary"
+        block
+        disabled={counter > 0}
+        className="submit-button"
+      >
+        Gửi lại OTP {`${counter > 0 ? `sau ${counter}` : ""}`}
+      </Button>
+      <Button
+        block
+        htmlType="submit"
+        theme="solid"
+        type="primary"
+        disabled={otpValue.length !== 6}
+        onClick={() => handleConfirm(otpValue)}
+        style={{ marginBottom: 12 }}
+      >
+        Xác nhận
+      </Button>
+    </>
   );
 };
 

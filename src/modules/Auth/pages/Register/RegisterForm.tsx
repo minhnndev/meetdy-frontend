@@ -11,7 +11,7 @@ const RegisterForm = ({ handleRegister }) => {
       }}
       onSubmit={(values) => handleRegister(values)}
     >
-      {({ values }) => (
+      {({ formState, values }) => (
         <>
           <Form.Input
             field="name"
@@ -44,6 +44,11 @@ const RegisterForm = ({ handleRegister }) => {
                 required: true,
                 message: "Mật khẩu không được bỏ trống.",
               },
+              {
+                min: 8,
+                max: 50,
+                message: "Mật khẩu phải từ 8-50 ký tự",
+              },
             ]}
             placeholder="Nhập mật khẩu của bạn"
           ></Form.Input>
@@ -51,11 +56,12 @@ const RegisterForm = ({ handleRegister }) => {
             mode="password"
             field="passwordconfirm"
             label="Nhập lại mật khẩu"
+            trigger="blur"
             rules={[
               {
-                required: true,
-                message:
-                  "Mật khẩu không được bỏ trống và phải giống với mật khẩu bạn đã nhập.",
+                validator: (_rule, value) =>
+                  value === formState.values.password,
+                message: "Mật khẩu không khớp",
               },
             ]}
             placeholder="Nhập mật khẩu của bạn"

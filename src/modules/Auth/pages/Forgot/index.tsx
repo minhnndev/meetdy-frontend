@@ -6,8 +6,8 @@ import ServiceAuth from "@/api/loginApi";
 import { useAppDispatch } from "@/redux/store";
 import NewPasswordForm from "./NewPasswordForm";
 import { RESEND_OTP_TIME_LIMIT } from "@/constants/auth.constant";
-import OTPForm from "./OTPForm";
-import { TUser } from "@/models/auth.model";
+import { TConfirmPassword, TUser } from "@/models/auth.model";
+import GetOTPForm from "./GetOTPForm";
 
 const { Title } = Typography;
 const ForgotPassword = () => {
@@ -21,20 +21,16 @@ const ForgotPassword = () => {
   const [account, setAccount] = useState<TUser | null>(null);
   const [isSubmit, setIsSubmit] = useState<boolean>(false);
 
-  const handleForgot = async (values) => {
+  const handleForgot = async (values: TConfirmPassword) => {
     dispatch(setLoading(true));
-    const { password, otpValue } = values;
+    const { password, otp } = values;
     try {
       if (account.isActived) {
-        await ServiceAuth.confirmPassword({
-          username,
-          otp: otpValue,
-          password,
-        });
+        await ServiceAuth.confirmPassword({ username, otp, password });
       } else {
         Promise.all([
-          ServiceAuth.confirmAccount({ username, otp: otpValue }),
-          ServiceAuth.confirmPassword({ username, otp: otpValue, password }),
+          ServiceAuth.confirmAccount({ username, otp }),
+          ServiceAuth.confirmPassword({ username, otp, password }),
         ]);
       }
       Modal.success({
@@ -54,8 +50,10 @@ const ForgotPassword = () => {
     try {
       setCounter(RESEND_OTP_TIME_LIMIT);
       startResendOTPTimer();
+
       const account = await ServiceAuth.fetchUser(username);
       setAccount(account);
+
       await ServiceAuth.forgot(username);
       Notification.info({ title: `Đã gửi OTP đến ${username}` });
       setIsSubmit(true);
@@ -125,7 +123,7 @@ const ForgotPassword = () => {
             handleForgot={handleForgot}
           />
         ) : (
-          <OTPForm handleGetOTP={handleGetOTP} />
+          <GetOTPForm handleGetOTP={handleGetOTP} />
         )}
         <Link to="/auth/login" style={{ fontSize: 14 }}>
           Đăng nhập

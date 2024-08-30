@@ -1,9 +1,11 @@
-import { IconHelpCircle } from "@douyinfe/semi-icons";
-import { Button, Form, Tooltip } from "@douyinfe/semi-ui";
+import InputOTP from "@/components/InputOTP";
+import { Button, Form } from "@douyinfe/semi-ui";
+import { useState } from "react";
 
 const NewPasswordForm = ({ counter, handleForgot, handleResendOTP }) => {
+  const [otpValue, setOtpValue] = useState<string>("");
   return (
-    <Form onSubmit={(values) => handleForgot(values)}>
+    <Form onSubmit={(values) => handleForgot({ ...values, otp: otpValue })}>
       {({ formState }) => (
         <>
           <Form.Input
@@ -26,10 +28,6 @@ const NewPasswordForm = ({ counter, handleForgot, handleResendOTP }) => {
             trigger="blur"
             rules={[
               {
-                required: true,
-                message: "Mật khẩu không được bỏ trống",
-              },
-              {
                 validator: (_rule, value) =>
                   value === formState.values.password,
                 message: "Mật khẩu không khớp",
@@ -37,27 +35,7 @@ const NewPasswordForm = ({ counter, handleForgot, handleResendOTP }) => {
             ]}
             placeholder="Nhập mật khẩu của bạn"
           ></Form.Input>
-          <Form.Input
-            field="otpValue"
-            type="text"
-            label={{
-              text: "Xác nhận OTP",
-              extra: (
-                <Tooltip content="Mã OTP được gửi đến Email bạn đã nhập">
-                  <IconHelpCircle
-                    style={{ color: "var(--semi-color-text-2)" }}
-                  />
-                </Tooltip>
-              ),
-            }}
-            placeholder="Mã OTP có 6 kí tự"
-            rules={[
-              {
-                required: true,
-                message: "Phải có OTP",
-              },
-            ]}
-          />
+          <InputOTP otpValue={otpValue} setOtpValue={setOtpValue} />
           <Button
             theme="solid"
             type="primary"
@@ -74,6 +52,7 @@ const NewPasswordForm = ({ counter, handleForgot, handleResendOTP }) => {
             theme="solid"
             type="primary"
             style={{ marginBottom: 12 }}
+            disabled={otpValue.length !== 6}
           >
             Xác nhận
           </Button>
