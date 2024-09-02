@@ -42,7 +42,7 @@ jobs:
           VPS_HOST: ${{ secrets.VPS_HOST }}
         run: |
           sshpass -p "$VPS_PASSWORD" ssh -o StrictHostKeyChecking=no -t $VPS_USER@$VPS_HOST << EOF
-            cd ./docker/meetdy-frontend || exit
+            cd ./production/meetdy-frontend || exit
             docker compose pull
             docker compose down
             docker compose up -d
