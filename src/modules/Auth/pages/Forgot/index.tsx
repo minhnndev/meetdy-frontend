@@ -1,4 +1,4 @@
-import { Modal, Notification, Typography } from "@douyinfe/semi-ui";
+import { Modal, Notification, Toast, Typography } from "@douyinfe/semi-ui";
 import { Link, useNavigate } from "react-router-dom";
 import { setLoading } from "@/redux/slice/accountSlice";
 import { useEffect, useState } from "react";
@@ -40,7 +40,7 @@ const ForgotPassword = () => {
         onOk: () => navigate("/auth/login"),
       });
     } catch (error) {
-      Notification.error({ title: "OTP không hợp lệ" });
+      Toast.error({ content: "OTP không hợp lệ" });
     }
     dispatch(setLoading(false));
   };
@@ -59,7 +59,7 @@ const ForgotPassword = () => {
       setIsSubmit(true);
       setUsername(username);
     } catch (error) {
-      Notification.error({ title: "Tài khoản không tồn tại" });
+      Toast.error({ content: "Tài khoản không tồn tại" });
     }
     dispatch(setLoading(false));
   };
@@ -98,7 +98,7 @@ const ForgotPassword = () => {
       await ServiceAuth.forgot(username);
       Notification.info({ title: `Đã gửi lại mã OTP đến ${username}` });
     } catch (error) {
-      Notification.error({ title: "Đã có lỗi xảy ra" });
+      Toast.error({ content: "Đã có lỗi xảy ra" });
     }
     dispatch(setLoading(false));
   };

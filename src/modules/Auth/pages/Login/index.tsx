@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { unwrapResult } from "@reduxjs/toolkit";
 import ReCAPTCHA from "react-google-recaptcha";
-import { Button, Form, Notification, Typography } from "@douyinfe/semi-ui";
+import { Button, Form, Toast, Typography } from "@douyinfe/semi-ui";
 
 import axiosClient from "@/api/_httpAxios";
 import { Link, useNavigate } from "react-router-dom";
@@ -45,10 +45,7 @@ const LoginPage = () => {
         if (userProfile.isAdmin) navigate("/admin");
         else navigate("/chat");
       } else {
-        Notification.error({
-          title: "Hãy xác thực captcha",
-          duration: 5,
-        });
+        Toast.error({ content: "Hãy xác thực captcha" });
       }
     } catch (error) {
       console.log("🚀 error:", error);

@@ -1,7 +1,7 @@
 import ServiceAuth from "@/api/loginApi";
 import { setLoading } from "@/redux/slice/accountSlice";
 import { useAppDispatch } from "@/redux/store";
-import { Modal, Notification, Typography } from "@douyinfe/semi-ui";
+import { Modal, Notification, Toast, Typography } from "@douyinfe/semi-ui";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { RESEND_OTP_TIME_LIMIT } from "@/constants/auth.constant";
@@ -26,9 +26,7 @@ const RegisterPage = () => {
     await ServiceAuth.fetchUser(username)
       .then((value: TUser) => {
         if (value.isActived)
-          Notification.error({
-            title: "Email hoặc số điện thoại đã được đăng ký",
-          });
+          Toast.error({ content: "Email hoặc số điện thoại đã được đăng ký" });
         else {
           setIsSubmit(true);
           setUsername(username);
@@ -48,7 +46,7 @@ const RegisterPage = () => {
           setCounter(RESEND_OTP_TIME_LIMIT);
           startResendOTPTimer();
         } catch (error) {
-          Notification.error({ title: "Đã có lỗi xảy ra" });
+          Toast.error({ content: "Đã có lỗi xảy ra" });
         }
       });
     dispatch(setLoading(false));
@@ -77,7 +75,7 @@ const RegisterPage = () => {
       await ServiceAuth.forgot(username);
       Notification.info({ title: `Đã gửi lại mã OTP đến ${username}` });
     } catch (error) {
-      Notification.error({ title: "Đã có lỗi xảy ra" });
+      Toast.error({ content: "Đã có lỗi xảy ra" });
     }
     dispatch(setLoading(false));
   };
@@ -104,7 +102,7 @@ const RegisterPage = () => {
         onOk: () => navigate("/auth/login"),
       });
     } catch (error) {
-      Notification.error({ title: "OTP không hợp lệ" });
+      Toast.error({ content: "OTP không hợp lệ" });
     }
     dispatch(setLoading(false));
   };
