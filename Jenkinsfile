@@ -2,7 +2,7 @@ pipeline {
 
   agent any
   environment {
-    DOCKER_IMAGE = "meetdyappchat/meetdy-frontend"
+    DOCKER_IMAGE = "meetdyappchat/meetdy-frontend" 
     DOCKER_TAG="${GIT_BRANCH.tokenize('/').pop()}-${GIT_COMMIT.substring(0,7)}"
     APP_URL="https://meetdy.com"
     APP_API_URL="https://meetdy.com/api"
