@@ -1,12 +1,11 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import ServiceMedia from "@/api/mediaApi";
-import { get } from "react-hook-form";
 const KEY = "MEDIA";
 
 export const fetchAllMedia = createAsyncThunk(
   `${KEY}/fetchAllMedia`,
-  async (params) => {
-    const conversationId = get(params, "conversationId");
+  async (params: any) => {
+    const { conversationId } = params;
     const media = await ServiceMedia.fetchAllMedia(conversationId);
     return media;
   }
