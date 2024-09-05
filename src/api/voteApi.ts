@@ -1,3 +1,4 @@
+import { TVote } from "@/models/vote.model";
 import axiosClient from "./_httpAxios";
 
 const API_URL = "/votes";
@@ -17,11 +18,12 @@ const ServiceVote = {
     });
   },
 
-  deleteVote: (messageId, options) => {
-    return axiosClient.delete(`${API_URL}/${messageId}`, {
-      options,
-    });
-  },
+  // // Comment vì không dùng và đang báo lỗi
+  // deleteVote: (messageId, options) => {
+  //   return axiosClient.delete(`${API_URL}/${messageId}`, {
+  //     options,
+  //   });
+  // },
 
   selectVote: (messageId, options) => {
     return axiosClient.post(`${API_URL}/${messageId}/choices`, {
@@ -37,7 +39,7 @@ const ServiceVote = {
     });
   },
   getVotes: (conversationId, page, size) => {
-    return axiosClient.get(`${API_URL}/${conversationId}/`, {
+    return axiosClient.get<any, TVote>(`${API_URL}/${conversationId}/`, {
       params: {
         page,
         size,

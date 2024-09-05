@@ -1,16 +1,13 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import ServiceMe from "@/api/meApi";
+import { TUserProfile } from "@/models/auth.model";
 
 const KEY = "global";
-
-interface UserProfile {
-  avatar?: string;
-}
 
 interface GlobalState {
   isLoading: boolean;
   isLogin: boolean;
-  user: UserProfile | null;
+  user: TUserProfile | null;
   isJoinChatLayout: boolean;
   isJoinFriendLayout: boolean;
   tabActive: number;
@@ -27,7 +24,7 @@ export const fetchUserProfile = createAsyncThunk(
 const initialState: GlobalState = {
   isLoading: false,
   isLogin: false,
-  user: {},
+  user: null,
   isJoinChatLayout: false,
   isJoinFriendLayout: false,
   tabActive: 0,
@@ -66,7 +63,7 @@ const globalSlice = createSlice({
       .addCase(fetchUserProfile.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isLogin = true;
-        state.user = action.payload as UserProfile;
+        state.user = action.payload as TUserProfile;
       })
       .addCase(fetchUserProfile.rejected, (state) => {
         state.isLoading = false;

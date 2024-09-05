@@ -1,10 +1,11 @@
+import { TMessage } from "@/models/message.model";
 import axiosClient from "./_httpAxios";
 
 const API_URL = "/messages";
 
 const ServiceMessages = {
   fetchListMessages: (conversationId, page, size) => {
-    return axiosClient.get(`${API_URL}/${conversationId}`, {
+    return axiosClient.get<any, TMessage>(`${API_URL}/${conversationId}`, {
       params: {
         page,
         size,

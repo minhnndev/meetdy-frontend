@@ -1,4 +1,5 @@
 import axiosClient from "./_httpAxios";
+import { TMessage } from "@/models/message.model";
 
 const API_URL = "/channels";
 
@@ -26,7 +27,7 @@ const ServiceChannel = {
   },
 
   getMessageInChannel: (channelId, page, size) => {
-    return axiosClient.get(`/messages/channel/${channelId}`, {
+    return axiosClient.get<any, TMessage>(`/messages/channel/${channelId}`, {
       params: {
         page,
         size,

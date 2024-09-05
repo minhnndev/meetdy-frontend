@@ -36,7 +36,7 @@ const ServiceAdmin = {
   },
   deleteGroupSticker: (_id) => {
     const url = `/admin/stickers-manager/${_id}`;
-    return axiosClient.delete(url, { _id });
+    return axiosClient.delete(url);
   },
   deleteSticker: (_id, url) => {
     const url1 = `/admin/stickers-manager/${_id}/sticker`;

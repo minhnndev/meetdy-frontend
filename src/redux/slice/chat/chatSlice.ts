@@ -336,7 +336,7 @@ const chatSlice = createSlice({
       state.channels = [searchChannel, ...channelTemps];
     },
 
-    setTotalChannelNotify: (state, action) => {
+    setTotalChannelNotify: (state) => {
       let notify = state.conversations.find(
         (ele) => ele._id === state.currentConversation
       ).numberUnread;
@@ -351,7 +351,7 @@ const chatSlice = createSlice({
 
       state.totalChannelNotify = notify;
     },
-    setRaisePage: (state, action) => {
+    setRaisePage: (state) => {
       if (Number(state.currentPage) < Number(state.totalPages) - 1) {
         state.currentPage = Number(state.currentPage) + 1;
       }
@@ -415,9 +415,9 @@ const chatSlice = createSlice({
       state.messages = newMessages;
     },
 
-    setToTalUnread: (state, action) => {
+    setToTalUnread: (state) => {
       let tempCount = 0;
-      state.conversations.forEach((ele, index) => {
+      state.conversations.forEach((ele) => {
         if (ele.numberUnread > 0) tempCount += 1;
       });
       state.toTalUnread = tempCount;
@@ -648,14 +648,14 @@ const chatSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchListConversations.pending, (state, action) => {
+      .addCase(fetchListConversations.pending, (state) => {
         state.isLoading = true;
       })
       .addCase(fetchListConversations.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.conversations = action.payload;
+        state.conversations = action.payload as any;
       })
-      .addCase(fetchListMessages.pending, (state, action) => {
+      .addCase(fetchListMessages.pending, (state) => {
         state.isLoading = true;
       })
       .addCase(fetchListMessages.fulfilled, (state, action) => {
@@ -676,7 +676,7 @@ const chatSlice = createSlice({
         state.currentPage = action.payload.messages.page;
         state.totalPages = action.payload.messages.totalPages;
       })
-      .addCase(fetchMessageInChannel.pending, (state, action) => {
+      .addCase(fetchMessageInChannel.pending, (state) => {
         state.isLoading = true;
       })
       .addCase(fetchMessageInChannel.fulfilled, (state, action) => {
@@ -697,7 +697,7 @@ const chatSlice = createSlice({
         state.currentPage = messages.page;
         state.totalPages = messages.totalPages;
       })
-      .addCase(fetchMessageInChannel.rejected, (state, action) => {
+      .addCase(fetchMessageInChannel.rejected, (state) => {
         state.isLoading = false;
       })
       .addCase(fetchNextPageMessage.fulfilled, (state, action) => {
@@ -709,14 +709,14 @@ const chatSlice = createSlice({
         state.currentPage = action.payload.page;
       })
       // FRIEND
-      .addCase(fetchListFriends.pending, (state, action) => {
+      .addCase(fetchListFriends.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(fetchListFriends.rejected, (state, action) => {
+      .addCase(fetchListFriends.rejected, (state) => {
         state.isLoading = false;
       })
       .addCase(fetchListFriends.fulfilled, (state, action) => {
-        state.friends = action.payload;
+        state.friends = action.payload as any; // Set tạm do build lỗi
         state.isLoading = false;
       })
       // Conversation
@@ -742,47 +742,47 @@ const chatSlice = createSlice({
       })
       // classify
       .addCase(fetchListClassify.fulfilled, (state, action) => {
-        state.classifies = action.payload;
+        state.classifies = action.payload as any; // Set tạm do build lỗi
         state.isLoading = false;
       })
-      .addCase(fetchListClassify.rejected, (state, action) => {
+      .addCase(fetchListClassify.rejected, (state) => {
         state.isLoading = false;
       })
-      .addCase(fetchListClassify.pending, (state, action) => {
+      .addCase(fetchListClassify.pending, (state) => {
         state.isLoading = true;
       })
       .addCase(fetchListColor.fulfilled, (state, action) => {
-        state.colors = action.payload;
+        state.colors = action.payload as any; // Set tạm do build lỗi
       })
       .addCase(fetchPinMessages.fulfilled, (state, action) => {
-        state.pinMessages = action.payload.reverse();
+        state.pinMessages = (action.payload as unknown as any[]).reverse(); // Set tạm do build lỗi
       })
       .addCase(getLastViewOfMembers.fulfilled, (state, action) => {
-        state.lastViewOfMember = action.payload;
+        state.lastViewOfMember = action.payload as any; // Set tạm do build lỗi
       })
       .addCase(getLastViewChannel.fulfilled, (state, action) => {
-        state.lastViewOfMember = action.payload;
+        state.lastViewOfMember = action.payload as any; // Set tạm do build lỗi
       })
       // Channel
       .addCase(fetchChannels.fulfilled, (state, action) => {
-        state.channels = action.payload;
+        state.channels = action.payload as any; // Set tạm do build lỗi
         state.isLoading = false;
       })
-      .addCase(fetchChannels.rejected, (state, action) => {
+      .addCase(fetchChannels.rejected, (state) => {
         state.isLoading = false;
       })
-      .addCase(fetchChannels.pending, (state, action) => {
+      .addCase(fetchChannels.pending, (state) => {
         state.isLoading = true;
       })
       // Sticker
       .addCase(fetchAllSticker.fulfilled, (state, action) => {
-        state.stickers = action.payload;
+        state.stickers = action.payload as any; // Set tạm do build lỗi
         state.isLoading = false;
       })
-      .addCase(fetchAllSticker.rejected, (state, action) => {
+      .addCase(fetchAllSticker.rejected, (state) => {
         state.isLoading = true;
       })
-      .addCase(fetchAllSticker.pending, (state, action) => {
+      .addCase(fetchAllSticker.pending, (state) => {
         state.isLoading = false;
       })
       .addCase(fetchVotes.fulfilled, (state, action) => {
