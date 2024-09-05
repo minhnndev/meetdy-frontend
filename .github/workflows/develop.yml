@@ -26,13 +26,13 @@ jobs:
 
       - name: Build the Docker image with both tags
         run: |
-          docker build . --file Dockerfile --tag nghiaphamln/meetdy-frontend-develop:latest \
-          --tag nghiaphamln/meetdy-frontend-develop:${{ env.VERSION }}
+          docker build . --file Dockerfile --tag nghiaphamln/meetdy-frontend:dev-latest \
+          --tag nghiaphamln/meetdy-frontend:dev-${{ env.VERSION }}
 
       - name: Push the Docker image to Docker Hub
         run: |
-          docker push nghiaphamln/meetdy-frontend-develop:${{ env.VERSION }}
-          docker push nghiaphamln/meetdy-frontend-develop:latest
+          docker push nghiaphamln/meetdy-frontend:dev-${{ env.VERSION }}
+          docker push nghiaphamln/meetdy-frontend-develop:dev-latest
 
       - name: Pull and restart Docker Compose on VPS
         env:
@@ -46,5 +46,4 @@ jobs:
             docker compose down
             docker compose up -d
             docker image prune -f
-            docker images | grep 'nghiaphamln/meetdy-frontend-develop' | awk '{if(NR>1) print \$3}' | xargs -r docker rmi -f
           EOF
