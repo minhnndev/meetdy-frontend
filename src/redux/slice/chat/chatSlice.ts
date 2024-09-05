@@ -11,6 +11,7 @@ import stickerApi from "@/api/stickerApi";
 import voteApi from "@/api/voteApi";
 
 import dateUtils from "@/utils/dateUtils";
+import { TGetListConversations } from "@/models/conversation.model";
 
 const KEY = "chat";
 
@@ -33,13 +34,8 @@ export const fetchListClassify = createAsyncThunk(
 
 export const fetchListConversations = createAsyncThunk(
   `${KEY}/fetchListConversations`,
-  async (params: any) => {
-    const { name, type } = params;
-    const conversations = await conversationApi.getListConversations(
-      name,
-      type
-    );
-
+  async (params: TGetListConversations) => {
+    const conversations = await conversationApi.getListConversations(params);
     return conversations;
   }
 );
@@ -415,9 +411,9 @@ const chatSlice = createSlice({
       state.messages = newMessages;
     },
 
-    setToTalUnread: (state, action) => {
+    setToTalUnread: (state) => {
       let tempCount = 0;
-      state.conversations.forEach((ele, index) => {
+      state?.conversations?.forEach?.((ele) => {
         if (ele.numberUnread > 0) tempCount += 1;
       });
       state.toTalUnread = tempCount;
@@ -803,9 +799,7 @@ export const {
   deleteMessageClient,
   setToTalUnread,
   setReactionMessage,
-  // updateConversationWhenAddMember,
   leaveGroup,
-  // updateMemberLeaveGroup,
   isDeletedFromGroup,
   setCurrentConversation,
   updateClassifyToConver,

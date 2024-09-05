@@ -23,6 +23,7 @@ export type TUserProfile = {
   name: string;
   phoneBooks: Array<any>;
   username: string;
+  _id: string;
 };
 
 export type TUser = {

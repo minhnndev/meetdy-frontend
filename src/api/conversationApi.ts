@@ -1,16 +1,14 @@
+import {
+  TGetConversation,
+  TGetListConversations,
+} from "@/models/conversation.model";
 import axiosClient from "./_httpAxios";
 
 const API_URL = "/conversations";
 
 const ServiceConversation = {
-  getListConversations: (name, type) => {
-    return axiosClient.get(API_URL, {
-      params: {
-        name,
-        type,
-      },
-    });
-  },
+  getListConversations: (params: TGetListConversations) =>
+    axiosClient.get(API_URL, { params }),
 
   // [POST] /individuals/:userId
 
@@ -25,9 +23,8 @@ const ServiceConversation = {
     });
   },
 
-  getConversationById: (id) => {
-    return axiosClient.get(`${API_URL}/${id}`);
-  },
+  getConversationById: (id: string) =>
+    axiosClient.get<any, TGetConversation>(`${API_URL}/${id}`),
 
   deleteConversation: (id) => {
     return axiosClient.delete(`${API_URL}/${id}`);

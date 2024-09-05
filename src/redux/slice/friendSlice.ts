@@ -2,6 +2,8 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import FriendService from "@/api/friendApi";
 import ServiceConversation from "@/api/conversationApi";
 import ServiceContacts from "@/api/contactsApi";
+import { TFetchFriends } from "@/models/friend.model";
+import { TGetListConversations } from "@/models/conversation.model";
 
 const KEY = "friend";
 
@@ -23,18 +25,16 @@ export const fetchListMyRequestFriend = createAsyncThunk(
 
 export const fetchFriends = createAsyncThunk(
   `${KEY}/fetchFriends`,
-  async (params) => {
-    const { name } = params;
-    const data = await FriendService.fetchFriends(name);
+  async (params: TFetchFriends) => {
+    const data = await FriendService.fetchFriends(params);
     return data;
   }
 );
 
 export const fetchListGroup = createAsyncThunk(
   `${KEY}/fetchListGroup`,
-  async (params) => {
-    const { name, type } = params;
-    const data = await ServiceConversation.fetchListConversations(name, type);
+  async (params: TGetListConversations) => {
+    const data = await ServiceConversation.getListConversations(params);
     return data;
   }
 );
