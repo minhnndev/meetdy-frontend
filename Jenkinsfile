@@ -27,7 +27,7 @@ pipeline {
             //clean to save disk
             sh "docker image rm -f ${DOCKER_IMAGE}:${DOCKER_TAG}"
             sh "docker image rm -f ${DOCKER_IMAGE}:latest"
-            sh "docker image prune -f"
+            sh "docker image prune -f" 
 
         }
 
