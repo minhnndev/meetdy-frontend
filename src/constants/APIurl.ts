@@ -19,12 +19,12 @@ export const API = {
 
 const URL = {
   dev: {
-    API_URL: import.meta.env.REACT_APP_API_URL,
-    SOCKET_URL: import.meta.env.REACT_APP_SOCKET_URL,
+    API_URL: import.meta.env.VITE_API_URL_DEV,
+    SOCKET_URL: import.meta.env.VITE_SOCKET_URL_DEV,
   },
   prod: {
-    API_URL: import.meta.env.REACT_APP_API_URL,
-    SOCKET_URL: import.meta.env.REACT_APP_SOCKET_URL,
+    API_URL: import.meta.env.VITE_API_URL_PROD,
+    SOCKET_URL: import.meta.env.VITE_SOCKET_URL_PROD,
   },
 };
 const hostByEnv = new Proxy(URL, {
