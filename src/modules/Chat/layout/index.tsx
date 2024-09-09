@@ -1,6 +1,5 @@
 import { useAppDispatch, useAppSelector } from "@/redux/store";
 import { init, socket } from "@/utils/socketClient";
-import { Col, Row } from "@douyinfe/semi-ui";
 import ServiceConversation from "@/api/conversationApi";
 import { setTabActive } from "@/redux/slice/globalSlice";
 import { NavbarContainer } from "../container";
@@ -187,29 +186,8 @@ const ChatLayout = () => {
 
   return (
     <div id="chat-page">
-      <Row>
-        <Col
-          span={1}
-          xl={{ span: 1 }}
-          lg={{ span: 1 }}
-          md={{ span: 2 }}
-          sm={{ span: 3 }}
-          xs={{ span: 4 }}
-        >
-          <NavbarContainer />
-        </Col>
-
-        <Col
-          span={23}
-          xl={{ span: 23 }}
-          lg={{ span: 23 }}
-          md={{ span: 22 }}
-          sm={{ span: 21 }}
-          xs={{ span: 20 }}
-        >
-          <Outlet context={{ socket, idNewMessage }} />
-        </Col>
-      </Row>
+      <NavbarContainer />
+      <Outlet context={{ socket, idNewMessage }} />
     </div>
   );
 };

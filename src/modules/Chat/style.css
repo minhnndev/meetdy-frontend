@@ -1,4 +1,35 @@
 #chat-page {
   height: 100vh;
   width: 100vw;
+  display: flex;
 }
+
+.semi-navigation-collapsed {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.semi-navigation-header-logo {
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+.semi-navigation-vertical .semi-navigation-header-collapsed {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.semi-navigation-vertical .semi-navigation-header {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.semi-navigation-list > .semi-navigation-item-normal {
+  height: 48px;
+}
+
+.semi-navigation-sub-wrap .semi-navigation-sub-title, .semi-navigation-item {
+  padding: 12px 20px;
+  margin-bottom: 0;
+}
+
