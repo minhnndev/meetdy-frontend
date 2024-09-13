@@ -23,7 +23,7 @@ const URL = {
     SOCKET_URL: import.meta.env.VITE_SOCKET_URL_DEV,
   },
   prod: {
-    API_URL: import.meta.env.VITE_PROD_API_URL,
+    API_URL: import.meta.env.VITE_API_URL_PROD,
     SOCKET_URL: import.meta.env.VITE_SOCKET_URL_PROD,
   },
 };
