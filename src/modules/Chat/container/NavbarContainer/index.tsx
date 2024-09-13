@@ -5,41 +5,30 @@ import {
   IconCommentStroked,
   IconSettingStroked,
 } from "@douyinfe/semi-icons";
-import {
-  Popover,
-  Badge,
-  Button,
-  Avatar,
-  Nav,
-  Space,
-  Dropdown,
-} from "@douyinfe/semi-ui";
+import { Badge, Nav, Dropdown } from "@douyinfe/semi-ui";
 import { setTabActive } from "@/redux/slice/globalSlice";
-// import { PersonalIcon } from "../../components";
-import { useEffect } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { setToTalUnread } from "@/redux/slice/chat/chatSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/store";
-import getSummaryName from "@/utils/nameHelper";
+import "./style.css";
+import {
+  ChangePasswordModal,
+  UpdateProfileModal,
+  UserAvatar,
+} from "../../components";
 
-function NavbarContainer() {
-  const { user } = useAppSelector((state) => state.global);
+function NavbarContainer({ onSaveCodeRevoke }) {
+  const { user, tabActive } = useAppSelector((state) => state.global);
   const { conversations, toTalUnread } = useAppSelector((state) => state.chat);
   const { amountNotify } = useAppSelector((state) => state.friend);
 
-  const dispatch = useAppDispatch();
-  const location = useLocation();
-  const navigate = useNavigate();
+  const [showSettingDropdown, setShowSettingDropdown] = useState(false);
+  const [showChangePasswordModal, setShowChangePasswordModal] = useState(false);
+  const [showUpdateProfileModal, setShowUpdateProfileModal] = useState(false);
 
-  const checkCurrentPage = (iconName) => {
-    if (iconName === "MESSAGE" && location.pathname === "/chat") {
-      return true;
-    }
-    if (iconName === "FRIEND" && location.pathname === "/chat/friends") {
-      return true;
-    }
-    return false;
-  };
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(setToTalUnread());
@@ -52,172 +41,93 @@ function NavbarContainer() {
     window.location.reload();
   };
 
-  // const handleSetTabActive = (value) => {
-  //   dispatch(setTabActive(value));
-  // };
-
-  const handleUpdateProfile = () => {};
-
-  const handleChangePassword = () => {};
-
-  console.log(user);
+  const handleSetTabActive = (value: number) => {
+    dispatch(setTabActive(value));
+  };
 
   return (
     <>
       <Nav
-        style={{ width: "65px" }}
+        style={{ width: "65px", backgroundColor: "#4c92ff" }}
         isCollapsed={true}
-        defaultOpenKeys={["job", "resource"]}
-        items={[
-          {
-            itemKey: "/chat",
-            icon: (
-              <Badge count={toTalUnread > 0 ? toTalUnread : null}>
-                <IconCommentStroked size="extra-large" />
-              </Badge>
-            ),
-            text: "Trò chuyện",
-          },
-          {
-            itemKey: "/chat/friends",
-            icon: (
-              <Badge count={amountNotify > 0 ? amountNotify : null}>
-                <IconUserListStroked size="extra-large" />
-              </Badge>
-            ),
-            text: "Bạn bè",
-          },
-        ]}
         onSelect={(key) => navigate(key.itemKey.toString())}
-        header={{
-          logo: (
-            <Avatar
-              onClick={handleUpdateProfile}
+      >
+        <Nav.Header
+          logo={
+            <UserAvatar
+              isActive
+              avatar={user.avatar}
+              color={user.avatarColor}
+              name={user.name}
+              onClick={() => setShowUpdateProfileModal(true)}
+            />
+          }
+        />
+        <Nav.Item
+          className={`meetdy-nav-item ${tabActive == 1 && "active"}`}
+          itemKey="/chat"
+          text="Trò chuyện"
+          icon={
+            <Badge count={toTalUnread > 0 ? toTalUnread : null}>
+              <IconCommentStroked size="extra-large" />
+            </Badge>
+          }
+          style={{ height: "48px" }}
+          onClick={() => handleSetTabActive(1)}
+        />
+        <Nav.Item
+          className={`meetdy-nav-item ${tabActive == 2 && "active"}`}
+          itemKey="/chat/friends"
+          text="Bạn bè"
+          icon={
+            <Badge count={amountNotify > 0 ? amountNotify : null}>
+              <IconUserListStroked size="extra-large" />
+            </Badge>
+          }
+          style={{ height: "48px" }}
+          onClick={() => handleSetTabActive(2)}
+        />
+        <Nav.Footer style={{ color: "white" }}>
+          <Dropdown
+            visible={showSettingDropdown}
+            onClickOutSide={() => setShowChangePasswordModal(false)}
+            position={"topLeft"}
+            trigger="click"
+            render={
+              <Dropdown.Menu>
+                <Dropdown.Item
+                  onClick={() => {
+                    setShowChangePasswordModal(true);
+                    setShowSettingDropdown(false);
+                  }}
+                  icon={<IconLockStroked />}
+                >
+                  Đổi mật khẩu
+                </Dropdown.Item>
+                <Dropdown.Item onClick={handleLogout} icon={<IconExit />}>
+                  Đăng xuất
+                </Dropdown.Item>
+              </Dropdown.Menu>
+            }
+          >
+            <IconSettingStroked
               style={{ cursor: "pointer" }}
-              src={user.avatar}
-            >
-              {!user.avatar && getSummaryName(user.name)}
-            </Avatar>
-          ),
-        }}
-        footer={{
-          children: (
-            <Dropdown
-              trigger={"click"}
-              position={"topLeft"}
-              render={
-                <Dropdown.Menu>
-                  <Dropdown.Item
-                    onClick={handleChangePassword}
-                    icon={<IconLockStroked />}
-                  >
-                    Đổi mật khẩu
-                  </Dropdown.Item>
-                  <Dropdown.Item onClick={handleLogout} icon={<IconExit />}>
-                    Đăng xuất
-                  </Dropdown.Item>
-                </Dropdown.Menu>
-              }
-            >
-              <IconSettingStroked
-                style={{ cursor: "pointer" }}
-                size="extra-large"
-              />
-            </Dropdown>
-          ),
-        }}
+              size="extra-large"
+              onClick={() => setShowSettingDropdown(true)}
+            />
+          </Dropdown>
+        </Nav.Footer>
+      </Nav>
+      <UpdateProfileModal
+        visible={showUpdateProfileModal}
+        onCancel={() => setShowUpdateProfileModal(false)}
+      />
+      <ChangePasswordModal
+        visible={showChangePasswordModal}
+        onCancel={() => setShowChangePasswordModal(false)}
+        onSaveCodeRevoke={onSaveCodeRevoke}
       />
     </>
-    // <div id="sidebar_wrapper">
-    //   <div className="sidebar-main">
-    //     <ul className="sidebar_nav">
-    //       <li className="sidebar_nav_item icon-avatar">
-    //         <Popover placement="bottomLeft" content={content} trigger="focus">
-    //           <Button
-    //             style={{
-    //               height: "48px",
-    //               width: "48px",
-    //               background: "none",
-    //               outline: "none",
-    //               border: "red",
-    //               padding: "0px",
-    //               borderRadius: "50%",
-    //             }}
-    //           >
-    //             <div className="user-icon-navbar">
-    //               <PersonalIcon
-    //                 isActive={true}
-    //                 common={false}
-    //                 avatar={user.avatar}
-    //                 name={user.name}
-    //                 color={user.avatarColor}
-    //               />
-    //             </div>
-    //           </Button>
-    //         </Popover>
-    //       </li>
-
-    //       <Link className="link-icon" to="/chat">
-    //         <li
-    //           className={`sidebar_nav_item  ${
-    //             checkCurrentPage("MESSAGE") ? "active" : ""
-    //           }`}
-    //           onClick={() => handleSetTabActive(1)}
-    //         >
-    //           <div className="sidebar_nav_item--icon">
-    //             <Badge
-    //               count={toTalUnread > 0 ? toTalUnread : 0}
-    //               dot={toTalUnread <= 0}
-    //               type="danger"
-    //             >
-    //               <IconCommentStroked />
-    //             </Badge>
-    //           </div>
-    //         </li>
-    //       </Link>
-
-    //       <Link className="link-icon" to="/chat/friends">
-    //         <li
-    //           className={`sidebar_nav_item  ${
-    //             checkCurrentPage("FRIEND") ? "active" : ""
-    //           }`}
-    //           onClick={() => handleSetTabActive(2)}
-    //         >
-    //           <div className="sidebar_nav_item--icon">
-    //             <Badge
-    //               count={amountNotify > 0 ? amountNotify : 0}
-    //               dot={amountNotify <= 0}
-    //               type="danger"
-    //             >
-    //               <IconUserListStroked />
-    //             </Badge>
-    //           </div>
-    //         </li>
-    //       </Link>
-    //     </ul>
-
-    //     <ul className="sidebar_nav">
-    //       <li className="sidebar_nav_item">
-    //         <div className="sidebar_nav_item--icon">
-    //           <Popover placement="rightTop" content={setting} trigger="focus">
-    //             <Button
-    //               style={{
-    //                 height: "100%",
-    //                 width: "100%",
-    //                 background: "none",
-    //                 outline: "none",
-    //                 border: "red",
-    //                 padding: "0px",
-    //               }}
-    //             >
-    //               <IconSettingStroked />
-    //             </Button>
-    //           </Popover>
-    //         </div>
-    //       </li>
-    //     </ul>
-    //   </div>
-    // </div>
   );
 }
 

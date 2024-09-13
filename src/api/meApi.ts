@@ -1,6 +1,11 @@
 import { TUserProfile } from "@/models/auth.model";
 import axiosClient from "./_httpAxios";
 import { API } from "@/constants/APIurl";
+import {
+  TChangePassword,
+  TRevokeToken,
+  TRevokeTokenResponse,
+} from "@/models/me.model";
 
 const ServiceMe = {
   fetchProfile: () => axiosClient.get<any, TUserProfile>(API.ME.FETCH_PROFILE),
@@ -13,11 +18,13 @@ const ServiceMe = {
   updateCoverImage: (file) =>
     axiosClient.patch(API.ME.UPDATE_COVER_IMAGE, file),
 
-  changePassword: (oldPassword, newPassword) =>
-    axiosClient.patch(API.ME.CHANGE_PASSWORD, { oldPassword, newPassword }),
+  changePassword: (params: TChangePassword) =>
+    axiosClient.patch(API.ME.CHANGE_PASSWORD, params),
 
-  revokeToken: (password, key) =>
-    axiosClient.delete(API.ME.REVOKE_TOKEN, { data: { password, key } }),
+  revokeToken: (params: TRevokeToken) =>
+    axiosClient.delete<TRevokeTokenResponse, any>(API.ME.REVOKE_TOKEN, {
+      data: params,
+    }),
 };
 
 export default ServiceMe;

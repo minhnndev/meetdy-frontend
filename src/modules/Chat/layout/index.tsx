@@ -180,13 +180,13 @@ const ChatLayout = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // const handleSetCodeRevoke = (code) => {
-  //   codeRevokeRef.current = code;
-  // };
+  const handleSetCodeRevoke = (code) => {
+    codeRevokeRef.current = code;
+  };
 
   return (
     <div id="chat-page">
-      <NavbarContainer />
+      <NavbarContainer onSaveCodeRevoke={handleSetCodeRevoke} />
       <Outlet context={{ socket, idNewMessage }} />
     </div>
   );
