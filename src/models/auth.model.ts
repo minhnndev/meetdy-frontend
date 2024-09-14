@@ -24,6 +24,7 @@ export type TUserProfile = {
   phoneBooks: Array<any>;
   username: string;
   _id: string;
+  coverImage?: string;
 };
 
 export type TUser = {
