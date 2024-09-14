@@ -33,3 +33,15 @@ jobs:
         run: |
           docker push nghiaphamln/meetdy-frontend:1.${{ env.VERSION }}
           docker push nghiaphamln/meetdy-frontend:latest
+
+      - name: Pull and restart service on VPS
+        env:
+          VPS_USER: ${{ secrets.VPS_USER }}
+          VPS_PASSWORD: ${{ secrets.VPS_PASSWORD }}
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+        run: |
+          sshpass -p "$VPS_PASSWORD" ssh -o StrictHostKeyChecking=no -t $VPS_USER@$VPS_HOST << EOF
+            cd ./meetdy || exit
+            docker compose -f docker-compose.production.yaml pull meetdy-frontend
+            docker compose -f docker-compose.production.yaml up -d meetdy-frontend
+          EOF
