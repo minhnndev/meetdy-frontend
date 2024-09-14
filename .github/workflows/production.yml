@@ -27,24 +27,9 @@ jobs:
 
       - name: Build the Docker image with both tags
         run: |
-          docker build . --file Dockerfile --tag nghiaphamln/meetdy-frontend:latest \
-          --tag nghiaphamln/meetdy-frontend:${{ env.VERSION }}
+          docker build . --file Dockerfile --tag nghiaphamln/meetdy-frontend:1.${{ env.VERSION }} --tag nghiaphamln/meetdy-frontend:latest
 
       - name: Push the Docker image to Docker Hub
         run: |
-          docker push nghiaphamln/meetdy-frontend:${{ env.VERSION }}
+          docker push nghiaphamln/meetdy-frontend:1.${{ env.VERSION }}
           docker push nghiaphamln/meetdy-frontend:latest
-
-      - name: Pull and restart Docker Compose on VPS
-        env:
-          VPS_USER: ${{ secrets.VPS_USER }}
-          VPS_PASSWORD: ${{ secrets.VPS_PASSWORD }}
-          VPS_HOST: ${{ secrets.VPS_HOST }}
-        run: |
-          sshpass -p "$VPS_PASSWORD" ssh -o StrictHostKeyChecking=no -t $VPS_USER@$VPS_HOST << EOF
-            cd ./production/meetdy-frontend || exit
-            docker compose pull
-            docker compose down
-            docker compose up -d
-            docker image prune -f
-          EOF
