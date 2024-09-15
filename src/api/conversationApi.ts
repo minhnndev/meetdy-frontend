@@ -8,7 +8,7 @@ const API_URL = "/conversations";
 
 const ServiceConversation = {
   getListConversations: (params: TGetListConversations) =>
-    axiosClient.get(API_URL, { params }),
+    axiosClient.get<any, any>(API_URL, { params }),
 
   // [POST] /individuals/:userId
 
