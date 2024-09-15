@@ -2,11 +2,15 @@ import { fetchUserProfile } from "@/redux/slice/globalSlice";
 import { fetchInfoWebs } from "@/redux/slice/homeSlice";
 import { useAppDispatch } from "@/redux/store";
 import { useEffect, useState } from "react";
-import { AuthLayout, LoginPage, RegisterPage } from "@/modules/Auth";
-import ForgotPassword from "@/modules/Auth/pages/Forgot";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import {
+  AuthLayout,
+  ForgotPassword,
+  LoginPage,
+  RegisterPage,
+} from "@/modules/Auth";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import ProtectedRoute from "@/components/ProtectedRoute";
-import Chat from "@/modules/Chat";
+import { Chat, ChatLayout, Friend } from "@/modules/Chat";
 
 const AppRoutes = () => {
   const dispatch = useAppDispatch();
@@ -29,9 +33,12 @@ const AppRoutes = () => {
   return (
     <BrowserRouter>
       <Routes>
-        {/* <Route path="/" element={Home} /> */}
+        <Route path="/" element={<Navigate to="/chat" />} />
         <Route element={<ProtectedRoute />}>
-          <Route path="/chat" element={<Chat />} />
+          <Route path="/chat" element={<ChatLayout />}>
+            <Route path="/chat" element={<Chat />} />
+            <Route path="/chat/friends" element={<Friend />} />
+          </Route>
         </Route>
         <Route path="/auth" element={<AuthLayout />}>
           <Route path="/auth/login" element={<LoginPage />} />

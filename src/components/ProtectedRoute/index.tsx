@@ -4,7 +4,11 @@ import { isEmpty } from "lodash";
 
 const ProtectedRoute = () => {
   const { user } = useAppSelector((state) => state.global);
-  return !isEmpty(user) ? <Outlet /> : <Navigate to="/auth/login" />;
+  return !isEmpty(user) && !user.isAdmin ? (
+    <Outlet />
+  ) : (
+    <Navigate to="/auth/login" />
+  );
 };
 
 export default ProtectedRoute;

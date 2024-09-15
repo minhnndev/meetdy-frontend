@@ -1,50 +1,35 @@
+import { TFetchFriends } from "@/models/friend.model";
 import axiosClient from "./_httpAxios";
 
 const API_URL = "/friends";
 
 const FriendService = {
-  fetchFriends: (name) => {
-    return axiosClient.get(`${API_URL}`, {
-      params: {
-        name,
-      },
-    });
-  },
-  acceptRequestFriend: (userId) => {
-    return axiosClient.post(`${API_URL}/${userId}`);
-  },
+  fetchFriends: (params: TFetchFriends) =>
+    axiosClient.get<any, any>(`${API_URL}`, { params }),
 
-  deleteFriend: (userId) => {
-    return axiosClient.delete(`${API_URL}/${userId}`);
-  },
+  acceptRequestFriend: (userId: string) =>
+    axiosClient.post(`${API_URL}/${userId}`),
 
-  fetchListRequestFriend: () => {
-    return axiosClient.get(`${API_URL}/invites`);
-  },
+  deleteFriend: (userId: string) => axiosClient.delete(`${API_URL}/${userId}`),
 
-  deleteRequestFriend: (userId) => {
-    return axiosClient.delete(`${API_URL}/invites/${userId}`);
-  },
+  fetchListRequestFriend: () => axiosClient.get<any, any>(`${API_URL}/invites`),
 
-  sendRequestFriend: (userId) => {
-    return axiosClient.post(`${API_URL}/invites/me/${userId}`);
-  },
+  deleteRequestFriend: (userId: string) =>
+    axiosClient.delete(`${API_URL}/invites/${userId}`),
 
-  deleteSentRequestFriend: (userId) => {
-    return axiosClient.delete(`${API_URL}/invites/me/${userId}`);
-  },
+  sendRequestFriend: (userId: string) =>
+    axiosClient.post(`${API_URL}/invites/me/${userId}`),
 
-  fetchMyRequestFriend: () => {
-    return axiosClient.get(`${API_URL}/invites/me`);
-  },
-  fetchSuggestFriend: (page = 0, size = 12) => {
-    return axiosClient.get(`${API_URL}/suggest`, {
-      params: {
-        page,
-        size,
-      },
-    });
-  },
+  deleteSentRequestFriend: (userId: string) =>
+    axiosClient.delete(`${API_URL}/invites/me/${userId}`),
+
+  fetchMyRequestFriend: () =>
+    axiosClient.get<any, any>(`${API_URL}/invites/me`),
+
+  fetchSuggestFriend: (page = 0, size = 12) =>
+    axiosClient.get<any, any>(`${API_URL}/suggest`, {
+      params: { page, size },
+    }),
 };
 
 export default FriendService;

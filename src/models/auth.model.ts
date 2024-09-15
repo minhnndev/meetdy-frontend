@@ -23,6 +23,8 @@ export type TUserProfile = {
   name: string;
   phoneBooks: Array<any>;
   username: string;
+  _id: string;
+  coverImage?: string;
 };
 
 export type TUser = {

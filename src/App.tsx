@@ -1,5 +1,4 @@
 import "./reportWebVitals";
-import "./App.css";
 import { RecoilRoot } from "recoil";
 import { Provider as ReduxProvider } from "react-redux";
 import store from "@/redux/store";
