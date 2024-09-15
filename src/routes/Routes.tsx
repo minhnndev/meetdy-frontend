@@ -33,7 +33,7 @@ const AppRoutes = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Navigate to="/auth/login" />} />
+        <Route path="/" element={<Navigate to="/chat" />} />
         <Route element={<ProtectedRoute />}>
           <Route path="/chat" element={<ChatLayout />}>
             <Route path="/chat" element={<Chat />} />

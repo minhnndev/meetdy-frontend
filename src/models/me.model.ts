@@ -1,3 +1,5 @@
+import { TUserProfile } from "./auth.model";
+
 export type TChangePassword = {
   oldPassword: string;
   newPassword: string;
@@ -11,4 +13,17 @@ export type TRevokeTokenResponse = {
 export type TRevokeToken = {
   password: string;
   key: string;
+};
+
+export type TUpdateProfile = Pick<
+  TUserProfile,
+  "name" | "gender" | "dateOfBirth"
+>;
+
+export type TCoverImageResponse = {
+  coverImage: string;
+};
+
+export type TAvatarResponse = {
+  avatar: string;
 };

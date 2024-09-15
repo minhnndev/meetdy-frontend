@@ -1,17 +1,54 @@
-import { Modal } from "@douyinfe/semi-ui";
+import { Button, Form, Modal } from "@douyinfe/semi-ui";
 import UploadCoverImage from "../UploadCoverImage";
 import UploadAvatar from "../UploadAvatar";
-import { useAppSelector } from "@/redux/store";
+import { useAppDispatch, useAppSelector } from "@/redux/store";
 import { useState } from "react";
+import { TUpdateProfile } from "@/models/me.model";
+import ServiceMe from "@/api/meApi";
+import { setAvatarProfile } from "@/redux/slice/globalSlice";
+import { pick } from "lodash";
 
 const UpdateProfileModal = ({ visible, onCancel }) => {
+  const dispatch = useAppDispatch();
   const { user } = useAppSelector((state) => state.global);
-  const [coverImg, setCoverImg] = useState<string | File>(user?.coverImage);
-  const [avatar, setAvatar] = useState<string | File>(user.avatar);
+  const [userProfile, setUserProfile] = useState<TUpdateProfile>(
+    pick(user, ["name", "dateOfBirth", "gender"])
+  );
+  const [coverImg, setCoverImg] = useState<File | string>(user?.coverImage);
+  const [avatar, setAvatar] = useState<File>(null);
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (values: TUpdateProfile) => {
+    setLoading(true);
+    try {
+      if (JSON.stringify(values) != JSON.stringify(userProfile)) {
+        await ServiceMe.updateProfile(values);
+        setUserProfile(values);
+      }
+
+      if (typeof coverImg != "string") {
+        const formData = new FormData();
+        formData.append("file", coverImg);
+        const response = await ServiceMe.updateCoverImage(formData);
+        setCoverImg(response.coverImage);
+      }
+
+      if (avatar) {
+        const formData = new FormData();
+        formData.append("file", avatar);
+        const response = await ServiceMe.updateAvatar(formData);
+        dispatch(setAvatarProfile(response.avatar));
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    setLoading(false);
+    onCancel();
+  };
 
   const handleClose = () => {
     setCoverImg(user?.coverImage);
-    setAvatar(user.avatar);
+    setAvatar(null);
     onCancel();
   };
 
@@ -20,11 +57,90 @@ const UpdateProfileModal = ({ visible, onCancel }) => {
       visible={visible}
       title="Cập nhật thông tin"
       onCancel={handleClose}
-      okText="Cập nhật"
-      cancelText="Huỷ"
+      footer={null}
     >
       <UploadCoverImage coverImg={coverImg} setCoverImg={setCoverImg} />
-      <UploadAvatar avatar={avatar} setAvatar={setAvatar} />
+      <UploadAvatar avatar={user.avatar} setAvatar={setAvatar} />
+
+      <Form
+        initValues={{
+          name: userProfile.name,
+          date: userProfile.dateOfBirth.day,
+          month: userProfile.dateOfBirth.month,
+          year: userProfile.dateOfBirth.year,
+          gender: +userProfile.gender,
+        }}
+        onSubmit={(values) =>
+          handleSubmit({
+            name: values.name,
+            gender: values.gender,
+            dateOfBirth: {
+              day: values.date,
+              month: values.month,
+              year: values.year,
+            },
+          })
+        }
+      >
+        <Form.Input
+          field="name"
+          label="Tên người dùng"
+          placeholder="Nhập tên của bạn"
+        />
+
+        <div style={{ display: "flex" }}>
+          <Form.InputNumber
+            field="date"
+            label="Ngày sinh"
+            placeholder="Ngày"
+            hideButtons
+          />
+          <Form.InputNumber
+            field="month"
+            noLabel
+            fieldStyle={{ marginTop: 24, marginLeft: 8 }}
+            placeholder="Tháng"
+            hideButtons
+          />
+          <Form.InputNumber
+            field="year"
+            noLabel
+            fieldStyle={{ marginTop: 24, marginLeft: 8 }}
+            placeholder="Năm"
+            hideButtons
+          />
+        </div>
+
+        <Form.RadioGroup field="gender" label="Giới tính">
+          <Form.Radio value={0}>Nam</Form.Radio>
+          <Form.Radio value={1}>Nữ</Form.Radio>
+        </Form.RadioGroup>
+
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "flex-end",
+            marginTop: 16,
+            marginBottom: 24,
+          }}
+        >
+          <Button
+            style={{ marginRight: 12 }}
+            onClick={handleClose}
+            type="tertiary"
+          >
+            Huỷ
+          </Button>
+          <Button
+            theme="solid"
+            type="primary"
+            loading={loading}
+            htmlType="submit"
+          >
+            Xác nhận
+          </Button>
+        </div>
+      </Form>
     </Modal>
   );
 };

@@ -8,19 +8,21 @@ const UploadAvatar = ({ avatar, setAvatar }) => {
   const [visible, setVisible] = useState(false);
 
   const renderAvatar = (src: string) => (
-    <div className="flex-center" key={src}>
-      <Avatar src={src} size="large" onMouseEnter={() => setVisible(true)} />
-    </div>
+    <Avatar
+      key={src}
+      src={src}
+      size="large"
+      onMouseEnter={() => setVisible(true)}
+    />
   );
 
   return (
-    <div style={{ marginTop: -38, zIndex: 10 }}>
+    <div className="flex-center" style={{ marginTop: -38, zIndex: 10 }}>
       <Upload
         action=""
         accept="image/*"
         renderFileItem={(props) => renderAvatar(props.url)}
         limit={1}
-        draggable={true}
         onFileChange={(files) => {
           setPreviewImg(files?.[0]);
           setAvatar(files?.[0]);
@@ -36,7 +38,7 @@ const UploadAvatar = ({ avatar, setAvatar }) => {
             <div
               style={{
                 position: "absolute",
-                marginTop: previewImg && 72,
+                marginTop: 0,
                 zIndex: 1,
                 visibility: visible ? "visible" : "hidden",
               }}

@@ -2,21 +2,35 @@ import { TUserProfile } from "@/models/auth.model";
 import axiosClient from "./_httpAxios";
 import { API } from "@/constants/APIurl";
 import {
+  TAvatarResponse,
   TChangePassword,
+  TCoverImageResponse,
   TRevokeToken,
   TRevokeTokenResponse,
+  TUpdateProfile,
 } from "@/models/me.model";
 
 const ServiceMe = {
   fetchProfile: () => axiosClient.get<any, TUserProfile>(API.ME.FETCH_PROFILE),
 
-  updateProfile: (name, dateOfBirth, gender) =>
-    axiosClient.put(API.ME.UPDATE_PROFILE, { name, dateOfBirth, gender }),
+  updateProfile: (params: TUpdateProfile) =>
+    axiosClient.put(API.ME.UPDATE_PROFILE, params),
 
-  updateAvatar: (file) => axiosClient.patch(API.ME.UPDATE_AVATAR, file),
+  updateAvatar: (data: FormData) =>
+    axiosClient.request<any, TAvatarResponse>({
+      headers: { "Content-Type": "multipart/form-data" },
+      method: "PATCH",
+      url: API.ME.UPDATE_AVATAR,
+      data,
+    }),
 
-  updateCoverImage: (file) =>
-    axiosClient.patch(API.ME.UPDATE_COVER_IMAGE, file),
+  updateCoverImage: (data: FormData) =>
+    axiosClient.request<any, TCoverImageResponse>({
+      headers: { "Content-Type": "multipart/form-data" },
+      method: "PATCH",
+      url: API.ME.UPDATE_COVER_IMAGE,
+      data,
+    }),
 
   changePassword: (params: TChangePassword) =>
     axiosClient.patch(API.ME.CHANGE_PASSWORD, params),
