@@ -3,7 +3,7 @@ import { init, socket } from "@/utils/socketClient";
 import ServiceConversation from "@/api/conversationApi";
 import { setTabActive } from "@/redux/slice/globalSlice";
 import Sidebar from "./Sidebar";
-import "./style.css";
+import "../style.css";
 import {
   addMessage,
   addMessageInChannel,
