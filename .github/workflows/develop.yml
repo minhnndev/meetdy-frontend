@@ -1,7 +1,8 @@
 name: Deploy Develop
 on:
   push:
-    branches: [ "dev" ]
+    branches:
+      - dev
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -26,24 +27,22 @@ jobs:
 
       - name: Build the Docker image with both tags
         run: |
-          docker build . --file Dockerfile --tag nghiaphamln/meetdy-frontend:dev-latest \
-          --tag nghiaphamln/meetdy-frontend:dev-${{ env.VERSION }}
+          docker build . --file Dockerfile --tag nghiaphamln/meetdy-frontend:dev-1.${{ env.VERSION }} --tag nghiaphamln/meetdy-frontend:dev-latest
 
       - name: Push the Docker image to Docker Hub
         run: |
-          docker push nghiaphamln/meetdy-frontend:dev-${{ env.VERSION }}
+          docker push nghiaphamln/meetdy-frontend:dev-1.${{ env.VERSION }}
           docker push nghiaphamln/meetdy-frontend:dev-latest
 
-      - name: Pull and restart Docker Compose on VPS
+      - name: Pull and restart service on VPS
         env:
           VPS_USER: ${{ secrets.VPS_USER }}
           VPS_PASSWORD: ${{ secrets.VPS_PASSWORD }}
           VPS_HOST: ${{ secrets.VPS_HOST }}
         run: |
           sshpass -p "$VPS_PASSWORD" ssh -o StrictHostKeyChecking=no -t $VPS_USER@$VPS_HOST << EOF
-            cd ./develop/meetdy-frontend || exit
-            docker compose pull
-            docker compose down
-            docker compose up -d
+            cd ./meetdy || exit
+            docker compose -f develop.yaml pull meetdy-frontend-dev
+            docker compose -f develop.yaml up -d meetdy-frontend-dev
             docker image prune -f
           EOF

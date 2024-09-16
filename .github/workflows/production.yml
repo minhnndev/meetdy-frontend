@@ -44,4 +44,5 @@ jobs:
             cd ./meetdy || exit
             docker compose -f docker-compose.production.yaml pull meetdy-frontend
             docker compose -f docker-compose.production.yaml up -d meetdy-frontend
+            docker image prune -f
           EOF
