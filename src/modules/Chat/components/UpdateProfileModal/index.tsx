@@ -18,6 +18,17 @@ const UpdateProfileModal = ({ visible, onCancel }) => {
   const [avatar, setAvatar] = useState<File>(null);
   const [loading, setLoading] = useState(false);
 
+  const validateDate = (date: number, month: number, year: number) => {
+    if (date < 1) return false;
+    const daysInMonth = () => {
+      if (month === 2) return year % 4 === 0 ? 29 : 28;
+      if ([1, 3, 5, 7, 8, 10, 12].includes(month)) return 31;
+      if ([4, 6, 9, 11].includes(month)) return 30;
+      return Number.POSITIVE_INFINITY;
+    };
+    return date <= daysInMonth();
+  };
+
   const handleSubmit = async (values: TUpdateProfile) => {
     setLoading(true);
     try {
@@ -82,64 +93,98 @@ const UpdateProfileModal = ({ visible, onCancel }) => {
           })
         }
       >
-        <Form.Input
-          field="name"
-          label="Tên người dùng"
-          placeholder="Nhập tên của bạn"
-        />
+        {({ formState }) => (
+          <>
+            <Form.Input
+              field="name"
+              label="Tên người dùng"
+              placeholder="Nhập tên của bạn"
+              rules={[
+                {
+                  required: true,
+                  message: "Tên người dùng không được bỏ trống",
+                },
+              ]}
+            />
 
-        <div style={{ display: "flex" }}>
-          <Form.InputNumber
-            field="date"
-            label="Ngày sinh"
-            placeholder="Ngày"
-            hideButtons
-          />
-          <Form.InputNumber
-            field="month"
-            noLabel
-            fieldStyle={{ marginTop: 24, marginLeft: 8 }}
-            placeholder="Tháng"
-            hideButtons
-          />
-          <Form.InputNumber
-            field="year"
-            noLabel
-            fieldStyle={{ marginTop: 24, marginLeft: 8 }}
-            placeholder="Năm"
-            hideButtons
-          />
-        </div>
+            <div style={{ display: "flex" }}>
+              <Form.InputNumber
+                field="date"
+                label="Ngày sinh"
+                placeholder="Ngày"
+                hideButtons
+                rules={[
+                  {
+                    validator: (_rule, value) =>
+                      validateDate(
+                        value,
+                        formState.values.month,
+                        formState.values.year
+                      ),
+                    message: "Không hợp lệ",
+                  },
+                ]}
+              />
+              <Form.InputNumber
+                field="month"
+                noLabel
+                fieldStyle={{ marginTop: 24, marginLeft: 8 }}
+                placeholder="Tháng"
+                hideButtons
+                rules={[
+                  {
+                    validator: (_rule, value) => value >= 1 && value <= 12,
+                    message: "Không hợp lệ",
+                  },
+                ]}
+              />
+              <Form.InputNumber
+                field="year"
+                noLabel
+                fieldStyle={{ marginTop: 24, marginLeft: 8 }}
+                placeholder="Năm"
+                hideButtons
+                rules={[
+                  {
+                    validator: (_rule, value) =>
+                      value >= 1950 && value <= new Date().getFullYear() - 10,
+                    message: "Không hợp lệ",
+                  },
+                ]}
+              />
+            </div>
 
-        <Form.RadioGroup field="gender" label="Giới tính">
-          <Form.Radio value={0}>Nam</Form.Radio>
-          <Form.Radio value={1}>Nữ</Form.Radio>
-        </Form.RadioGroup>
+            <Form.RadioGroup field="gender" label="Giới tính">
+              <Form.Radio value={0}>Nam</Form.Radio>
+              <Form.Radio value={1}>Nữ</Form.Radio>
+            </Form.RadioGroup>
 
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "flex-end",
-            marginTop: 16,
-            marginBottom: 24,
-          }}
-        >
-          <Button
-            style={{ marginRight: 12 }}
-            onClick={handleClose}
-            type="tertiary"
-          >
-            Huỷ
-          </Button>
-          <Button
-            theme="solid"
-            type="primary"
-            loading={loading}
-            htmlType="submit"
-          >
-            Xác nhận
-          </Button>
-        </div>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "flex-end",
+                marginTop: 16,
+                marginBottom: 24,
+              }}
+            >
+              <Button
+                style={{ marginRight: 12 }}
+                onClick={handleClose}
+                type="tertiary"
+              >
+                Huỷ
+              </Button>
+              <Button
+                theme="solid"
+                type="primary"
+                loading={loading}
+                htmlType="submit"
+              >
+                Xác nhận
+              </Button>
+            </div>
+          </>
+        )}
       </Form>
     </Modal>
   );

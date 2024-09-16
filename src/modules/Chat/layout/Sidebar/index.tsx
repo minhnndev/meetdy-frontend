@@ -18,7 +18,7 @@ import {
   UserAvatar,
 } from "../../components";
 
-function NavbarContainer({ onSaveCodeRevoke }) {
+function Sidebar({ onSaveCodeRevoke }) {
   const { user, tabActive } = useAppSelector((state) => state.global);
   const { conversations, toTalUnread } = useAppSelector((state) => state.chat);
   const { amountNotify } = useAppSelector((state) => state.friend);
@@ -131,4 +131,4 @@ function NavbarContainer({ onSaveCodeRevoke }) {
   );
 }
 
-export { NavbarContainer };
+export default Sidebar;
