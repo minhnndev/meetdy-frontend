@@ -2,8 +2,8 @@ import { useAppDispatch, useAppSelector } from "@/redux/store";
 import { init, socket } from "@/utils/socketClient";
 import ServiceConversation from "@/api/conversationApi";
 import { setTabActive } from "@/redux/slice/globalSlice";
-import { NavbarContainer } from "../container";
-import "../style.css";
+import Sidebar from "./Sidebar";
+import "./style.css";
 import {
   addMessage,
   addMessageInChannel,
@@ -186,7 +186,7 @@ const ChatLayout = () => {
 
   return (
     <div id="chat-page">
-      <NavbarContainer onSaveCodeRevoke={handleSetCodeRevoke} />
+      <Sidebar onSaveCodeRevoke={handleSetCodeRevoke} />
       <Outlet context={{ socket, idNewMessage }} />
     </div>
   );
