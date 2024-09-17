@@ -87,7 +87,7 @@ function Sidebar({ onSaveCodeRevoke }) {
           style={{ height: "48px" }}
           onClick={() => handleSetTabActive(2)}
         />
-        <Nav.Footer style={{ color: "white" }}>
+        <Nav.Footer style={{ color: "white", marginBottom: 16 }}>
           <Dropdown
             visible={showSettingDropdown}
             onClickOutSide={() => setShowChangePasswordModal(false)}
