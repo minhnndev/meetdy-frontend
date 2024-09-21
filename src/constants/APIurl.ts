@@ -1,4 +1,5 @@
 export const API = {
+  WEB_INFO: "/common/web-info",
   AUTH: {
     LOGIN: "/auth/login",
     REGISTER: "/auth/registry",
@@ -15,6 +16,18 @@ export const API = {
     CHANGE_PASSWORD: "/me/password",
     REVOKE_TOKEN: "/me/revoke-token",
   },
+  FRIEND: {
+    FETCH_FRIENDS: "/friends",
+    ACCEPT_REQUEST_FRIEND: "/friends",
+    DELETE_FRIEND: "/friends",
+    FETCH_REQUEST_FRIENDS: "/friends/invites",
+    DELETE_REQUEST_FRIEND: "/friends/invites",
+    SEND_REQUEST_FRIEND: "/friends/invites/me",
+    DELETE_SENT_REQUEST_FRIEND: "/friends/invites/me",
+    FETCH_SENT_REQUEST_FRIENDS: "/friends/invites/me",
+    FETCH_SUGGEST_FRIENDS: "friends/suggest",
+  },
+  PHONE_BOOK: "/me/phone-books",
 };
 
 const URL = {

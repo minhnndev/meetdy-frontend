@@ -1,6 +1,7 @@
 import { IconUserStroked } from "@douyinfe/semi-icons";
 import { Avatar, Badge } from "@douyinfe/semi-ui";
 import getSummaryName from "@/utils/nameHelper";
+import { AvatarSize } from "@douyinfe/semi-ui/lib/es/avatar";
 
 type TUserAvatarProps = {
   avatar: string;
@@ -8,10 +9,11 @@ type TUserAvatarProps = {
   color?: string;
   name?: string;
   onClick?: any;
+  size?: AvatarSize;
 };
 
 function UserAvatar(props: TUserAvatarProps) {
-  const { avatar, isActive, color, name, onClick } = props;
+  const { avatar, isActive, color, name, onClick, size } = props;
   return (
     <Badge
       dot={isActive}
@@ -31,6 +33,7 @@ function UserAvatar(props: TUserAvatarProps) {
         }}
         src={avatar}
         alt={name}
+        size={size}
       >
         {!avatar &&
           (name ? (

@@ -2,7 +2,7 @@ import { friendSubtabs } from "@/constants/friend.constant";
 import { Typography } from "@douyinfe/semi-ui";
 
 const FriendHeader = ({ subtab }) => {
-  const { text, icon } = friendSubtabs[subtab];
+  const { text, icon } = friendSubtabs.find((tab) => tab.key === subtab);
 
   return (
     <div
@@ -20,4 +20,4 @@ const FriendHeader = ({ subtab }) => {
   );
 };
 
-export default FriendHeader;
+export { FriendHeader };

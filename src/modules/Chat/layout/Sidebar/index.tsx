@@ -68,7 +68,7 @@ function Sidebar({ onSaveCodeRevoke }) {
           itemKey="/chat"
           text="Trò chuyện"
           icon={
-            <Badge count={toTalUnread > 0 ? toTalUnread : null}>
+            <Badge count={toTalUnread > 0 ? toTalUnread : null} type="danger">
               <IconCommentStroked size="extra-large" />
             </Badge>
           }
@@ -80,7 +80,7 @@ function Sidebar({ onSaveCodeRevoke }) {
           itemKey="/chat/friends"
           text="Bạn bè"
           icon={
-            <Badge count={amountNotify > 0 ? amountNotify : null}>
+            <Badge count={amountNotify > 0 ? amountNotify : null} type="danger">
               <IconUserListStroked size="extra-large" />
             </Badge>
           }

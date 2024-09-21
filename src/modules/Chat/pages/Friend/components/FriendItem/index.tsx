@@ -1,13 +1,14 @@
+import { TFriend } from "@/models/friend.model";
 import { UserAvatar } from "@/modules/Chat/components";
 import { IconMore } from "@douyinfe/semi-icons";
 import { Button, Nav } from "@douyinfe/semi-ui";
 import { useState } from "react";
 
-const FriendItem = ({ friend }) => {
+const FriendItem = ({ friend }: { friend: TFriend }) => {
   const [showOptions, setShowOptions] = useState(true);
+  const { avatar, avatarColor, name, isOnline } = friend;
   return (
     <Nav.Item
-      key={friend._id}
       text={
         <div
           className="flex-center"
@@ -16,7 +17,7 @@ const FriendItem = ({ friend }) => {
             justifyContent: "space-between",
           }}
         >
-          <p>{friend.name}</p>
+          <p>{name}</p>
           {showOptions && (
             <Button
               type="tertiary"
@@ -27,7 +28,14 @@ const FriendItem = ({ friend }) => {
           )}
         </div>
       }
-      icon={<UserAvatar avatar={friend.avatar} isActive={friend.isOnline} />}
+      icon={
+        <UserAvatar
+          avatar={avatar}
+          isActive={isOnline}
+          name={name}
+          color={avatarColor}
+        />
+      }
       onMouseEnter={() => setShowOptions(true)}
       onMouseLeave={() => setShowOptions(false)}
     />

@@ -1,7 +1,7 @@
 import { PinCode, Typography } from "@douyinfe/semi-ui";
 import "./style.css";
 
-const InputOTP = ({ otpValue, setOtpValue }) => {
+const InputOTP = ({ setOtpValue }) => {
   return (
     <div style={{ marginTop: 12, marginBottom: 12 }}>
       <div style={{ textAlign: "left", marginBottom: 6 }}>
@@ -12,8 +12,7 @@ const InputOTP = ({ otpValue, setOtpValue }) => {
       <PinCode
         style={{ display: "block" }}
         format="number"
-        value={otpValue}
-        onChange={(value) => setOtpValue(value)}
+        onComplete={(value) => setOtpValue(value)}
       />
     </div>
   );
