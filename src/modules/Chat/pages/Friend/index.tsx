@@ -11,6 +11,7 @@ import {
   SubtabContact,
 } from "./components";
 import "./style.css";
+import SubtabGroup from "./components/Subtab/SubtabGroup";
 
 const Friend = () => {
   const dispatch = useAppDispatch();
@@ -20,6 +21,7 @@ const Friend = () => {
     myRequestFriend,
     suggestFriends,
     phoneBook,
+    groups,
   } = useAppSelector((state) => state.friend);
   const [subTab, setSubTab] = useState<string>(friendSubtabs[0].key);
 
@@ -80,7 +82,7 @@ const Friend = () => {
             />
           )}
 
-          {subTab === "subtab-group" && <div>group</div>}
+          {subTab === "subtab-group" && <SubtabGroup groups={groups} />}
 
           {subTab === "subtab-contact" && (
             <SubtabContact phoneBook={phoneBook} />

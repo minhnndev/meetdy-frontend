@@ -5,10 +5,11 @@ import { Button, Nav } from "@douyinfe/semi-ui";
 import { useState } from "react";
 
 const FriendItem = ({ friend }: { friend: TFriend }) => {
-  const [showOptions, setShowOptions] = useState(true);
+  const [showOptions, setShowOptions] = useState(false);
   const { avatar, avatarColor, name, isOnline } = friend;
   return (
     <Nav.Item
+      itemKey={friend._id}
       text={
         <div
           className="flex-center"

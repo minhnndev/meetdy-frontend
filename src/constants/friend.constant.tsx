@@ -31,3 +31,14 @@ export const friendSubtabs = [
     numId: 2,
   },
 ];
+
+export const friendFilterTitle = {
+  L: {
+    "1": "Tất cả",
+    "2": "Nhóm tôi quản lý",
+  },
+  R: {
+    "1": "Theo tên nhóm (A-Z)",
+    "2": "Theo tên nhóm (Z-A)",
+  },
+};
