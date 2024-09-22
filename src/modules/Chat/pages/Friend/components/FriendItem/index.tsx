@@ -1,7 +1,8 @@
 import { TFriend } from "@/models/friend.model";
 import { UserAvatar } from "@/modules/Chat/components";
+import dateUtils from "@/utils/dateUtils";
 import { IconMore } from "@douyinfe/semi-icons";
-import { Button, Nav } from "@douyinfe/semi-ui";
+import { Button, Nav, Typography } from "@douyinfe/semi-ui";
 import { useState } from "react";
 
 const FriendItem = ({ friend }: { friend: TFriend }) => {
@@ -12,13 +13,33 @@ const FriendItem = ({ friend }: { friend: TFriend }) => {
       itemKey={friend._id}
       text={
         <div
-          className="flex-center"
           style={{
             width: 200,
+            display: "flex",
             justifyContent: "space-between",
+            alignItems: "center",
           }}
         >
-          <p>{name}</p>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              margin: "2px 0",
+            }}
+          >
+            <Typography.Text
+              style={{ width: 165 }}
+              ellipsis={{ showTooltip: true }}
+            >
+              {name}
+            </Typography.Text>
+            {friend.lastLogin && (
+              <Typography.Text type="tertiary" style={{ marginTop: 2 }}>
+                Truy cập {dateUtils.toTime(friend.lastLogin)} trước
+              </Typography.Text>
+            )}
+          </div>
           {showOptions && (
             <Button
               type="tertiary"

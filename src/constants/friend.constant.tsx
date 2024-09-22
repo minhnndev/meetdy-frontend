@@ -5,7 +5,7 @@ import {
   IconUserGroup,
 } from "@douyinfe/semi-icons";
 
-export const friendSubtabs = [
+export const FRIEND_SUB_TABS = [
   {
     key: "subtab-friends",
     text: "Danh sách kết bạn",
@@ -32,7 +32,7 @@ export const friendSubtabs = [
   },
 ];
 
-export const friendFilterTitle = {
+export const FRIEND_FILTER_TITLE = {
   L: {
     "1": "Tất cả",
     "2": "Nhóm tôi quản lý",
@@ -41,4 +41,22 @@ export const friendFilterTitle = {
     "1": "Theo tên nhóm (A-Z)",
     "2": "Theo tên nhóm (Z-A)",
   },
+};
+
+export const INIT_SUGGEST_FRIEND = {
+  _id: "",
+  name: "",
+  username: "",
+  dateOfBirth: {
+    day: 0,
+    month: 0,
+    year: 0,
+  },
+  gender: true,
+  avatar: "",
+  avatarColor: "",
+  coverImage: "",
+  status: "",
+  numberCommonGroup: 0,
+  numberCommonFriend: 0,
 };

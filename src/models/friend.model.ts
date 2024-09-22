@@ -5,7 +5,7 @@ export type TFriend = {
   name: string;
   username: string;
   isOnline: boolean;
-  lastLogin: any;
+  lastLogin: string;
 };
 
 export type TRequestFriend = {
@@ -31,12 +31,12 @@ export type TSuggestFriend = {
   avatar: string;
   avatarColor: string;
   coverImage: string;
-  isAdmin: boolean;
-  phoneBooks: Array<any>;
+  isAdmin?: boolean;
+  phoneBooks?: Array<any>;
   status: string;
   numberCommonGroup: number;
   numberCommonFriend: number;
-  total: number;
+  total?: number;
 };
 
 export type TContact = {

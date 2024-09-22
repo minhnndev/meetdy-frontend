@@ -1,5 +1,6 @@
 import {
   TConversation,
+  TCreateGroup,
   TGetConversation,
   TGetListConversations,
 } from "@/models/conversation.model";
@@ -17,12 +18,8 @@ const ServiceConversation = {
     return axiosClient.post(`${API_URL}/individuals/${userId}`);
   },
 
-  createGroup: (name, userIds) => {
-    return axiosClient.post(`${API_URL}/groups`, {
-      name,
-      userIds,
-    });
-  },
+  createGroup: (params: TCreateGroup) =>
+    axiosClient.post(`${API_URL}/groups`, params),
 
   getConversationById: (id: string) =>
     axiosClient.get<any, TGetConversation>(`${API_URL}/${id}`),

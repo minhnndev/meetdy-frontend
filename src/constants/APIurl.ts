@@ -28,6 +28,7 @@ export const API = {
     FETCH_SUGGEST_FRIENDS: "friends/suggest",
   },
   PHONE_BOOK: "/me/phone-books",
+  SEARCH_USER: "/users/search/username",
 };
 
 const URL = {

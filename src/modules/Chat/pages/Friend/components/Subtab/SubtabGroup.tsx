@@ -1,4 +1,4 @@
-import { friendFilterTitle } from "@/constants/friend.constant";
+import { FRIEND_FILTER_TITLE } from "@/constants/friend.constant";
 import { TConversation } from "@/models/conversation.model";
 import { IconFilter, IconTreeTriangleDown } from "@douyinfe/semi-icons";
 import { CardGroup, Select } from "@douyinfe/semi-ui";
@@ -25,7 +25,7 @@ const SubtabGroup = ({ groups }) => {
             >
               <IconTreeTriangleDown />
               <p style={{ marginLeft: 8, fontSize: 14 }}>
-                {friendFilterTitle["L"][filterLeft]} (0)
+                {FRIEND_FILTER_TITLE["L"][filterLeft]} (0)
               </p>
             </span>
           )}
@@ -48,7 +48,7 @@ const SubtabGroup = ({ groups }) => {
             >
               <IconFilter />
               <p style={{ marginLeft: 8, fontSize: 14 }}>
-                {friendFilterTitle["R"][filterRight]}
+                {FRIEND_FILTER_TITLE["R"][filterRight]}
               </p>
             </span>
           )}

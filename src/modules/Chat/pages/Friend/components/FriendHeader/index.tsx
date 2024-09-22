@@ -1,8 +1,8 @@
-import { friendSubtabs } from "@/constants/friend.constant";
+import { FRIEND_SUB_TABS } from "@/constants/friend.constant";
 import { Typography } from "@douyinfe/semi-ui";
 
 const FriendHeader = ({ subtab }) => {
-  const { text, icon } = friendSubtabs.find((tab) => tab.key === subtab);
+  const { text, icon } = FRIEND_SUB_TABS.find((tab) => tab.key === subtab);
 
   return (
     <div

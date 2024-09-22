@@ -17,7 +17,12 @@ export type TConversation = {
   _id: string;
 };
 
-export interface TGetConversation {
+export type TGetConversation = {
   avatar: string;
   totalMembers: number;
-}
+};
+
+export type TCreateGroup = {
+  name: string;
+  userIds: Array<string>;
+};
