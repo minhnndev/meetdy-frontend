@@ -1,5 +1,5 @@
 import { FRIEND_FILTER_TITLE } from "@/constants/friend.constant";
-import { TConversation } from "@/models/conversation.model";
+import { TGroupConversation } from "@/models/conversation.model";
 import { IconFilter, IconTreeTriangleDown } from "@douyinfe/semi-icons";
 import { CardGroup, Select } from "@douyinfe/semi-ui";
 import { useState } from "react";
@@ -60,7 +60,7 @@ const SubtabGroup = ({ groups }) => {
       </div>
 
       <CardGroup>
-        {groups?.map((group: TConversation) => (
+        {groups?.map((group: TGroupConversation) => (
           <GroupCard key={group._id} group={group} />
         ))}
       </CardGroup>

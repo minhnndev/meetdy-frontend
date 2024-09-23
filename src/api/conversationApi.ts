@@ -1,8 +1,9 @@
 import {
-  TConversation,
   TCreateGroup,
   TGetConversation,
   TGetListConversations,
+  TGroupConversation,
+  TIndividualConversation,
 } from "@/models/conversation.model";
 import axiosClient from "./_httpAxios";
 
@@ -10,7 +11,10 @@ const API_URL = "/conversations";
 
 const ServiceConversation = {
   getListConversations: (params: TGetListConversations) =>
-    axiosClient.get<any, Array<TConversation>>(API_URL, { params }),
+    axiosClient.get<any, Array<TIndividualConversation | TGroupConversation>>(
+      API_URL,
+      { params }
+    ),
 
   // [POST] /individuals/:userId
 

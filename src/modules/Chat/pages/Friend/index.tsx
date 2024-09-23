@@ -1,5 +1,5 @@
 import { Nav } from "@douyinfe/semi-ui";
-import { SearchBar } from "../../components";
+import { SearchBar, SearchResultTabs } from "../../components";
 import { useAppDispatch, useAppSelector } from "@/redux/store";
 import { FRIEND_SUB_TABS } from "@/constants/friend.constant";
 import { useEffect, useState } from "react";
@@ -89,7 +89,10 @@ const Friend = () => {
             />
           </Nav.Header>
           {showSearchFilter ? (
-            <>Tabs</>
+            <SearchResultTabs
+              individuals={individualSearch}
+              groups={groupSearch}
+            />
           ) : (
             <>
               <div

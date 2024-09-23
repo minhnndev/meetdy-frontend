@@ -3,7 +3,7 @@ import { UserAvatar } from "../UserAvatar";
 import { IconUserStroked } from "@douyinfe/semi-icons";
 import { isEmpty } from "lodash";
 
-const ConversationAvatar = ({ avatars, totalMembers }) => {
+const GroupAvatar = ({ avatars, totalMembers, smallSize, largeSize }) => {
   return (
     <div>
       {isEmpty(avatars) && totalMembers <= 0 && (
@@ -18,8 +18,8 @@ const ConversationAvatar = ({ avatars, totalMembers }) => {
               style={{
                 backgroundColor: !avatar.avatar && avatar.avatarColor,
                 color: "white",
-                width: 72,
-                height: 72,
+                width: largeSize,
+                height: largeSize,
               }}
             >
               <IconUserStroked size="extra-large" />
@@ -35,8 +35,8 @@ const ConversationAvatar = ({ avatars, totalMembers }) => {
             style={{
               backgroundColor: !avatars[0].avatar && avatars[0].avatarColor,
               color: "white",
-              width: 40,
-              height: 40,
+              width: smallSize,
+              height: smallSize,
               marginBottom: -8,
             }}
           >
@@ -50,8 +50,8 @@ const ConversationAvatar = ({ avatars, totalMembers }) => {
                 style={{
                   backgroundColor: !avatar.avatar && avatar.avatarColor,
                   color: "white",
-                  width: 40,
-                  height: 40,
+                  width: smallSize,
+                  height: smallSize,
                 }}
               >
                 <IconUserStroked size="extra-large" />
@@ -70,8 +70,8 @@ const ConversationAvatar = ({ avatars, totalMembers }) => {
                 style={{
                   backgroundColor: !avatar.avatar && avatar.avatarColor,
                   color: "white",
-                  width: 40,
-                  height: 40,
+                  width: smallSize,
+                  height: smallSize,
                   marginBottom: -8,
                 }}
               >
@@ -87,8 +87,8 @@ const ConversationAvatar = ({ avatars, totalMembers }) => {
                 style={{
                   backgroundColor: !avatar.avatar && avatar.avatarColor,
                   color: "white",
-                  width: 40,
-                  height: 40,
+                  width: smallSize,
+                  height: smallSize,
                 }}
               >
                 <IconUserStroked size="extra-large" />
@@ -107,8 +107,8 @@ const ConversationAvatar = ({ avatars, totalMembers }) => {
                 style={{
                   backgroundColor: !avatar.avatar && avatar.avatarColor,
                   color: "white",
-                  width: 40,
-                  height: 40,
+                  width: smallSize,
+                  height: smallSize,
                   marginBottom: -8,
                 }}
               >
@@ -123,8 +123,8 @@ const ConversationAvatar = ({ avatars, totalMembers }) => {
               style={{
                 backgroundColor: !avatars[3].avatar && avatars[3].avatarColor,
                 color: "white",
-                width: 40,
-                height: 40,
+                width: smallSize,
+                height: smallSize,
               }}
             >
               <IconUserStroked size="extra-large" />
@@ -134,8 +134,8 @@ const ConversationAvatar = ({ avatars, totalMembers }) => {
               style={{
                 fontSize: 16,
                 color: "white",
-                width: 40,
-                height: 40,
+                width: smallSize,
+                height: smallSize,
               }}
             >
               <p>+{totalMembers - 3}</p>
@@ -147,4 +147,4 @@ const ConversationAvatar = ({ avatars, totalMembers }) => {
   );
 };
 
-export { ConversationAvatar };
+export { GroupAvatar };

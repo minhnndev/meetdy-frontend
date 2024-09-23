@@ -1,10 +1,10 @@
-import { TConversation } from "@/models/conversation.model";
-import { ConversationAvatar } from "@/modules/Chat/components";
+import { TGroupConversation } from "@/models/conversation.model";
+import { GroupAvatar } from "@/modules/Chat/components";
 import { IconMore } from "@douyinfe/semi-icons";
 import { Button, Card, Typography } from "@douyinfe/semi-ui";
 import { useState } from "react";
 
-const GroupCard = ({ group }: { group: TConversation }) => {
+const GroupCard = ({ group }: { group: TGroupConversation }) => {
   const [showOptions, setShowOptions] = useState(true);
   return (
     <Card shadows="hover" style={{ width: 250 }}>
@@ -23,9 +23,11 @@ const GroupCard = ({ group }: { group: TConversation }) => {
           }}
           onClick={() => {}}
         >
-          <ConversationAvatar
+          <GroupAvatar
             avatars={group.avatar}
             totalMembers={group.totalMembers}
+            smallSize={40}
+            largeSize={72}
           />
           <Typography.Title heading={6} style={{ marginTop: "1rem" }}>
             {group.name}

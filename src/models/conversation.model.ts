@@ -1,20 +1,38 @@
+import { TLastGroupMessage, TLastIndividualMessage } from "./message.model";
+
 export type TGetListConversations = {
   name?: string;
   type?: number;
 };
 
-export type TConversation = {
-  avatar: Array<{ avatar: string; avatarColor: string }>;
+export type TIndividualConversation = {
+  _id: string;
+  name: string;
+  avatar: string;
+  avatarColor: string;
+  userId: string;
+  type: boolean;
+  friendStatus: string;
+  totalMembers: number;
+  numberUnread: number;
+  managerIds: Array<string>;
   isJoinFromLink: boolean;
   isNotify: boolean;
-  lastMessage: any;
+  lastMessage: TLastIndividualMessage;
+};
+
+export type TGroupConversation = {
+  _id: string;
+  name: string;
+  avatar: Array<{ avatar: string; avatarColor: string }>;
+  type: boolean;
+  totalMembers: number;
+  numberUnread: number;
   leaderId: string;
   managerIds: Array<string>;
-  name: string;
-  numberUnread: number;
-  totalMembers: number;
-  type: boolean;
-  _id: string;
+  isJoinFromLink: boolean;
+  isNotify: boolean;
+  lastMessage: TLastGroupMessage;
 };
 
 export type TGetConversation = {
