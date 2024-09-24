@@ -11,6 +11,8 @@ import {
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import { Chat, ChatLayout, Friend } from "@/modules/Chat";
+import { Empty } from "@douyinfe/semi-ui";
+import { IllustrationNotFound } from "@douyinfe/semi-illustrations";
 
 const AppRoutes = () => {
   const dispatch = useAppDispatch();
@@ -45,6 +47,16 @@ const AppRoutes = () => {
           <Route path="/auth/register" element={<RegisterPage />} />
           <Route path="/auth/forgot" element={<ForgotPassword />} />
         </Route>
+        <Route
+          path="*"
+          element={
+            <Empty
+              image={<IllustrationNotFound />}
+              description={"Page not found"}
+              style={{ width: "100vw" }}
+            />
+          }
+        />
       </Routes>
     </BrowserRouter>
   );

@@ -1,10 +1,15 @@
+import { API } from "@/constants/APIurl";
 import axiosClient from "./_httpAxios";
 
-const API_URL = "/common/web-info";
+type TWebInfo = {
+  meta: any;
+  payload: Array<any>;
+  type: string;
+};
 
 const ServiceInfoWeb = {
   getInfoWeb: () => {
-    return axiosClient.get(`${API_URL}`);
+    return axiosClient.get<TWebInfo, any>(`${API.WEB_INFO}`);
   },
 };
 

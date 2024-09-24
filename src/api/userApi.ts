@@ -1,10 +1,13 @@
-import axiosClient from './_httpAxios';
-const BASE_URL = 'users';
+import { API } from "@/constants/APIurl";
+import axiosClient from "./_httpAxios";
+import { TSuggestFriend } from "@/models/friend.model";
 
 const ServiceUser = {
-    getUser: (username) => {
-        return axiosClient.get(`${BASE_URL}/search/username/${username}`);
-    },
+  getUser: (username: string) => {
+    return axiosClient.get<any, TSuggestFriend>(
+      `${API.SEARCH_USER}/${username}`
+    );
+  },
 };
 
 export default ServiceUser;

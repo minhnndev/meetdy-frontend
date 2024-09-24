@@ -6,9 +6,8 @@ import {
   IconSettingStroked,
 } from "@douyinfe/semi-icons";
 import { Badge, Nav, Dropdown } from "@douyinfe/semi-ui";
-import { setTabActive } from "@/redux/slice/globalSlice";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { setToTalUnread } from "@/redux/slice/chat/chatSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/store";
 import "./style.css";
@@ -19,7 +18,7 @@ import {
 } from "../../components";
 
 function Sidebar({ onSaveCodeRevoke }) {
-  const { user, tabActive } = useAppSelector((state) => state.global);
+  const { user } = useAppSelector((state) => state.global);
   const { conversations, toTalUnread } = useAppSelector((state) => state.chat);
   const { amountNotify } = useAppSelector((state) => state.friend);
 
@@ -29,6 +28,7 @@ function Sidebar({ onSaveCodeRevoke }) {
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const { pathname } = useLocation();
 
   useEffect(() => {
     dispatch(setToTalUnread());
@@ -39,10 +39,6 @@ function Sidebar({ onSaveCodeRevoke }) {
     localStorage.removeItem("token");
     localStorage.removeItem("refreshToken");
     window.location.reload();
-  };
-
-  const handleSetTabActive = (value: number) => {
-    dispatch(setTabActive(value));
   };
 
   return (
@@ -64,30 +60,30 @@ function Sidebar({ onSaveCodeRevoke }) {
           }
         />
         <Nav.Item
-          className={`meetdy-nav-item ${tabActive == 1 && "active"}`}
+          className={`meetdy-nav-item ${pathname === "/chat" && "active"}`}
           itemKey="/chat"
           text="Trò chuyện"
           icon={
-            <Badge count={toTalUnread > 0 ? toTalUnread : null}>
+            <Badge count={toTalUnread > 0 ? toTalUnread : null} type="danger">
               <IconCommentStroked size="extra-large" />
             </Badge>
           }
           style={{ height: "48px" }}
-          onClick={() => handleSetTabActive(1)}
         />
         <Nav.Item
-          className={`meetdy-nav-item ${tabActive == 2 && "active"}`}
+          className={`meetdy-nav-item ${
+            pathname === "/chat/friends" && "active"
+          }`}
           itemKey="/chat/friends"
           text="Bạn bè"
           icon={
-            <Badge count={amountNotify > 0 ? amountNotify : null}>
+            <Badge count={amountNotify > 0 ? amountNotify : null} type="danger">
               <IconUserListStroked size="extra-large" />
             </Badge>
           }
           style={{ height: "48px" }}
-          onClick={() => handleSetTabActive(2)}
         />
-        <Nav.Footer style={{ color: "white" }}>
+        <Nav.Footer style={{ color: "white", marginBottom: 16 }}>
           <Dropdown
             visible={showSettingDropdown}
             onClickOutSide={() => setShowChangePasswordModal(false)}

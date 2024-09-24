@@ -11,7 +11,10 @@ import stickerApi from "@/api/stickerApi";
 import voteApi from "@/api/voteApi";
 
 import dateUtils from "@/utils/dateUtils";
-import { TGetListConversations } from "@/models/conversation.model";
+import {
+  TCreateGroup,
+  TGetListConversations,
+} from "@/models/conversation.model";
 
 const KEY = "chat";
 
@@ -105,9 +108,8 @@ export const fetchListFriends = createAsyncThunk(
 // Create a group chat
 export const createGroup = createAsyncThunk(
   `${KEY}/createGroup`,
-  async (params: any) => {
-    const { name, userIds } = params;
-    const idNewGroup = await conversationApi.createGroup(name, userIds);
+  async (params: TCreateGroup) => {
+    const idNewGroup = await conversationApi.createGroup(params);
     return idNewGroup;
   }
 );
@@ -712,7 +714,7 @@ const chatSlice = createSlice({
         state.isLoading = false;
       })
       .addCase(fetchListFriends.fulfilled, (state, action) => {
-        state.friends = action.payload as any; // Set tạm do build lỗi
+        state.friends = action.payload;
         state.isLoading = false;
       })
       // Conversation
