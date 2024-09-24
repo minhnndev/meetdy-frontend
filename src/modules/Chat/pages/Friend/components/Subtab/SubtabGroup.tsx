@@ -2,12 +2,55 @@ import { FRIEND_FILTER_TITLE } from "@/constants/friend.constant";
 import { TGroupConversation } from "@/models/conversation.model";
 import { IconFilter, IconTreeTriangleDown } from "@douyinfe/semi-icons";
 import { CardGroup, Select } from "@douyinfe/semi-ui";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import GroupCard from "../GroupCard";
+import { sortGroup } from "@/utils/groupUtils";
+import { useAppSelector } from "@/redux/store";
 
-const SubtabGroup = ({ groups }) => {
+const SubtabGroup = ({ groups }: { groups: Array<TGroupConversation> }) => {
   const [filterLeft, setFilterLeft] = useState("1");
   const [filterRight, setFilterRight] = useState("1");
+  const [currentGroups, setCurrentGroups] = useState([]);
+  const refFilter = useRef<Array<TGroupConversation>>();
+  const { user } = useAppSelector((state) => state.global);
+
+  useEffect(() => {
+    if (groups.length > 0) {
+      const temp = sortGroup(groups, 1);
+      setCurrentGroups(temp);
+      refFilter.current = temp;
+    }
+  }, [groups]);
+
+  const onChangeFilterLeft = (value) => {
+    if (groups.length > 0) {
+      setFilterLeft(value.toString());
+      if (value == "2") {
+        const newGroups = currentGroups.filter(
+          (ele) => ele.leaderId === user._id
+        );
+        setCurrentGroups(newGroups);
+      }
+      if (value == "1") {
+        setCurrentGroups(sortGroup(refFilter.current, parseInt(filterRight)));
+      }
+    }
+  };
+
+  const onChangeFilterRight = (value) => {
+    if (groups.length > 0) {
+      setFilterRight(value.toString());
+      let newGroups = [];
+      if (value == "0") {
+        newGroups = sortGroup(currentGroups, 0);
+      }
+      if (value === "1") {
+        newGroups = sortGroup(currentGroups, 1);
+      }
+      setCurrentGroups(newGroups);
+    }
+  };
+
   return (
     <div>
       <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -25,11 +68,11 @@ const SubtabGroup = ({ groups }) => {
             >
               <IconTreeTriangleDown />
               <p style={{ marginLeft: 8, fontSize: 14 }}>
-                {FRIEND_FILTER_TITLE["L"][filterLeft]} (0)
+                {FRIEND_FILTER_TITLE["L"][filterLeft]} ({currentGroups.length})
               </p>
             </span>
           )}
-          onChange={(value) => setFilterLeft(value.toString())}
+          onChange={onChangeFilterLeft}
         >
           <Select.Option value="1">Tất cả</Select.Option>
           <Select.Option value="2">Nhóm tôi quản lý</Select.Option>
@@ -52,15 +95,15 @@ const SubtabGroup = ({ groups }) => {
               </p>
             </span>
           )}
-          onChange={(value) => setFilterRight(value.toString())}
+          onChange={onChangeFilterRight}
         >
           <Select.Option value="1">Theo tên nhóm (A-Z)</Select.Option>
-          <Select.Option value="2">Theo tên nhóm (Z-A)</Select.Option>
+          <Select.Option value="0">Theo tên nhóm (Z-A)</Select.Option>
         </Select>
       </div>
 
       <CardGroup>
-        {groups?.map((group: TGroupConversation) => (
+        {currentGroups?.map((group: TGroupConversation) => (
           <GroupCard key={group._id} group={group} />
         ))}
       </CardGroup>

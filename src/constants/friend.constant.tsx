@@ -39,7 +39,7 @@ export const FRIEND_FILTER_TITLE = {
   },
   R: {
     "1": "Theo tên nhóm (A-Z)",
-    "2": "Theo tên nhóm (Z-A)",
+    "0": "Theo tên nhóm (Z-A)",
   },
 };
 
