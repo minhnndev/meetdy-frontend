@@ -20,7 +20,6 @@ const ContactCard = ({ contact }: { contact: TContact }) => {
           <UserAvatar
             avatar={contact.avatar}
             name={contact.name}
-            isActive={false}
             size="medium"
           />
           <div

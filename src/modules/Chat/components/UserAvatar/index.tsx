@@ -5,7 +5,7 @@ import { AvatarSize } from "@douyinfe/semi-ui/lib/es/avatar";
 
 type TUserAvatarProps = {
   avatar: string;
-  isActive: boolean;
+  isActive?: boolean;
   color?: string;
   name?: string;
   onClick?: any;

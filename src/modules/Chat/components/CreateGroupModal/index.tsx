@@ -56,7 +56,6 @@ const CreateGroupModal = ({ visible, onCancel }) => {
           <UserAvatar
             avatar={item.avatar}
             name={item.label}
-            isActive={false}
             color={item.avatarColor}
             size="small"
           />
@@ -73,7 +72,6 @@ const CreateGroupModal = ({ visible, onCancel }) => {
           <UserAvatar
             avatar={item.avatar}
             name={item.label}
-            isActive={false}
             color={item.avatarColor}
             size="small"
           />

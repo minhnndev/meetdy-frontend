@@ -49,7 +49,6 @@ const UserCard = ({
         ) : (
           <UserAvatar
             avatar=""
-            isActive={false}
             name={user.name}
             size="large"
             color={avatarColor}

@@ -24,7 +24,6 @@ const SuggestCard = ({ suggest }: { suggest: TSuggestFriend }) => {
             avatar={avatar}
             color={avatarColor}
             name={name}
-            isActive={false}
             size="large"
           />
           <Typography.Title heading={6} style={{ marginTop: "1rem" }}>

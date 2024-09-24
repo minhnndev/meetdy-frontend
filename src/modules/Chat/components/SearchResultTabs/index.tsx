@@ -39,7 +39,6 @@ const SearchResultTabs = ({ individuals, groups }) => {
             <UserAvatar
               avatar={individual.avatar.toString()}
               color={individual.avatarColor}
-              isActive={false}
               name={individual.name}
             />
             <Typography.Text style={{ marginLeft: 8 }}>

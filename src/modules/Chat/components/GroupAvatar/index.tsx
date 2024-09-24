@@ -7,7 +7,7 @@ const GroupAvatar = ({ avatars, totalMembers, smallSize, largeSize }) => {
   return (
     <div>
       {isEmpty(avatars) && totalMembers <= 0 && (
-        <UserAvatar avatar="" color="" name="" isActive={false} size="large" />
+        <UserAvatar avatar="" color="" name="" size="large" />
       )}
       {totalMembers == 2 && (
         <AvatarGroup>

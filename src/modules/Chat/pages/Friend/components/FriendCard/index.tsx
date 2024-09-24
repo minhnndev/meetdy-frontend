@@ -28,7 +28,6 @@ const FriendCard = ({
             avatar={avatar}
             color={avatarColor}
             name={name}
-            isActive={false}
             size="medium"
           />
         }
