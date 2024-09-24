@@ -1,3 +1,5 @@
+import ServiceUser from "@/api/userApi";
+import { INIT_SUGGEST_FRIEND } from "@/constants/friend.constant";
 import { TContact } from "@/models/friend.model";
 import { UserAvatar, UserCard } from "@/modules/Chat/components";
 import { Button, Card, Tag, Typography } from "@douyinfe/semi-ui";
@@ -5,6 +7,16 @@ import { useState } from "react";
 
 const ContactCard = ({ contact }: { contact: TContact }) => {
   const [showUser, setShowUser] = useState(false);
+  const [findUser, setFindUser] = useState(INIT_SUGGEST_FRIEND);
+  const { name, username, avatar, status } = contact;
+
+  const handleViewDetail = async () => {
+    const user = await ServiceUser.getUser(username);
+    console.log(user);
+    setFindUser(user);
+    setShowUser(true);
+  };
+
   return (
     <>
       <Card
@@ -17,11 +29,7 @@ const ContactCard = ({ contact }: { contact: TContact }) => {
         style={{ margin: "0.5rem 0" }}
       >
         <div style={{ display: "flex" }}>
-          <UserAvatar
-            avatar={contact.avatar}
-            name={contact.name}
-            size="medium"
-          />
+          <UserAvatar avatar={avatar} name={name} size="medium" />
           <div
             style={{
               display: "flex",
@@ -30,22 +38,22 @@ const ContactCard = ({ contact }: { contact: TContact }) => {
               marginLeft: 8,
             }}
           >
-            <Typography.Title heading={6}>{contact.name}</Typography.Title>
-            {contact.status === "NOT_FRIEND" ? (
-              <Tag color="red">Chưa kết bạn</Tag>
-            ) : contact.status === "YOU_FOLLOW" ? (
+            <Typography.Title heading={6}>{name}</Typography.Title>
+            {status === "FRIEND" ? (
+              <Tag color="green">Bạn bè</Tag>
+            ) : status === "FOLLOWING" ? (
               <Tag color="light-blue">Đã gửi lời mời kết bạn</Tag>
             ) : (
-              <Tag color="green">Bạn bè</Tag>
+              <Tag color="red">Chưa kết bạn</Tag>
             )}
           </div>
         </div>
-        <Button onClick={() => setShowUser(true)}>Xem chi tiết</Button>
+        <Button onClick={handleViewDetail}>Xem chi tiết</Button>
       </Card>
       <UserCard
         visible={showUser}
         onCancel={() => setShowUser(false)}
-        user={contact}
+        user={findUser}
       />
     </>
   );

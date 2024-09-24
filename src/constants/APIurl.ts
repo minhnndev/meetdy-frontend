@@ -17,18 +17,24 @@ export const API = {
     REVOKE_TOKEN: "/me/revoke-token",
   },
   FRIEND: {
-    FETCH_FRIENDS: "/friends",
-    ACCEPT_REQUEST_FRIEND: "/friends",
-    DELETE_FRIEND: "/friends",
-    FETCH_REQUEST_FRIENDS: "/friends/invites",
-    DELETE_REQUEST_FRIEND: "/friends/invites",
-    SEND_REQUEST_FRIEND: "/friends/invites/me",
-    DELETE_SENT_REQUEST_FRIEND: "/friends/invites/me",
-    FETCH_SENT_REQUEST_FRIENDS: "/friends/invites/me",
-    FETCH_SUGGEST_FRIENDS: "friends/suggest",
+    FETCH: "/friends",
+    ACCEPT_REQUEST: "/friends",
+    DELETE: "/friends",
+    FETCH_REQUEST: "/friends/invites",
+    DELETE_REQUEST: "/friends/invites",
+    SEND_REQUEST: "/friends/invites/me",
+    DELETE_SENT_REQUEST: "/friends/invites/me",
+    FETCH_SENT_REQUEST: "/friends/invites/me",
+    FETCH_SUGGEST: "friends/suggest",
   },
   PHONE_BOOK: "/me/phone-books",
   SEARCH_USER: "/users/search/username",
+  CONVERSATION: {
+    GET: "/conversations",
+    CREATE: "/conversations/individuals",
+    CREATE_GROUP: "/conversations/groups",
+    DELETE: "/conversations",
+  },
 };
 
 const URL = {

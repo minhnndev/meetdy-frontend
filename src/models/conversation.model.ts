@@ -44,3 +44,8 @@ export type TCreateGroup = {
   name: string;
   userIds: Array<string>;
 };
+
+export type TCreateConversationResponse = {
+  _id: string;
+  isExists: boolean;
+};
