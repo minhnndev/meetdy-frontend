@@ -27,6 +27,7 @@ _httpsAxios.interceptors.request.use(
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
+    config.metadata = { startTime: new Date().getTime() };
     return config;
   },
   (error) => {
@@ -49,7 +50,7 @@ _httpsAxios.interceptors.response.use(
       }${duration} ms\x1b[0m`
     );
     if (isSuccess(response.status)) {
-      return { ...response.data, time: duration };
+      return response.data;
     }
     return response;
   },

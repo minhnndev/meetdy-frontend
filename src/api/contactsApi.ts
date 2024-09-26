@@ -1,10 +1,10 @@
+import { TContact } from "@/models/friend.model";
 import axiosClient from "./_httpAxios";
-
-const BASE_URL = "/me/phone-books";
+import { API } from "@/constants/APIurl";
 
 const ServiceContacts = {
   getContacts: () => {
-    return axiosClient.get<any, any>(`${BASE_URL}`);
+    return axiosClient.get<any, Array<TContact>>(`${API.PHONE_BOOK}`);
   },
 };
 

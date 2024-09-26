@@ -8,7 +8,7 @@ const NewPasswordForm = ({ counter, handleForgot, handleResendOTP }) => {
     <Form onSubmit={(values) => handleForgot({ ...values, otp: otpValue })}>
       {({ formState }) => (
         <>
-          <InputOTP otpValue={otpValue} setOtpValue={setOtpValue} />
+          <InputOTP setOtpValue={setOtpValue} />
           <Form.Input
             mode="password"
             field="password"

@@ -6,7 +6,7 @@ const OTPForm = ({ counter, handleConfirm, handleResendOTP }) => {
   const [otpValue, setOtpValue] = useState<string>("");
   return (
     <>
-      <InputOTP otpValue={otpValue} setOtpValue={setOtpValue} />
+      <InputOTP setOtpValue={setOtpValue} />
       <Button
         onClick={handleResendOTP}
         theme="solid"

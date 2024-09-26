@@ -1,91 +1,88 @@
 import {
+  TCreateConversationResponse,
+  TCreateGroup,
   TGetConversation,
   TGetListConversations,
+  TGroupConversation,
+  TIndividualConversation,
 } from "@/models/conversation.model";
 import axiosClient from "./_httpAxios";
-
-const API_URL = "/conversations";
+import { API } from "@/constants/APIurl";
 
 const ServiceConversation = {
   getListConversations: (params: TGetListConversations) =>
-    axiosClient.get<any, any>(API_URL, { params }),
+    axiosClient.get<any, Array<TIndividualConversation | TGroupConversation>>(
+      API.CONVERSATION.GET,
+      { params }
+    ),
 
-  // [POST] /individuals/:userId
+  createConversationIndividual: (userId: string) =>
+    axiosClient.post<TCreateConversationResponse, any>(
+      `${API.CONVERSATION.CREATE}/${userId}`
+    ),
 
-  createConversationIndividual: (userId) => {
-    return axiosClient.post(`${API_URL}/individuals/${userId}`);
-  },
-
-  createGroup: (name, userIds) => {
-    return axiosClient.post(`${API_URL}/groups`, {
-      name,
-      userIds,
-    });
-  },
+  createGroup: (params: TCreateGroup) =>
+    axiosClient.post(API.CONVERSATION.CREATE_GROUP, params),
 
   getConversationById: (id: string) =>
-    axiosClient.get<any, TGetConversation>(`${API_URL}/${id}`),
+    axiosClient.get<any, TGetConversation>(`${API.CONVERSATION.GET}/${id}`),
 
-  deleteConversation: (id) => {
-    return axiosClient.delete(`${API_URL}/${id}`);
-  },
+  deleteConversation: (id: string) =>
+    axiosClient.delete(`${API.CONVERSATION.DELETE}/${id}`),
 
-  getMemberInConversation: (id) => {
-    return axiosClient.get(`${API_URL}/${id}/members`);
-  },
+  getMemberInConversation: (id: string) =>
+    axiosClient.get(`${API.CONVERSATION.GET}/${id}/members`),
 
-  addMembersToConver: (userIds, coversationIds) => {
-    return axiosClient.post(`${API_URL}/${coversationIds}/members`, {
+  addMembersToConver: (userIds, coversationIds) =>
+    axiosClient.post(`${API.CONVERSATION.GET}/${coversationIds}/members`, {
       userIds,
-    });
-  },
+    }),
 
-  leaveGroup: (conversationId) => {
-    return axiosClient.delete(`${API_URL}/${conversationId}/members/leave`);
-  },
+  leaveGroup: (conversationId: string) =>
+    axiosClient.delete(
+      `${API.CONVERSATION.DELETE}/${conversationId}/members/leave`
+    ),
 
-  deleteMember: (conversationId, userId) => {
-    return axiosClient.delete(`${API_URL}/${conversationId}/members/${userId}`);
-  },
-  changeNameConversation: (conversationId, name) => {
-    return axiosClient.patch(`${API_URL}/${conversationId}/name`, {
+  deleteMember: (conversationId, userId) =>
+    axiosClient.delete(
+      `${API.CONVERSATION.DELETE}/${conversationId}/members/${userId}`
+    ),
+
+  changeNameConversation: (conversationId, name) =>
+    axiosClient.patch(`${API.CONVERSATION.GET}/${conversationId}/name`, {
       name,
-    });
-  },
-  getLastViewOfMembers: (conversationId) => {
-    return axiosClient.get(`${API_URL}/${conversationId}/last-view`);
-  },
+    }),
 
-  getSummaryInfoGroup: (conversationId) => {
-    return axiosClient.get(`${API_URL}/${conversationId}/summary`);
-  },
-  joinGroupFromLink: (conversationId) => {
-    return axiosClient.post(
-      `${API_URL}/${conversationId}/members/join-from-link`
-    );
-  },
-  changeStatusForGroup: (conversationId, isStatus) => {
-    return axiosClient.patch(
-      `${API_URL}/${conversationId}/join-from-link/${isStatus}`
-    );
-  },
+  getLastViewOfMembers: (conversationId: string) =>
+    axiosClient.get(`${API.CONVERSATION.GET}/${conversationId}/last-view`),
 
-  changAvatarGroup: (conversationId, file) => {
-    return axiosClient.patch(`${API_URL}/${conversationId}/avatar`, file);
-  },
-  addManagerGroup: (converId, userIds) => {
-    return axiosClient.post(`${API_URL}/${converId}/managers`, {
+  getSummaryInfoGroup: (conversationId: string) =>
+    axiosClient.get(`${API.CONVERSATION.GET}/${conversationId}/summary`),
+
+  joinGroupFromLink: (conversationId: string) =>
+    axiosClient.post(
+      `${API.CONVERSATION.GET}/${conversationId}/members/join-from-link`
+    ),
+
+  changeStatusForGroup: (conversationId, isStatus) =>
+    axiosClient.patch(
+      `${API.CONVERSATION.GET}/${conversationId}/join-from-link/${isStatus}`
+    ),
+
+  changAvatarGroup: (conversationId, file) =>
+    axiosClient.patch(`${API.CONVERSATION.GET}/${conversationId}/avatar`, file),
+
+  addManagerGroup: (converId, userIds) =>
+    axiosClient.post(`${API.CONVERSATION.GET}/${converId}/managers`, {
       managerIds: userIds,
-    });
-  },
+    }),
 
-  deleteManager: (converId, userIds) => {
-    return axiosClient.delete(`${API_URL}/${converId}/managers`, {
+  deleteManager: (converId, userIds) =>
+    axiosClient.delete(`${API.CONVERSATION.DELETE}/${converId}/managers`, {
       data: {
         managerIds: userIds,
       },
-    });
-  },
+    }),
 };
 
 export default ServiceConversation;
