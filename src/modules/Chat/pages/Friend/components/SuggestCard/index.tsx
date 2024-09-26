@@ -17,6 +17,7 @@ const SuggestCard = ({ suggest }: { suggest: TSuggestFriend }) => {
             alignItems: "center",
             justifyContent: "space-between",
             padding: "1.75rem 0",
+            textAlign: "center",
           }}
           onClick={() => setShowUser(true)}
         >
@@ -26,7 +27,11 @@ const SuggestCard = ({ suggest }: { suggest: TSuggestFriend }) => {
             name={name}
             size="large"
           />
-          <Typography.Title heading={6} style={{ marginTop: "1rem" }}>
+          <Typography.Title
+            heading={6}
+            style={{ marginTop: "1rem", width: 200 }}
+            ellipsis={{ showTooltip: true }}
+          >
             {name}
           </Typography.Title>
           <Typography.Text type="tertiary" style={{ marginTop: 4 }}>

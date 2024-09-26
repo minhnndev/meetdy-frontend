@@ -69,7 +69,8 @@ const FriendItem = ({ friend }: { friend: TFriend }) => {
               display: "flex",
               flexDirection: "column",
               justifyContent: "center",
-              margin: "2px 0",
+              margin: "4px 0",
+              padding: friend.lastLogin ? 0 : "10px 0",
             }}
           >
             <Typography.Text
@@ -79,7 +80,7 @@ const FriendItem = ({ friend }: { friend: TFriend }) => {
               {name}
             </Typography.Text>
             {friend.lastLogin && (
-              <Typography.Text type="tertiary" style={{ marginTop: 2 }}>
+              <Typography.Text type="tertiary">
                 Truy cập {dateUtils.toTime(friend.lastLogin)} trước
               </Typography.Text>
             )}
