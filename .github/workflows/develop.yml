@@ -34,15 +34,14 @@ jobs:
           docker push nghiaphamln/meetdy-frontend:dev-1.${{ env.VERSION }}
           docker push nghiaphamln/meetdy-frontend:dev-latest
 
-      - name: Pull and restart service on VPS
-        env:
-          VPS_USER: ${{ secrets.VPS_USER }}
-          VPS_PASSWORD: ${{ secrets.VPS_PASSWORD }}
-          VPS_HOST: ${{ secrets.VPS_HOST }}
+      - name: Set up kubeconfig
         run: |
-          sshpass -p "$VPS_PASSWORD" ssh -o StrictHostKeyChecking=no -t $VPS_USER@$VPS_HOST << EOF
-            cd ./meetdy || exit
-            docker compose -f develop.yaml pull meetdy-frontend-dev
-            docker compose -f develop.yaml up -d meetdy-frontend-dev
-            docker image prune -f
-          EOF
+          mkdir -p $HOME/.kube
+          echo "${{ secrets.KUBECONFIG }}" | base64 -d > $HOME/.kube/config
+          chmod 600 $HOME/.kube/config
+
+      - name: Update Deployment in K3s
+        run: |
+          kubectl set image deployment/meetdy-frontend-deployment meetdy-frontend=nghiaphamln/meetdy-frontend:1.${{ env.VERSION }} -n meetdy-develop
+          kubectl rollout restart deployment/meetdy-frontend-deployment -n meetdy-develop
+          kubectl rollout status deployment/meetdy-frontend-deployment -n meetdy-develop
