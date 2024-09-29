@@ -10,6 +10,7 @@ const FriendHeader = ({ subtab }) => {
         display: "flex",
         borderBottom: "1px solid rgba(var(--semi-grey-1), 1)",
         padding: "1rem",
+        background: "white",
       }}
     >
       <div className="flex-center" style={{ marginRight: 12 }}>

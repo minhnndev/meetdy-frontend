@@ -1,7 +1,7 @@
 import { FRIEND_FILTER_TITLE } from "@/constants/friend.constant";
 import { TGroupConversation } from "@/models/conversation.model";
 import { IconFilter, IconTreeTriangleDown } from "@douyinfe/semi-icons";
-import { CardGroup, Select } from "@douyinfe/semi-ui";
+import { CardGroup, Select, Typography } from "@douyinfe/semi-ui";
 import { useEffect, useRef, useState } from "react";
 import GroupCard from "../GroupCard";
 import { sortGroup } from "@/utils/groupUtils";
@@ -13,6 +13,7 @@ const SubtabGroup = ({ groups }: { groups: Array<TGroupConversation> }) => {
   const [currentGroups, setCurrentGroups] = useState([]);
   const refFilter = useRef<Array<TGroupConversation>>();
   const { user } = useAppSelector((state) => state.global);
+  const { Text } = Typography;
 
   useEffect(() => {
     if (groups.length > 0) {
@@ -66,9 +67,14 @@ const SubtabGroup = ({ groups }: { groups: Array<TGroupConversation> }) => {
                 width: 200,
               }}
             >
-              <IconTreeTriangleDown />
+              <Text>
+                <IconTreeTriangleDown />
+              </Text>
               <p style={{ marginLeft: 8, fontSize: 14 }}>
-                {FRIEND_FILTER_TITLE["L"][filterLeft]} ({currentGroups.length})
+                <Text>
+                  {FRIEND_FILTER_TITLE["L"][filterLeft]} ({currentGroups.length}
+                  )
+                </Text>
               </p>
             </span>
           )}
@@ -89,9 +95,11 @@ const SubtabGroup = ({ groups }: { groups: Array<TGroupConversation> }) => {
                 width: 200,
               }}
             >
-              <IconFilter />
+              <Text>
+                <IconFilter />
+              </Text>
               <p style={{ marginLeft: 8, fontSize: 14 }}>
-                {FRIEND_FILTER_TITLE["R"][filterRight]}
+                <Text>{FRIEND_FILTER_TITLE["R"][filterRight]}</Text>
               </p>
             </span>
           )}
@@ -102,7 +110,7 @@ const SubtabGroup = ({ groups }: { groups: Array<TGroupConversation> }) => {
         </Select>
       </div>
 
-      <CardGroup>
+      <CardGroup style={{ marginBottom: "1rem" }}>
         {currentGroups?.map((group: TGroupConversation) => (
           <GroupCard key={group._id} group={group} />
         ))}

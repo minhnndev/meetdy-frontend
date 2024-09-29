@@ -21,6 +21,7 @@ const SearchResultTabs = ({
   individuals: Array<TIndividualConversation>;
   groups: Array<TGroupConversation>;
 }) => {
+  const { Text } = Typography;
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -35,7 +36,7 @@ const SearchResultTabs = ({
       <TabPane
         tab="Cá nhân"
         itemKey="1"
-        style={{ height: "calc(100vh - 130px)", overflow: "scroll" }}
+        style={{ height: "calc(100vh - 127px)", overflow: "scroll" }}
       >
         {individuals.length == 0 ? (
           <Empty
@@ -56,9 +57,7 @@ const SearchResultTabs = ({
                 color={individual.avatarColor}
                 name={individual.name}
               />
-              <Typography.Text style={{ marginLeft: 8 }}>
-                {individual.name}
-              </Typography.Text>
+              <Text style={{ marginLeft: 8 }}>{individual.name}</Text>
             </Nav.Item>
           ))
         )}
@@ -66,7 +65,7 @@ const SearchResultTabs = ({
       <TabPane
         tab="Nhóm"
         itemKey="2"
-        style={{ height: "calc(100vh - 130px)", overflow: "scroll" }}
+        style={{ height: "calc(100vh - 127px)", overflow: "scroll" }}
       >
         {groups.length === 0 ? (
           <Empty
@@ -94,9 +93,7 @@ const SearchResultTabs = ({
                   largeSize={30}
                 />
               </div>
-              <Typography.Text style={{ marginLeft: 8 }}>
-                {group.name}
-              </Typography.Text>
+              <Text style={{ marginLeft: 8 }}>{group.name}</Text>
             </Nav.Item>
           ))
         )}

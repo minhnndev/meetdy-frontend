@@ -1,0 +1,32 @@
+#chat-sidebar .semi-navigation {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+#chat-sidebar .semi-navigation-item-icon-info {
+  color: inherit;
+}
+
+#chat-sidebar .semi-navigation-list-wrapper {
+  padding-top: 0;
+}
+
+#chat-sidebar .semi-navigation-item {
+  line-height: inherit;
+}
+
+#chat-sidebar .semi-navigation-item-selected {
+  background-color: white;
+}
+
+#chat-sidebar .semi-avatar-circle {
+  border: none;
+}
+
+.semi-space-tight-vertical {
+  row-gap: 0;
+}
+
+.semi-space-align-center {
+  display: flex;
+}

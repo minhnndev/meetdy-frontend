@@ -21,7 +21,7 @@ import { useState } from "react";
 import { socket } from "@/utils/socketClient";
 
 const GroupCard = ({ group }: { group: TGroupConversation }) => {
-  const [showOptions, setShowOptions] = useState(true);
+  const [showOptions, setShowOptions] = useState(false);
   const { _id, name, totalMembers, avatar, leaderId } = group;
   const dispatch = useAppDispatch();
   const { user } = useAppSelector((state) => state.global);

@@ -1,15 +1,18 @@
 import "./style.css";
 import FriendItem from "../FriendItem";
+import { Typography } from "@douyinfe/semi-ui";
 
 const FriendList = ({ friends }) => {
   return (
     <>
       <div style={{ fontSize: 14, padding: "0.75rem 1rem 0.5rem 1rem" }}>
-        Bạn bè ({Object.keys(friends).length})
+        <Typography.Text>
+          Bạn bè ({Object.keys(friends).length})
+        </Typography.Text>
       </div>
       <div
         id="friend-list"
-        style={{ height: "calc(100vh - 16rem)", overflow: "scroll" }}
+        style={{ height: "calc(100vh - 242px)", overflow: "scroll" }}
       >
         {friends.map((friend: any) => (
           <FriendItem key={friend._id} friend={friend} />

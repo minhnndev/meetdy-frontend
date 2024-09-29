@@ -4,12 +4,13 @@ import FriendCard from "../FriendCard";
 import SuggestCard from "../SuggestCard";
 
 const SubtabFriend = ({ requestFriends, myRequestFriend, suggestFriends }) => {
+  const { Text } = Typography;
   return (
     <>
       <Row style={{ marginTop: "1rem" }}>
-        <Typography.Text style={{ fontWeight: 500 }}>
+        <Text style={{ fontWeight: 500 }}>
           Lời mời kết bạn ({requestFriends.length ?? 0})
-        </Typography.Text>
+        </Text>
         {requestFriends?.map((request: TRequestFriend) => (
           <FriendCard key={request._id} request={request} />
         ))}
@@ -19,9 +20,9 @@ const SubtabFriend = ({ requestFriends, myRequestFriend, suggestFriends }) => {
           marginTop: `${requestFriends.length == 0 ? "1rem" : "0.5rem"}`,
         }}
       >
-        <Typography.Text style={{ fontWeight: 500 }}>
+        <Text style={{ fontWeight: 500 }}>
           Yêu cầu kết bạn đã gửi ({myRequestFriend.length ?? 0})
-        </Typography.Text>
+        </Text>
 
         {myRequestFriend?.map((request: TRequestFriend) => (
           <FriendCard key={request._id} request={request} isMine />
@@ -33,12 +34,12 @@ const SubtabFriend = ({ requestFriends, myRequestFriend, suggestFriends }) => {
           marginBottom: "1rem",
         }}
       >
-        <Typography.Text style={{ fontWeight: 500 }}>
+        <Text style={{ fontWeight: 500 }}>
           Gợi ý kết bạn (
           {suggestFriends.filter((suggest) => suggest.status === "NOT_FRIEND")
             .length ?? 0}
           )
-        </Typography.Text>
+        </Text>
 
         <div style={{ marginTop: "0.75rem" }}>
           <CardGroup>

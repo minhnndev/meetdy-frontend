@@ -4,6 +4,7 @@ import { Card, Typography } from "@douyinfe/semi-ui";
 import { useState } from "react";
 
 const SuggestCard = ({ suggest }: { suggest: TSuggestFriend }) => {
+  const { Text } = Typography;
   const [showUser, setShowUser] = useState(false);
   const { avatar, avatarColor, name, numberCommonFriend, numberCommonGroup } =
     suggest;
@@ -34,12 +35,12 @@ const SuggestCard = ({ suggest }: { suggest: TSuggestFriend }) => {
           >
             {name}
           </Typography.Title>
-          <Typography.Text type="tertiary" style={{ marginTop: 4 }}>
+          <Text type="tertiary" style={{ marginTop: 4 }}>
             {numberCommonGroup} nhóm chung
-          </Typography.Text>
-          <Typography.Text type="tertiary" style={{ marginTop: 4 }}>
+          </Text>
+          <Text type="tertiary" style={{ marginTop: 4 }}>
             {numberCommonFriend} bạn chung
-          </Typography.Text>
+          </Text>
         </div>
       </Card>
       <UserCard

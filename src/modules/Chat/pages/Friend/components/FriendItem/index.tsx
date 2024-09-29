@@ -24,6 +24,7 @@ const FriendItem = ({ friend }: { friend: TFriend }) => {
   const [showUserInfo, setShowUserInfo] = useState(false);
   const [findUser, setFindUser] = useState(INIT_SUGGEST_FRIEND);
   const { _id, username, avatar, avatarColor, name, isOnline } = friend;
+  const { Paragraph } = Typography;
 
   const handleViewInfo = async () => {
     setShowUserInfo(true);
@@ -66,23 +67,17 @@ const FriendItem = ({ friend }: { friend: TFriend }) => {
         >
           <div
             style={{
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
               margin: "4px 0",
               padding: friend.lastLogin ? 0 : "10px 0",
             }}
           >
-            <Typography.Text
-              style={{ width: 165 }}
-              ellipsis={{ showTooltip: true }}
-            >
+            <Paragraph style={{ width: 165 }} ellipsis={{ showTooltip: true }}>
               {name}
-            </Typography.Text>
+            </Paragraph>
             {friend.lastLogin && (
-              <Typography.Text type="tertiary">
+              <Paragraph type="tertiary">
                 Truy cập {dateUtils.toTime(friend.lastLogin)} trước
-              </Typography.Text>
+              </Paragraph>
             )}
           </div>
           {showOptions && (

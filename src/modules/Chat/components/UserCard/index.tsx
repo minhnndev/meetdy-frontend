@@ -42,6 +42,7 @@ const UserCard = ({
     numberCommonGroup,
     status,
   } = user;
+  const { Paragraph } = Typography;
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { conversations } = useAppSelector((state) => state.chat);
@@ -165,9 +166,12 @@ const UserCard = ({
           />
         )}
       </div>
-      <div className="flex-center" style={{ margin: "1rem 0" }}>
-        <Typography.Text style={{ fontSize: 20 }}>{name}</Typography.Text>
-      </div>
+      <Paragraph
+        className="flex-center"
+        style={{ fontSize: 20, margin: "1rem 0" }}
+      >
+        {name}
+      </Paragraph>
       <div className="flex-center">
         {status == "NOT_FRIEND" && (
           <Button
@@ -222,21 +226,19 @@ const UserCard = ({
         </Button>
       </div>
       <div className="flex-center" style={{ margin: "1rem 0 2rem 0" }}>
-        <div
-          style={{ display: "flex", flexDirection: "column", marginRight: 20 }}
-        >
-          <Typography.Text type="tertiary">Giới tính</Typography.Text>
-          <Typography.Text type="tertiary">Ngày sinh</Typography.Text>
-          <Typography.Text type="tertiary">Nhóm chung</Typography.Text>
-          <Typography.Text type="tertiary">Bạn chung</Typography.Text>
+        <div style={{ marginRight: 20 }}>
+          <Paragraph type="tertiary">Giới tính</Paragraph>
+          <Paragraph type="tertiary">Ngày sinh</Paragraph>
+          <Paragraph type="tertiary">Nhóm chung</Paragraph>
+          <Paragraph type="tertiary">Bạn chung</Paragraph>
         </div>
-        <div style={{ display: "flex", flexDirection: "column" }}>
-          <Typography.Text>{gender ? "Nam" : "Nữ"}</Typography.Text>
-          <Typography.Text>
+        <div>
+          <Paragraph>{gender ? "Nam" : "Nữ"}</Paragraph>
+          <Paragraph>
             {dateOfBirth.day}/{dateOfBirth.month}/{dateOfBirth.year}
-          </Typography.Text>
-          <Typography.Text>{numberCommonGroup}</Typography.Text>
-          <Typography.Text>{numberCommonFriend}</Typography.Text>
+          </Paragraph>
+          <Paragraph>{numberCommonGroup}</Paragraph>
+          <Paragraph>{numberCommonFriend}</Paragraph>
         </div>
       </div>
       {status === "FRIEND" && (
