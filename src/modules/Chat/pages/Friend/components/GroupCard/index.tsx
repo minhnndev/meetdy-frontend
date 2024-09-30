@@ -19,12 +19,24 @@ import {
 } from "@douyinfe/semi-ui";
 import { useState } from "react";
 import { socket } from "@/utils/socketClient";
+import { useNavigate } from "react-router";
+import {
+  fetchListMessages,
+  setCurrentConversation,
+} from "@/redux/slice/chat/chatSlice";
 
 const GroupCard = ({ group }: { group: TGroupConversation }) => {
   const [showOptions, setShowOptions] = useState(false);
   const { _id, name, totalMembers, avatar, leaderId } = group;
   const dispatch = useAppDispatch();
   const { user } = useAppSelector((state) => state.global);
+  const navigate = useNavigate();
+
+  const handleClickGroup = async () => {
+    dispatch(fetchListMessages({ conversationId: _id, size: 10 }));
+    dispatch(setCurrentConversation(_id));
+    navigate("/chat");
+  };
 
   const handleDeleteGroup = async () => {
     try {
@@ -73,6 +85,7 @@ const GroupCard = ({ group }: { group: TGroupConversation }) => {
         style={{ position: "relative" }}
         onMouseEnter={() => setShowOptions(true)}
         onMouseLeave={() => setShowOptions(false)}
+        onClick={handleClickGroup}
       >
         {leaderId === user._id && (
           <IconKeyStroked

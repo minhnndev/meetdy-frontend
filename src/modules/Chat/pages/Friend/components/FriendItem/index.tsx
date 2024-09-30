@@ -1,8 +1,14 @@
+import ServiceConversation from "@/api/conversationApi";
 import FriendService from "@/api/friendApi";
 import ServiceUser from "@/api/userApi";
 import { INIT_SUGGEST_FRIEND } from "@/constants/friend.constant";
 import { TFriend } from "@/models/friend.model";
 import { UserAvatar, UserCard } from "@/modules/Chat/components";
+import {
+  fetchListMessages,
+  setConversations,
+  setCurrentConversation,
+} from "@/redux/slice/chat/chatSlice";
 import { fetchFriends } from "@/redux/slice/friendSlice";
 import { useAppDispatch } from "@/redux/store";
 import dateUtils from "@/utils/dateUtils";
@@ -16,15 +22,35 @@ import {
   Typography,
 } from "@douyinfe/semi-ui";
 import { useState } from "react";
+import { useNavigate } from "react-router";
 
 const FriendItem = ({ friend }: { friend: TFriend }) => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const [showDropdown, setShowDropdown] = useState(false);
   const [showOptions, setShowOptions] = useState(false);
   const [showUserInfo, setShowUserInfo] = useState(false);
   const [findUser, setFindUser] = useState(INIT_SUGGEST_FRIEND);
   const { _id, username, avatar, avatarColor, name, isOnline } = friend;
   const { Paragraph } = Typography;
+
+  const handleClickItem = async () => {
+    const response = await ServiceConversation.createConversationIndividual(
+      friend._id
+    );
+    const { _id, isExists } = response;
+
+    if (!isExists) {
+      const conversation = await ServiceConversation.getConversationById(
+        friend._id
+      );
+      dispatch(setConversations(conversation));
+    }
+
+    dispatch(fetchListMessages({ conversationId: _id, size: 10 }));
+    dispatch(setCurrentConversation(_id));
+    navigate("/chat");
+  };
 
   const handleViewInfo = async () => {
     setShowUserInfo(true);
@@ -60,6 +86,7 @@ const FriendItem = ({ friend }: { friend: TFriend }) => {
   return (
     <Nav.Item
       itemKey={friend._id}
+      onClick={handleClickItem}
       text={
         <div
           className="flex-center"
