@@ -2,7 +2,7 @@ import axiosClient from "./_httpAxios";
 
 const API_URL = "/classifies";
 
-const classifiesApi = {
+const ServiceClassify = {
   getColors: () => {
     return axiosClient.get(`${API_URL}/colors`);
   },
@@ -41,4 +41,4 @@ const classifiesApi = {
   },
 };
 
-export default classifiesApi;
+export default ServiceClassify;
