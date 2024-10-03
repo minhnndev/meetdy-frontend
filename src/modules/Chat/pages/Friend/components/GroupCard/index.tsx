@@ -1,6 +1,6 @@
 import ServiceConversation from "@/api/conversationApi";
 import { TGroupConversation } from "@/models/conversation.model";
-import { GroupAvatar } from "@/modules/Chat/components";
+import { ClassifyModal, GroupAvatar } from "@/modules/Chat/components";
 import { fetchListGroup } from "@/redux/slice/friendSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/store";
 import {
@@ -14,22 +14,27 @@ import {
   Card,
   Dropdown,
   Modal,
+  Popover,
   Toast,
   Typography,
 } from "@douyinfe/semi-ui";
-import { useState } from "react";
 import { socket } from "@/utils/socketClient";
 import { useNavigate } from "react-router";
 import {
   fetchListMessages,
   setCurrentConversation,
 } from "@/redux/slice/chat/chatSlice";
+import ManageClassify from "../ManageClassify";
+import { useState } from "react";
 
 const GroupCard = ({ group }: { group: TGroupConversation }) => {
+  const [showMoreButton, setShowMoreButton] = useState(false);
   const [showOptions, setShowOptions] = useState(false);
+  const [showClassifyModal, setShowClassifyModal] = useState(false);
   const { _id, name, totalMembers, avatar, leaderId } = group;
   const dispatch = useAppDispatch();
   const { user } = useAppSelector((state) => state.global);
+  const { classifies } = useAppSelector((state) => state.chat);
   const navigate = useNavigate();
 
   const handleClickGroup = async () => {
@@ -80,98 +85,117 @@ const GroupCard = ({ group }: { group: TGroupConversation }) => {
   };
 
   return (
-    <Card shadows="hover" style={{ width: 250 }}>
-      <div
-        style={{ position: "relative" }}
-        onMouseEnter={() => setShowOptions(true)}
-        onMouseLeave={() => setShowOptions(false)}
-        onClick={handleClickGroup}
-      >
-        {leaderId === user._id && (
-          <IconKeyStroked
-            size="default"
+    <div
+      onMouseEnter={() => setShowMoreButton(true)}
+      onMouseLeave={() => setShowMoreButton(false)}
+    >
+      <Card shadows="hover" style={{ width: 250 }}>
+        <div style={{ position: "relative" }} onClick={handleClickGroup}>
+          {leaderId === user._id && (
+            <IconKeyStroked
+              size="default"
+              style={{
+                position: "absolute",
+                marginTop: -4,
+                marginLeft: -4,
+                color: "yellow",
+                background: "var(--semi-color-overlay-bg)",
+                borderRadius: "50%",
+                padding: 4,
+              }}
+            />
+          )}
+          <div
             style={{
-              position: "absolute",
-              marginTop: -4,
-              marginLeft: -4,
-              color: "yellow",
-              background: "var(--semi-color-overlay-bg)",
-              borderRadius: "50%",
-              padding: 4,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "space-between",
+              padding: "1.75rem 0",
+              textAlign: "center",
             }}
-          />
-        )}
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "space-between",
-            padding: "1.75rem 0",
-            textAlign: "center",
-          }}
-          onClick={() => {}}
-        >
-          <GroupAvatar
-            avatars={avatar}
-            totalMembers={totalMembers}
-            smallSize={40}
-            largeSize={72}
-          />
-          <Typography.Title
-            heading={6}
-            style={{ marginTop: "1rem", width: 200 }}
-            ellipsis={{ showTooltip: true }}
+            onClick={() => {}}
           >
-            {name}
-          </Typography.Title>
-          <Typography.Text type="tertiary" style={{ marginTop: 4 }}>
-            {totalMembers} thành viên
-          </Typography.Text>
+            <GroupAvatar
+              avatars={avatar}
+              totalMembers={totalMembers}
+              smallSize={40}
+              largeSize={72}
+            />
+            <Typography.Title
+              heading={6}
+              style={{ marginTop: "1rem", width: 200 }}
+              ellipsis={{ showTooltip: true }}
+            >
+              {name}
+            </Typography.Title>
+            <Typography.Text type="tertiary" style={{ marginTop: 4 }}>
+              {totalMembers} thành viên
+            </Typography.Text>
+          </div>
         </div>
-        {showOptions && (
-          <Dropdown
-            position="bottom"
-            trigger="click"
-            render={
-              <Dropdown.Menu>
+        <Dropdown
+          onClickOutSide={() => setShowOptions(false)}
+          visible={showOptions}
+          position="bottom"
+          trigger="custom"
+          render={
+            <Dropdown.Menu>
+              <Popover
+                content={
+                  <ManageClassify
+                    classifies={classifies}
+                    conversationId={_id}
+                    setShowClassifyModal={setShowClassifyModal}
+                  />
+                }
+                trigger="click"
+                position="rightTop"
+              >
                 <Dropdown.Item icon={<IconPriceTag />}>
                   Thẻ phân loại
                 </Dropdown.Item>
-                {leaderId === user._id ? (
-                  <Dropdown.Item
-                    icon={<IconExit />}
-                    type="danger"
-                    onClick={onDeleteGroup}
-                  >
-                    Giải tán nhóm
-                  </Dropdown.Item>
-                ) : (
-                  <Dropdown.Item
-                    icon={<IconExit />}
-                    type="danger"
-                    onClick={onLeaveGroup}
-                  >
-                    Rời nhóm
-                  </Dropdown.Item>
-                )}
-              </Dropdown.Menu>
-            }
-          >
-            <Button
-              icon={<IconMore style={{ rotate: "90deg" }} />}
-              style={{
-                position: "absolute",
-                marginTop: -200,
-                marginLeft: 180,
-                background: "white",
-              }}
-              type="tertiary"
-            />
-          </Dropdown>
-        )}
-      </div>
-    </Card>
+              </Popover>
+              {leaderId === user._id ? (
+                <Dropdown.Item
+                  icon={<IconExit />}
+                  type="danger"
+                  onClick={onDeleteGroup}
+                >
+                  Giải tán nhóm
+                </Dropdown.Item>
+              ) : (
+                <Dropdown.Item
+                  icon={<IconExit />}
+                  type="danger"
+                  onClick={onLeaveGroup}
+                >
+                  Rời nhóm
+                </Dropdown.Item>
+              )}
+            </Dropdown.Menu>
+          }
+        >
+          <Button
+            icon={<IconMore style={{ rotate: "90deg" }} />}
+            style={{
+              position: "absolute",
+              marginTop: -200,
+              marginLeft: 180,
+              background: "white",
+              visibility: showMoreButton ? "visible" : "hidden",
+            }}
+            type="tertiary"
+            onClick={() => setShowOptions(true)}
+          />
+        </Dropdown>
+      </Card>
+      <ClassifyModal
+        visible={showClassifyModal}
+        onOpen={() => setShowClassifyModal(true)}
+        onCancel={() => setShowClassifyModal(false)}
+      />
+    </div>
   );
 };
 

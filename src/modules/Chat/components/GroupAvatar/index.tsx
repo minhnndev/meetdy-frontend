@@ -13,7 +13,6 @@ const GroupAvatar = ({ avatars, totalMembers, smallSize, largeSize }) => {
         <AvatarGroup>
           {avatars.slice(0, 2)?.map((avatar) => (
             <Avatar
-              color={avatar.avatarColor}
               src={avatar.avatar}
               style={{
                 backgroundColor: !avatar.avatar && avatar.avatarColor,
@@ -30,7 +29,6 @@ const GroupAvatar = ({ avatars, totalMembers, smallSize, largeSize }) => {
       {totalMembers == 3 && (
         <div className="flex-center" style={{ flexDirection: "column" }}>
           <Avatar
-            color={avatars[0].avatarColor}
             src={avatars[0].avatar}
             style={{
               backgroundColor: !avatars[0].avatar && avatars[0].avatarColor,
@@ -45,7 +43,6 @@ const GroupAvatar = ({ avatars, totalMembers, smallSize, largeSize }) => {
           <AvatarGroup>
             {avatars.slice(1, 3)?.map((avatar) => (
               <Avatar
-                color={avatar.avatarColor}
                 src={avatar.avatar}
                 style={{
                   backgroundColor: !avatar.avatar && avatar.avatarColor,
@@ -65,7 +62,6 @@ const GroupAvatar = ({ avatars, totalMembers, smallSize, largeSize }) => {
           <AvatarGroup>
             {avatars.slice(0, 2)?.map((avatar) => (
               <Avatar
-                color={avatar.avatarColor}
                 src={avatar.avatar}
                 style={{
                   backgroundColor: !avatar.avatar && avatar.avatarColor,
@@ -82,7 +78,6 @@ const GroupAvatar = ({ avatars, totalMembers, smallSize, largeSize }) => {
           <AvatarGroup>
             {avatars.slice(2, 4)?.map((avatar) => (
               <Avatar
-                color={avatar.avatarColor}
                 src={avatar.avatar}
                 style={{
                   backgroundColor: !avatar.avatar && avatar.avatarColor,
@@ -102,7 +97,6 @@ const GroupAvatar = ({ avatars, totalMembers, smallSize, largeSize }) => {
           <AvatarGroup overlapFrom="end">
             {avatars.slice(0, 2)?.map((avatar) => (
               <Avatar
-                color={avatar.avatarColor}
                 src={avatar.avatar}
                 style={{
                   backgroundColor: !avatar.avatar && avatar.avatarColor,
@@ -118,7 +112,6 @@ const GroupAvatar = ({ avatars, totalMembers, smallSize, largeSize }) => {
           </AvatarGroup>
           <AvatarGroup overlapFrom="end">
             <Avatar
-              color={avatars[3].avatarColor}
               src={avatars[3].avatar}
               style={{
                 backgroundColor: !avatars[3].avatar && avatars[3].avatarColor,

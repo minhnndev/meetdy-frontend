@@ -86,7 +86,6 @@ const FriendItem = ({ friend }: { friend: TFriend }) => {
   return (
     <Nav.Item
       itemKey={friend._id}
-      onClick={handleClickItem}
       text={
         <div
           className="flex-center"
@@ -97,6 +96,7 @@ const FriendItem = ({ friend }: { friend: TFriend }) => {
               margin: "4px 0",
               padding: friend.lastLogin ? 0 : "10px 0",
             }}
+            onClick={handleClickItem}
           >
             <Paragraph style={{ width: 165 }} ellipsis={{ showTooltip: true }}>
               {name}
@@ -112,7 +112,7 @@ const FriendItem = ({ friend }: { friend: TFriend }) => {
               visible={showDropdown}
               onClickOutSide={() => setShowDropdown(false)}
               position="bottom"
-              trigger="click"
+              trigger="custom"
               render={
                 <Dropdown.Menu>
                   <Dropdown.Item
@@ -136,6 +136,7 @@ const FriendItem = ({ friend }: { friend: TFriend }) => {
                 theme="borderless"
                 icon={<IconMore />}
                 style={{ marginRight: 1 }}
+                onClick={() => setShowDropdown(true)}
               />
             </Dropdown>
           )}
@@ -152,6 +153,7 @@ const FriendItem = ({ friend }: { friend: TFriend }) => {
           isActive={isOnline}
           name={name}
           color={avatarColor}
+          onClick={handleClickItem}
         />
       }
       onMouseEnter={() => setShowOptions(true)}

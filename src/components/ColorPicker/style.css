@@ -1,0 +1,14 @@
+.list-color {
+  display: flex;
+  flex-wrap: wrap;
+  width: 216px;
+  height: 216px;
+}
+
+.list-color .popup-color-item {
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+  margin: 1px;
+}
+
