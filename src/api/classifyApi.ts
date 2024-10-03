@@ -1,44 +1,33 @@
+import { API } from "@/constants/APIurl";
 import axiosClient from "./_httpAxios";
+import { TAddClassify } from "@/models/classify.model";
 
-const API_URL = "/classifies";
+const ServiceClassify = {
+  getColors: () => axiosClient.get(API.CLASSIFY.GET_COLOR),
 
-const classifiesApi = {
-  getColors: () => {
-    return axiosClient.get(`${API_URL}/colors`);
-  },
-  getClassifies: () => {
-    return axiosClient.get(`${API_URL}`);
-  },
+  getClassifies: () => axiosClient.get(API.CLASSIFY.GET),
 
-  addClassify: (name, colorId) => {
-    return axiosClient.post(`${API_URL}`, {
-      name,
-      colorId,
-    });
-  },
+  addClassify: (params: TAddClassify) =>
+    axiosClient.post(API.CLASSIFY.ADD, params),
 
-  deleteClassify: (id) => {
-    return axiosClient.delete(`${API_URL}/${id}`);
-  },
+  deleteClassify: (id: string) =>
+    axiosClient.delete(`${API.CLASSIFY.DELETE}/${id}`),
 
-  addClassifyForConversation: (idClassify, idConversation) => {
-    return axiosClient.post(
-      `${API_URL}/${idClassify}/conversations/${idConversation}`
-    );
-  },
+  addClassifyForConversation: (classifyId: string, conversationId: string) =>
+    axiosClient.post(
+      `${API.CLASSIFY.ADD}/${classifyId}/conversations/${conversationId}`
+    ),
 
-  removeClassifyFromConversation: (idClassify, idConversation) => {
-    return axiosClient.delete(
-      `${API_URL}/${idClassify}/conversations/${idConversation}`
-    );
-  },
+  removeClassifyFromConversation: (
+    classifyId: string,
+    conversationId: string
+  ) =>
+    axiosClient.delete(
+      `${API.CLASSIFY.DELETE}/${classifyId}/conversations/${conversationId}`
+    ),
 
-  updateClassify: (classifyId, name, colorId) => {
-    return axiosClient.put(`${API_URL}/${classifyId}`, {
-      name,
-      colorId,
-    });
-  },
+  updateClassify: (classifyId: string, params: TAddClassify) =>
+    axiosClient.put(`${API.CLASSIFY.UPDATE}/${classifyId}`, params),
 };
 
-export default classifiesApi;
+export default ServiceClassify;
