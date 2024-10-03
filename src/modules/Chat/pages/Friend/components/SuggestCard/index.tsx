@@ -10,7 +10,7 @@ const SuggestCard = ({ suggest }: { suggest: TSuggestFriend }) => {
     suggest;
   return (
     <>
-      <Card shadows="hover" style={{ width: 250 }}>
+      <Card shadows="hover" style={{ width: 248 }}>
         <div
           style={{
             display: "flex",

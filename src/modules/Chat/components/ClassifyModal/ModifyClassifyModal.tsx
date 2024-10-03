@@ -68,6 +68,7 @@ const ModifyClassifyModal = ({
     setIsEdit(false);
     setSelectedTag(null);
     setInputName("");
+    setColor(null);
   };
 
   return (
