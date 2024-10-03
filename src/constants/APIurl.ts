@@ -35,6 +35,13 @@ export const API = {
     CREATE_GROUP: "/conversations/groups",
     DELETE: "/conversations",
   },
+  CLASSIFY: {
+    GET: "/classifies",
+    ADD: "/classifies",
+    DELETE: "/classifies",
+    UPDATE: "/classifies",
+    GET_COLOR: "/classifies/colors",
+  },
 };
 
 const URL = {

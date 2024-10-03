@@ -1,87 +1,42 @@
-import { TClassify } from "@/models/classify.model";
-import { useAppSelector } from "@/redux/store";
-import {
-  IconArrowLeft,
-  IconDelete,
-  IconEdit,
-  IconPlus,
-  IconPriceTag,
-} from "@douyinfe/semi-icons";
-import { Button, Modal, Typography } from "@douyinfe/semi-ui";
 import { useState } from "react";
+import ListClassifyModal from "./ListClassifyModal";
+import ModifyClassifyModal from "./ModifyClassifyModal";
+import { TClassify } from "@/models/classify.model";
 
 const ClassifyModal = ({ visible, onOpen, onCancel }) => {
-  const { classifies } = useAppSelector((state) => state.chat);
-  const [isModifyTag, setIsModifyTag] = useState(false);
+  const [showModifyModal, setShowModifyModal] = useState(false);
+  const [isEdit, setIsEdit] = useState(false);
+  const [selectedTag, setSelectedTag] = useState<TClassify>(null);
+
+  const openAddModal = () => {
+    setShowModifyModal(true);
+    onCancel();
+  };
+
+  const openEditModal = (classify: TClassify) => {
+    setIsEdit(true);
+    setShowModifyModal(true);
+    setSelectedTag(classify);
+    onCancel();
+  };
+
   return (
     <>
-      <Modal
-        title="Quản lý thẻ phân loại"
+      <ListClassifyModal
         visible={visible}
         onCancel={onCancel}
-        footer={null}
-      >
-        {classifies.map((classify: TClassify) => (
-          <div
-            key={classify._id}
-            style={{
-              padding: 8,
-              margin: "8px 0",
-              background: "#e1e4ea",
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              borderRadius: 8,
-            }}
-          >
-            <div>
-              <IconPriceTag
-                style={{ color: classify.color.code, marginRight: 4 }}
-              />
-              <Typography.Text>{classify.name}</Typography.Text>
-            </div>
-            <div>
-              <Button theme="borderless" type="tertiary" icon={<IconEdit />} />
-              <Button
-                theme="borderless"
-                type="tertiary"
-                icon={<IconDelete />}
-              />
-            </div>
-          </div>
-        ))}
-        <Button
-          theme="borderless"
-          type="primary"
-          icon={<IconPlus />}
-          style={{ margin: "0.75rem 0 1.5rem 0" }}
-          onClick={() => {
-            setIsModifyTag(true);
-            onCancel();
-          }}
-        >
-          Thêm thẻ phân loại
-        </Button>
-      </Modal>
-      <Modal
-        title={
-          <span>
-            <Button
-              theme="borderless"
-              type="tertiary"
-              icon={<IconArrowLeft />}
-              onClick={() => {
-                setIsModifyTag(false);
-                onOpen();
-              }}
-              style={{ margin: "0 4px 4px 0" }}
-            />
-            Thêm thẻ phân loại
-          </span>
-        }
-        visible={isModifyTag}
-        onCancel={() => setIsModifyTag(false)}
-      ></Modal>
+        openAddModal={openAddModal}
+        openEditModal={openEditModal}
+      />
+      <ModifyClassifyModal
+        onOpen={onOpen}
+        isEdit={isEdit}
+        setIsEdit={setIsEdit}
+        showModifyModal={showModifyModal}
+        setShowModifyModal={setShowModifyModal}
+        selectedTag={selectedTag}
+        setSelectedTag={setSelectedTag}
+      />
     </>
   );
 };
