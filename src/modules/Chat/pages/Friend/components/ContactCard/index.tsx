@@ -12,7 +12,6 @@ const ContactCard = ({ contact }: { contact: TContact }) => {
 
   const handleViewDetail = async () => {
     const user = await ServiceUser.getUser(username);
-    console.log(user);
     setFindUser(user);
     setShowUser(true);
   };

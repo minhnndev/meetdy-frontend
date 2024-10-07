@@ -42,7 +42,7 @@ const SearchBar = ({ onChange, onSearch }) => {
     <div style={{ display: "flex" }}>
       <Input
         prefix={<IconSearch />}
-        style={{ marginRight: 2 }}
+        style={{ marginRight: 2, width: 210 }}
         placeholder="Tìm kiếm"
         showClear
         onChange={handleInputChange}

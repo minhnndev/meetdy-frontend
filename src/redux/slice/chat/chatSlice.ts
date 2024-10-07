@@ -137,8 +137,7 @@ export const deleteConversation = createAsyncThunk(
 
 export const getMembersConversation = createAsyncThunk(
   `${KEY}/getMembersConversation`,
-  async (params: any) => {
-    const { conversationId } = params;
+  async (conversationId: string) => {
     const members = await conversationApi.getMemberInConversation(
       conversationId
     );
@@ -162,8 +161,7 @@ export const fetchPinMessages = createAsyncThunk(
 // ============
 export const getLastViewOfMembers = createAsyncThunk(
   `${KEY}/getLastViewOfMembers`,
-  async (params: any, _) => {
-    const { conversationId } = params;
+  async (conversationId: string) => {
     const lastViews = await conversationApi.getLastViewOfMembers(
       conversationId
     );
@@ -176,8 +174,7 @@ export const getLastViewOfMembers = createAsyncThunk(
 
 export const fetchChannels = createAsyncThunk(
   `${KEY}/fetchChannels`,
-  async (params: any) => {
-    const { conversationId } = params;
+  async (conversationId: string) => {
     const data = await channelApi.fetchChannel(conversationId);
     return data;
   }
