@@ -10,12 +10,13 @@ import {
   IconHash,
   IconImageStroked,
   IconKeyStroked,
+  IconPriceTag,
   IconUserStroked,
   IconVideoStroked,
 } from "@douyinfe/semi-icons";
 import { Typography } from "@douyinfe/semi-ui";
 
-const ShortMessage = ({ message, type }) => {
+const ShortMessage = ({ message, type, numberUnread, classify }) => {
   const { Text } = Typography;
   const { user } = useAppSelector((state) => state.global);
   const { content, isDeleted } = message;
@@ -148,13 +149,23 @@ const ShortMessage = ({ message, type }) => {
 
   return (
     <>
+      {classify && (
+        <IconPriceTag
+          style={{
+            color: classify.color.code,
+            marginRight: 4,
+            marginTop: 2,
+          }}
+        />
+      )}
       {isDeleted ? (
         <span>{renderName()} đã thu hồi một tin nhắn</span>
       ) : (
         <Text
-          type="tertiary"
-          style={{ width: 180 }}
+          type={numberUnread > 0 ? "primary" : "tertiary"}
+          style={{ width: classify ? 160 : 170 }}
           ellipsis={{ showTooltip: false }}
+          strong={numberUnread > 0}
         >
           {renderMessage()}
         </Text>

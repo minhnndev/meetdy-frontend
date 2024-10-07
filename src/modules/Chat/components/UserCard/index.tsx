@@ -97,10 +97,10 @@ const UserCard = ({
 
     const tempConver = conversations.find((ele) => ele._id === _id);
     if (tempConver && tempConver.type) {
-      dispatch(fetchChannels({ conversationId: _id }));
+      dispatch(fetchChannels(_id));
     }
 
-    dispatch(getLastViewOfMembers({ conversationId: _id }));
+    dispatch(getLastViewOfMembers(_id));
     dispatch(fetchListMessages({ conversationId: _id, size: 10 }));
     dispatch(setCurrentConversation(_id));
 

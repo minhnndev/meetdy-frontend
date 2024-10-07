@@ -32,8 +32,6 @@ const ClassifyChat = () => {
     checkConversationInClassify(conversation._id)
   );
 
-  console.log(conversations);
-
   return (
     <div style={{}}>
       <div
