@@ -89,7 +89,7 @@ const GroupCard = ({ group }: { group: TGroupConversation }) => {
       onMouseEnter={() => setShowMoreButton(true)}
       onMouseLeave={() => setShowMoreButton(false)}
     >
-      <Card shadows="hover" style={{ width: 250 }}>
+      <Card shadows="hover" style={{ width: 248 }}>
         <div style={{ position: "relative" }} onClick={handleClickGroup}>
           {leaderId === user._id && (
             <IconKeyStroked

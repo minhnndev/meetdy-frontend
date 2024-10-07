@@ -89,7 +89,7 @@ const FriendItem = ({ friend }: { friend: TFriend }) => {
       text={
         <div
           className="flex-center"
-          style={{ width: 200, justifyContent: "space-between" }}
+          style={{ width: 215, justifyContent: "space-between" }}
         >
           <div
             style={{
@@ -98,7 +98,7 @@ const FriendItem = ({ friend }: { friend: TFriend }) => {
             }}
             onClick={handleClickItem}
           >
-            <Paragraph style={{ width: 165 }} ellipsis={{ showTooltip: true }}>
+            <Paragraph style={{ width: 180 }} ellipsis={{ showTooltip: true }}>
               {name}
             </Paragraph>
             {friend.lastLogin && (

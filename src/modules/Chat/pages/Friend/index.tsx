@@ -72,7 +72,7 @@ const Friend = () => {
     <div style={{ display: "flex", flex: 1 }}>
       <div id="friend-sidebar">
         <Nav
-          style={{ width: 300 }}
+          style={{ width: 310 }}
           onSelect={(data) =>
             data.itemKey.toString().includes("subtab") &&
             setSubTab(data.itemKey.toString())

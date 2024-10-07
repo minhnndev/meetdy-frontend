@@ -5,7 +5,7 @@ import { isEmpty } from "lodash";
 
 const GroupAvatar = ({ avatars, totalMembers, smallSize, largeSize }) => {
   return (
-    <div>
+    <div className="flex-center">
       {isEmpty(avatars) && totalMembers <= 0 && (
         <UserAvatar avatar="" color="" name="" size="large" />
       )}

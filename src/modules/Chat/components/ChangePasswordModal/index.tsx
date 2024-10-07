@@ -9,7 +9,6 @@ const ChangePasswordModal = ({ visible, onCancel, onSaveCodeRevoke }) => {
   const onOk = async (values: any) => {
     setLoading(true);
     const { oldPassword, newPassword } = values;
-    console.log("values :", oldPassword, newPassword);
     try {
       await ServiceMe.changePassword({ oldPassword, newPassword });
       Toast.success("Đổi mật khẩu thành công");
