@@ -43,5 +43,5 @@ jobs:
       - name: Update Deployment in K3s
         run: |
           kubectl set image deployment/meetdy-frontend-deployment meetdy-frontend=nghiaphamln/meetdy-frontend:dev-1.${{ env.VERSION }} -n meetdy-develop
-          kubectl rollout restart deployment/meetdy-frontend-deployment -n meetdy-develop
-          kubectl rollout status deployment/meetdy-frontend-deployment -n meetdy-develop
+          kubectl rollout restart deployment/meetdy-frontend -n meetdy-develop
+          kubectl rollout status deployment/meetdy-frontend -n meetdy-develop
