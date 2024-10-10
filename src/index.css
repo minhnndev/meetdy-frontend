@@ -81,3 +81,13 @@ button:focus-visible {
 .hide-scroll::-webkit-scrollbar {
   display: none;
 }
+
+/* Push something */
+.hide-scroll {
+  -ms-overflow-style: none;  
+  scrollbar-width: none; 
+}
+
+.hide-scroll::-webkit-scrollbar {
+  display: none;
+}
