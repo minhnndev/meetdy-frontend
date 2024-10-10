@@ -37,6 +37,7 @@ const SearchResultTabs = ({
         tab="Cá nhân"
         itemKey="1"
         style={{ height: "calc(100vh - 127px)", overflow: "scroll" }}
+        className="hide-scroll"
       >
         {individuals.length == 0 ? (
           <Empty
@@ -66,6 +67,7 @@ const SearchResultTabs = ({
         tab="Nhóm"
         itemKey="2"
         style={{ height: "calc(100vh - 127px)", overflow: "scroll" }}
+        className="hide-scroll"
       >
         {groups.length === 0 ? (
           <Empty

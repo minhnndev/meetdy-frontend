@@ -72,3 +72,12 @@ button:focus-visible {
   justify-content: center;
   align-items: center;
 }
+
+.hide-scroll {
+  -ms-overflow-style: none;  
+  scrollbar-width: none; 
+}
+
+.hide-scroll::-webkit-scrollbar {
+  display: none;
+}

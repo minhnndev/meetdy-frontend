@@ -12,6 +12,7 @@ const FriendList = ({ friends }) => {
       </div>
       <div
         id="friend-list"
+        className="hide-scroll"
         style={{ height: "calc(100vh - 242px)", overflow: "scroll" }}
       >
         {friends.map((friend: any) => (

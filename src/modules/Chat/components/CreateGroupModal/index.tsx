@@ -104,6 +104,9 @@ const CreateGroupModal = ({ visible, onCancel }) => {
           onChange={(values) => setSelectedFriendIds(values)}
           renderSourceItem={renderSourceItem}
           renderSelectedItem={renderSelectedItem}
+          filter={(input, item) =>
+            item.label.toString().toLowerCase().includes(input.toLowerCase())
+          }
         />
       </LocaleProvider>
     </Modal>

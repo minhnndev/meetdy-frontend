@@ -8,7 +8,7 @@ import { TSuggestFriend } from "@/models/friend.model";
 import { INIT_SUGGEST_FRIEND } from "@/constants/friend.constant";
 import CreateGroupModal from "../CreateGroupModal";
 
-const SearchBar = ({ onChange, onSearch }) => {
+const SearchBar = ({ onSearch, setShowFilter }) => {
   const [showFindFriend, setShowFindFriend] = useState(false);
   const [showCreateGroup, setShowCreateGroup] = useState(false);
   const [findingUser, setFindingUser] =
@@ -17,13 +17,13 @@ const SearchBar = ({ onChange, onSearch }) => {
   const refDebounce = useRef(null);
 
   const handleInputChange = (value: string) => {
-    if (onChange) onChange(value);
+    if (setShowFilter) setShowFilter(value.trim().length > 0);
 
     if (refDebounce.current) {
       clearTimeout(refDebounce.current);
     }
     refDebounce.current = setTimeout(() => {
-      if (onSearch) onSearch();
+      if (onSearch) onSearch(value);
     }, 400);
   };
 

@@ -118,6 +118,7 @@ const ModifyClassifyModal = ({
               padding: 4,
               overflow: "scroll",
             }}
+            className="hide-scroll"
           >
             <Button
               theme="borderless"

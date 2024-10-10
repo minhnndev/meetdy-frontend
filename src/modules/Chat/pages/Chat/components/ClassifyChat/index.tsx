@@ -52,7 +52,10 @@ const ClassifyChat = () => {
           onClick={openClassifyModal}
         />
       </div>
-      <div style={{ height: "56px", overflow: "scroll", padding: "0 1rem" }}>
+      <div
+        className="hide-scroll"
+        style={{ height: "56px", overflow: "scroll", padding: "0 1rem" }}
+      >
         <RadioGroup
           value={classifyValue}
           onChange={(event) => setClassifyValue(event.target.value)}
@@ -66,7 +69,10 @@ const ClassifyChat = () => {
         </RadioGroup>
       </div>
       <Divider />
-      <div style={{ height: "calc(100vh - 163px)", overflow: "scroll" }}>
+      <div
+        className="hide-scroll"
+        style={{ height: "calc(100vh - 163px)", overflow: "scroll" }}
+      >
         {filteredConversations?.map((conversation) => (
           <ConversationItem
             key={conversation._id}

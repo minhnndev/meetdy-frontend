@@ -33,7 +33,6 @@ const Friend = () => {
   } = useAppSelector((state) => state.friend);
   const [subTab, setSubTab] = useState<string>(FRIEND_SUB_TABS[0].key);
   const [showSearchFilter, setShowSearchFilter] = useState(false);
-  const [searchValue, setSearchValue] = useState("");
   const [individualSearch, setIndividualSearch] = useState([]);
   const [groupSearch, setGroupSearch] = useState([]);
 
@@ -46,19 +45,14 @@ const Friend = () => {
     dispatch(fetchSuggestFriend());
   }, [dispatch]);
 
-  const handleOnSearchChange = (value: string) => {
-    setSearchValue(value);
-    setShowSearchFilter(value.trim().length > 0);
-  };
-
-  const handleOnSearch = async () => {
+  const handleOnSearch = async (value: string) => {
     try {
       const individuals = await ServiceConversation.getListConversations({
-        name: searchValue,
+        name: value,
         type: 1,
       });
       const groups = await ServiceConversation.getListConversations({
-        name: searchValue,
+        name: value,
         type: 2,
       });
       setIndividualSearch(individuals);
@@ -84,8 +78,8 @@ const Friend = () => {
             }}
           >
             <SearchBar
-              onChange={handleOnSearchChange}
               onSearch={handleOnSearch}
+              setShowFilter={setShowSearchFilter}
             />
           </Nav.Header>
           {showSearchFilter ? (
@@ -120,6 +114,7 @@ const Friend = () => {
         <FriendHeader subtab={subTab} />
 
         <div
+          className="hide-scroll"
           style={{
             height: "calc(100vh - 61px)",
             overflow: "scroll",

@@ -6,24 +6,18 @@ import "./style.css";
 import { ClassifyChat, Welcome } from "./components";
 
 const Chat = () => {
-  const [searchValue, setSearchValue] = useState("");
   const [individualSearch, setIndividualSearch] = useState([]);
   const [groupSearch, setGroupSearch] = useState([]);
   const [showSearchFilter, setShowSearchFilter] = useState(false);
 
-  const handleOnSearchChange = (value: string) => {
-    setSearchValue(value);
-    setShowSearchFilter(value.trim().length > 0);
-  };
-
-  const handleOnSearch = async () => {
+  const handleOnSearch = async (value: string) => {
     try {
       const individuals = await ServiceConversation.getListConversations({
-        name: searchValue,
+        name: value,
         type: 1,
       });
       const groups = await ServiceConversation.getListConversations({
-        name: searchValue,
+        name: value,
         type: 2,
       });
       setIndividualSearch(individuals);
@@ -39,8 +33,8 @@ const Chat = () => {
         <Nav style={{ width: 310 }}>
           <Nav.Header style={{ padding: "1rem 0 1rem 1rem" }}>
             <SearchBar
-              onChange={handleOnSearchChange}
               onSearch={handleOnSearch}
+              setShowFilter={setShowSearchFilter}
             />
           </Nav.Header>
           {showSearchFilter ? (
