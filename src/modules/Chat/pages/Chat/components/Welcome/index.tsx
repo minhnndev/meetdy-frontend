@@ -17,7 +17,9 @@ const Welcome = () => {
       <Carousel
         autoPlay={{ interval: 3000 }}
         speed={800}
-        style={{ width: "100%", height: "calc(100vh - 250px)" }}
+        style={{ width: "100%", height: "calc(100vh - 370px)" }}
+        showIndicator={false}
+        showArrow={false}
       >
         <Space vertical align="center" style={{ marginTop: "20%" }}>
           <Paragraph style={{ marginBottom: 4 }}>Meetdy Beta-1</Paragraph>
