@@ -42,4 +42,4 @@ jobs:
 
       - name: Update Deployment in K3s
         run: |
-          kubectl rollout restart deployment/meetdy-frontend-deployment -n meetdy-develop
+          kubectl rollout restart deployment/meetdy-frontend -n meetdy-develop
