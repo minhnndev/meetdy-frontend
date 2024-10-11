@@ -1,45 +1,147 @@
-name: Deploy Production
+name: Preview Meetdy Frontend
+
 on:
   push:
     branches:
       - master
+
+env:
+  APP_NAME: meetdy-frontend
+  BASE_DOMAIN: meetdy.com
+
 jobs:
-  build:
+  check-commit-message:
+    runs-on: ubuntu-latest
+    outputs:
+      is_preview: ${{ steps.check.outputs.is_preview }}
+      feature_name: ${{ steps.check.outputs.feature_name }}
+    steps:
+    - uses: actions/checkout@v4
+    - name: Check commit message
+      id: check
+      run: |
+        commit_message=$(git log --format=%B -n 1 ${{ github.sha }})
+        if [[ $commit_message =~ preview\(([^)]+)\): ]]; then
+          echo "::set-output name=is_preview::true"
+          echo "::set-output name=feature_name::${BASH_REMATCH[1]}"
+        else
+          echo "::set-output name=is_preview::false"
+        fi
+
+  build-and-deploy:
+    needs: check-commit-message
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+    - uses: actions/checkout@v4
+    
+    - name: Apply configuration
+      run: |
+        git clone https://oauth2:${{ secrets.CONFIG_REPOSITORY_TOKEN }}@github.com/meetdy/infrastructure-config.git
+        [ -e .env ] && rm .env
+        [ -e Dockerfile ] && rm Dockerfile
+        [ -e nginx.conf ] && rm nginx.conf
+        [ -e .dockerignore ] && rm .dockerignore
+        cp -a infrastructure-config/meetdy-frontend/. ./
 
-      - name: Apply configuration
-        run: |
-          git clone https://oauth2:${{ secrets.CONFIG_REPOSITORY_TOKEN }}@github.com/meetdy/infrastructure-config.git
-          [ -e .env ] && rm .env
-          [ -e Dockerfile ] && rm Dockerfile
-          [ -e nginx.conf ] && rm nginx.conf
-          [ -e .dockerignore ] && rm .dockerignore
-          cp -a infrastructure-config/meetdy-frontend/. ./
-      
-      - name: Log in to Docker Hub
-        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+    - name: Log in to Docker Hub
+      run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
 
-      - name: Set version variable
-        id: vars
-        run: echo "VERSION=1.${{ github.run_number }}" >> $GITHUB_ENV
+    - name: Set version variable
+      id: vars
+      run: echo "VERSION=1.${{ github.run_number }}" >> $GITHUB_ENV
 
-      - name: Build the Docker image with both tags
-        run: |
-          docker build . --file Dockerfile --tag nghiaphamln/meetdy-frontend:1.${{ env.VERSION }} --tag nghiaphamln/meetdy-frontend:latest
+    - name: Build the Docker image
+      run: |
+        if [[ "${{ needs.check-commit-message.outputs.is_preview }}" == "true" ]]; then
+          docker build . --file Dockerfile --tag nghiaphamln/${{ env.APP_NAME }}:preview-${{ needs.check-commit-message.outputs.feature_name }}
+        else
+          docker build . --file Dockerfile --tag nghiaphamln/${{ env.APP_NAME }}:1.${{ env.VERSION }} --tag nghiaphamln/${{ env.APP_NAME }}:latest
+        fi
 
-      - name: Push the Docker image to Docker Hub
-        run: |
-          docker push nghiaphamln/meetdy-frontend:1.${{ env.VERSION }}
-          docker push nghiaphamln/meetdy-frontend:latest
+    - name: Push the Docker image to Docker Hub
+      run: |
+        if [[ "${{ needs.check-commit-message.outputs.is_preview }}" == "true" ]]; then
+          docker push nghiaphamln/${{ env.APP_NAME }}:preview-${{ needs.check-commit-message.outputs.feature_name }}
+        else
+          docker push nghiaphamln/${{ env.APP_NAME }}:1.${{ env.VERSION }}
+          docker push nghiaphamln/${{ env.APP_NAME }}:latest
+        fi
 
-      - name: Set up kubeconfig
-        run: |
-          mkdir -p $HOME/.kube
-          echo "${{ secrets.KUBECONFIG }}" | base64 -d > $HOME/.kube/config
-          chmod 600 $HOME/.kube/config
+    - name: Set up kubeconfig
+      run: |
+        mkdir -p $HOME/.kube
+        echo "${{ secrets.KUBECONFIG }}" | base64 -d > $HOME/.kube/config
+        chmod 600 $HOME/.kube/config
 
-      - name: Update Deployment in K3s
-        run: |
-          kubectl rollout restart deployment/meetdy-frontend -n meetdy
+    - name: Deploy to Kubernetes
+      run: |
+        if [[ "${{ needs.check-commit-message.outputs.is_preview }}" == "true" ]]; then
+          PREVIEW_NAMESPACE="${{ env.APP_NAME }}-preview-${{ needs.check-commit-message.outputs.feature_name }}"
+          kubectl create namespace ${PREVIEW_NAMESPACE} --dry-run=client -o yaml | kubectl apply -f -
+          
+          cat <<EOF | kubectl apply -f -
+          apiVersion: apps/v1
+          kind: Deployment
+          metadata:
+            name: ${{ env.APP_NAME }}-preview
+            namespace: ${PREVIEW_NAMESPACE}
+          spec:
+            replicas: 1
+            selector:
+              matchLabels:
+                app: ${{ env.APP_NAME }}-preview
+            template:
+              metadata:
+                labels:
+                  app: ${{ env.APP_NAME }}-preview
+              spec:
+                containers:
+                - name: ${{ env.APP_NAME }}-preview
+                  image: nghiaphamln/${{ env.APP_NAME }}:preview-${{ needs.check-commit-message.outputs.feature_name }}
+                  ports:
+                  - containerPort: 80
+          ---
+          apiVersion: v1
+          kind: Service
+          metadata:
+            name: ${{ env.APP_NAME }}-preview
+            namespace: ${PREVIEW_NAMESPACE}
+          spec:
+            selector:
+              app: ${{ env.APP_NAME }}-preview
+            ports:
+            - protocol: TCP
+              port: 80
+              targetPort: 80
+          ---
+          apiVersion: networking.k8s.io/v1
+          kind: Ingress
+          metadata:
+            name: ${{ env.APP_NAME }}-preview
+            namespace: ${PREVIEW_NAMESPACE}
+            annotations:
+              cert-manager.io/cluster-issuer: "letsencrypt-prod"
+          spec:
+            ingressClassName: nginx
+            rules:
+            - host: ${{ needs.check-commit-message.outputs.feature_name }}-preview.${{ env.BASE_DOMAIN }}
+              http:
+                paths:
+                - path: /
+                  pathType: Prefix
+                  backend:
+                    service:
+                      name: ${{ env.APP_NAME }}-preview
+                      port:
+                        number: 80
+            tls:
+            - hosts:
+              - ${{ needs.check-commit-message.outputs.feature_name }}-preview.${{ env.BASE_DOMAIN }}
+              secretName: ${{ env.APP_NAME }}-preview-tls
+          EOF
+          
+          echo "Preview deployed to https://${{ needs.check-commit-message.outputs.feature_name }}-preview.${{ env.BASE_DOMAIN }}"
+        else
+          kubectl rollout restart deployment/${{ env.APP_NAME }} -n meetdy
+          echo "Production deployment updated"
+        fi
