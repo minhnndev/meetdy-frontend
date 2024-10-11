@@ -116,9 +116,9 @@ jobs:
     - name: Send Telegram notification
       if: success()
       run: |
-        MESSAGE="🚀 *Build and Deploy Successful!*\n\n\
-        👤 *User:* ${{ github.actor }}\n\
-        🌐 *Preview Link:* https://preview-${{ env.VERSION }}.${{ env.BASE_DOMAIN }}\n\
+        MESSAGE="🚀 *Build and Deploy Successful!*%0A%0A\
+        👤 *User:* ${{ github.actor }}%0A\
+        🌐 *Preview Link:* https://preview-${{ env.VERSION }}.${{ env.BASE_DOMAIN }}%0A\
         ✅ Deployment for *${{ env.APP_NAME }}* was completed successfully!"
         
         curl -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" \
