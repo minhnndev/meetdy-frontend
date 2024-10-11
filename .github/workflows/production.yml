@@ -10,26 +10,7 @@ env:
   BASE_DOMAIN: meetdy.com
 
 jobs:
-  check-commit-message:
-    runs-on: ubuntu-latest
-    outputs:
-      is_preview: ${{ steps.check.outputs.is_preview }}
-      feature_name: ${{ steps.check.outputs.feature_name }}
-    steps:
-    - uses: actions/checkout@v4
-    - name: Check commit message
-      id: check
-      run: |
-        commit_message=$(git log --format=%B -n 1 ${{ github.sha }})
-        if [[ $commit_message =~ preview\(([^)]+)\): ]]; then
-          echo "::set-output name=is_preview::true"
-          echo "::set-output name=feature_name::${BASH_REMATCH[1]}"
-        else
-          echo "::set-output name=is_preview::false"
-        fi
-
   build-and-deploy:
-    needs: check-commit-message
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
@@ -52,20 +33,11 @@ jobs:
 
     - name: Build the Docker image
       run: |
-        if [[ "${{ needs.check-commit-message.outputs.is_preview }}" == "true" ]]; then
-          docker build . --file Dockerfile --tag nghiaphamln/${{ env.APP_NAME }}:preview-${{ needs.check-commit-message.outputs.feature_name }}
-        else
-          docker build . --file Dockerfile --tag nghiaphamln/${{ env.APP_NAME }}:1.${{ env.VERSION }} --tag nghiaphamln/${{ env.APP_NAME }}:latest
-        fi
+        docker build . --file Dockerfile --tag nghiaphamln/${{ env.APP_NAME }}:${{ env.VERSION }}
 
     - name: Push the Docker image to Docker Hub
       run: |
-        if [[ "${{ needs.check-commit-message.outputs.is_preview }}" == "true" ]]; then
-          docker push nghiaphamln/${{ env.APP_NAME }}:preview-${{ needs.check-commit-message.outputs.feature_name }}
-        else
-          docker push nghiaphamln/${{ env.APP_NAME }}:1.${{ env.VERSION }}
-          docker push nghiaphamln/${{ env.APP_NAME }}:latest
-        fi
+        docker push nghiaphamln/${{ env.APP_NAME }}:${{ env.VERSION }}
 
     - name: Set up kubeconfig
       run: |
@@ -73,75 +45,76 @@ jobs:
         echo "${{ secrets.KUBECONFIG }}" | base64 -d > $HOME/.kube/config
         chmod 600 $HOME/.kube/config
 
+    - name: Clean up old namespaces
+      run: |
+        CURRENT_NAMESPACE="${{ env.APP_NAME }}-preview-${{ env.VERSION }}"
+        kubectl get namespaces --no-headers -o custom-columns=:metadata.name | grep "${{ env.APP_NAME }}-preview" | grep -v "${CURRENT_NAMESPACE}" | xargs -r kubectl delete namespace
+        echo "Old namespaces cleaned up."
+
     - name: Deploy to Kubernetes
       run: |
-        if [[ "${{ needs.check-commit-message.outputs.is_preview }}" == "true" ]]; then
-          PREVIEW_NAMESPACE="${{ env.APP_NAME }}-preview-${{ needs.check-commit-message.outputs.feature_name }}"
-          kubectl create namespace ${PREVIEW_NAMESPACE} --dry-run=client -o yaml | kubectl apply -f -
-          
-          cat <<EOF | kubectl apply -f -
-          apiVersion: apps/v1
-          kind: Deployment
-          metadata:
-            name: ${{ env.APP_NAME }}-preview
-            namespace: ${PREVIEW_NAMESPACE}
-          spec:
-            replicas: 1
-            selector:
-              matchLabels:
-                app: ${{ env.APP_NAME }}-preview
-            template:
-              metadata:
-                labels:
-                  app: ${{ env.APP_NAME }}-preview
-              spec:
-                containers:
-                - name: ${{ env.APP_NAME }}-preview
-                  image: nghiaphamln/${{ env.APP_NAME }}:preview-${{ needs.check-commit-message.outputs.feature_name }}
-                  ports:
-                  - containerPort: 80
-          ---
-          apiVersion: v1
-          kind: Service
-          metadata:
-            name: ${{ env.APP_NAME }}-preview
-            namespace: ${PREVIEW_NAMESPACE}
-          spec:
-            selector:
+        PREVIEW_NAMESPACE="${{ env.APP_NAME }}-preview-${{ env.VERSION }}"
+        kubectl create namespace ${PREVIEW_NAMESPACE} --dry-run=client -o yaml | kubectl apply -f -
+        
+        cat <<EOF | kubectl apply -f -
+        apiVersion: apps/v1
+        kind: Deployment
+        metadata:
+          name: ${{ env.APP_NAME }}-preview
+          namespace: ${PREVIEW_NAMESPACE}
+        spec:
+          replicas: 1
+          selector:
+            matchLabels:
               app: ${{ env.APP_NAME }}-preview
-            ports:
-            - protocol: TCP
-              port: 80
-              targetPort: 80
-          ---
-          apiVersion: networking.k8s.io/v1
-          kind: Ingress
-          metadata:
-            name: ${{ env.APP_NAME }}-preview
-            namespace: ${PREVIEW_NAMESPACE}
-            annotations:
-              cert-manager.io/cluster-issuer: "letsencrypt-prod"
-          spec:
-            ingressClassName: nginx
-            rules:
-            - host: ${{ needs.check-commit-message.outputs.feature_name }}-preview.${{ env.BASE_DOMAIN }}
-              http:
-                paths:
-                - path: /
-                  pathType: Prefix
-                  backend:
-                    service:
-                      name: ${{ env.APP_NAME }}-preview
-                      port:
-                        number: 80
-            tls:
-            - hosts:
-              - ${{ needs.check-commit-message.outputs.feature_name }}-preview.${{ env.BASE_DOMAIN }}
-              secretName: ${{ env.APP_NAME }}-preview-tls
-          EOF
-          
-          echo "Preview deployed to https://${{ needs.check-commit-message.outputs.feature_name }}-preview.${{ env.BASE_DOMAIN }}"
-        else
-          kubectl rollout restart deployment/${{ env.APP_NAME }} -n meetdy
-          echo "Production deployment updated"
-        fi
+          template:
+            metadata:
+              labels:
+                app: ${{ env.APP_NAME }}-preview
+            spec:
+              containers:
+              - name: ${{ env.APP_NAME }}-preview
+                image: nghiaphamln/${{ env.APP_NAME }}:${{ env.VERSION }}
+                ports:
+                - containerPort: 80
+        ---
+        apiVersion: v1
+        kind: Service
+        metadata:
+          name: ${{ env.APP_NAME }}-preview
+          namespace: ${PREVIEW_NAMESPACE}
+        spec:
+          selector:
+            app: ${{ env.APP_NAME }}-preview
+          ports:
+          - protocol: TCP
+            port: 80
+            targetPort: 80
+        ---
+        apiVersion: networking.k8s.io/v1
+        kind: Ingress
+        metadata:
+          name: ${{ env.APP_NAME }}-preview
+          namespace: ${PREVIEW_NAMESPACE}
+          annotations:
+            cert-manager.io/cluster-issuer: "letsencrypt-prod"
+        spec:
+          ingressClassName: nginx
+          rules:
+          - host: preview-${{ env.VERSION }}.${{ env.BASE_DOMAIN }}
+            http:
+              paths:
+              - path: /
+                pathType: Prefix
+                backend:
+                  service:
+                    name: ${{ env.APP_NAME }}-preview
+                    port:
+                      number: 80
+          tls:
+          - hosts:
+            - preview-${{ env.VERSION }}.${{ env.BASE_DOMAIN }}
+            secretName: ${{ env.APP_NAME }}-preview-tls
+        EOF
+        
+        echo "Preview deployed to https://preview-${{ env.VERSION }}.${{ env.BASE_DOMAIN }}"
