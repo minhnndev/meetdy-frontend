@@ -29,7 +29,7 @@ jobs:
 
     - name: Set version variable
       id: vars
-      run: echo "VERSION=1.${{ github.run_number }}" >> $GITHUB_ENV
+      run: echo "VERSION=1-${{ github.run_number }}" >> $GITHUB_ENV
 
     - name: Build the Docker image
       run: |
