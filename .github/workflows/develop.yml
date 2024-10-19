@@ -3,6 +3,12 @@ on:
   push:
     branches:
       - dev
+
+env:
+  APP_NAME: meetdy-frontend
+  BASE_DOMAIN: meetdy.com
+  ENVIRONMENT: Develop
+  
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -43,3 +49,18 @@ jobs:
       - name: Update Deployment in K3s
         run: |
           kubectl rollout restart deployment/meetdy-frontend -n meetdy-develop
+
+      - name: Send Telegram notification
+        if: success()
+        run: |
+          MESSAGE="🚀 *Build and Deploy Successful!*%0A%0A\
+          👤 *User:* ${{ github.actor }}%0A\
+          🖥️ *Service:* ${{ env.APP_NAME }}%0A\
+          🚀 *Environment:* ${{ env.ENVIRONMENT }}%0A\
+          🌐 *Link:* https://dev.chat.${{ env.BASE_DOMAIN }}%0A\
+          ✅ Deployment for *${{ env.APP_NAME }}* was completed successfully!"
+          
+          curl -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" \
+            -d chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" \
+            -d text="${MESSAGE}" \
+            -d parse_mode="Markdown"
