@@ -23,6 +23,7 @@ const ConversationItem = ({ conversation }) => {
     totalMembers,
     lastMessage,
     numberUnread,
+    isOnline,
   } = conversation;
   const dispatch = useAppDispatch();
   const [classify, setClassify] = useState(null);
@@ -59,6 +60,7 @@ const ConversationItem = ({ conversation }) => {
                 avatar={avatar.toString()}
                 color={avatarColor}
                 name={name}
+                isActive={isOnline}
               />
             ) : (
               <GroupAvatar

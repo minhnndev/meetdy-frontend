@@ -720,7 +720,7 @@ const chatSlice = createSlice({
         state.conversations = [conversations, ...state.conversations];
       })
       .addCase(getMembersConversation.fulfilled, (state, action) => {
-        const tempMembers = [...action.payload.data];
+        const tempMembers = action.payload as any;
         const temp = [];
 
         tempMembers.forEach((member) => {

@@ -3,7 +3,7 @@ import { Carousel, Space, Typography } from "@douyinfe/semi-ui";
 const Welcome = () => {
   const { Text, Paragraph } = Typography;
   return (
-    <div style={{ textAlign: "center" }}>
+    <div style={{ textAlign: "center", background: "white" }}>
       <Paragraph style={{ fontSize: 20, fontWeight: 500, marginTop: "10%" }}>
         Chào mừng đến với{" "}
         <Text strong style={{ fontSize: 20 }}>

@@ -2,7 +2,7 @@ import qs from "query-string";
 import axios, { type AxiosError, type AxiosResponse } from "axios";
 
 import { isSuccess } from "@/utils/httpUtils";
-import { API_URL } from "@/constants/APIurl";
+import { API_URL } from "@/constants/api.constant";
 
 declare module "axios" {
   export interface AxiosRequestConfig {

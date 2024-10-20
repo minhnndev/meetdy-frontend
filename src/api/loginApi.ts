@@ -7,7 +7,7 @@ import {
   TUser,
 } from "@/models/auth.model";
 import axiosClient from "./_httpAxios";
-import { API } from "@/constants/APIurl";
+import { API } from "@/constants/api.constant";
 
 const ServiceAuth = {
   login: (params: TLogin) =>
