@@ -5,7 +5,7 @@ import {
   TSuggestFriend,
 } from "@/models/friend.model";
 import axiosClient from "./_httpAxios";
-import { API } from "@/constants/APIurl";
+import { API } from "@/constants/api.constant";
 
 const FriendService = {
   fetchFriends: (params: TFetchFriends) =>

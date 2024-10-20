@@ -11,7 +11,7 @@ const GroupAvatar = ({ avatars, totalMembers, smallSize, largeSize }) => {
       )}
       {totalMembers == 2 && (
         <AvatarGroup>
-          {avatars.slice(0, 2)?.map((avatar) => (
+          {avatars?.slice(0, 2)?.map((avatar) => (
             <Avatar
               src={avatar.avatar}
               style={{
@@ -41,7 +41,7 @@ const GroupAvatar = ({ avatars, totalMembers, smallSize, largeSize }) => {
             <IconUserStroked size="extra-large" />
           </Avatar>
           <AvatarGroup>
-            {avatars.slice(1, 3)?.map((avatar) => (
+            {avatars?.slice(1, 3)?.map((avatar) => (
               <Avatar
                 src={avatar.avatar}
                 style={{
@@ -60,7 +60,7 @@ const GroupAvatar = ({ avatars, totalMembers, smallSize, largeSize }) => {
       {totalMembers === 4 && (
         <div className="flex-center" style={{ flexDirection: "column" }}>
           <AvatarGroup>
-            {avatars.slice(0, 2)?.map((avatar) => (
+            {avatars?.slice(0, 2)?.map((avatar) => (
               <Avatar
                 src={avatar.avatar}
                 style={{
@@ -76,7 +76,7 @@ const GroupAvatar = ({ avatars, totalMembers, smallSize, largeSize }) => {
             ))}
           </AvatarGroup>
           <AvatarGroup>
-            {avatars.slice(2, 4)?.map((avatar) => (
+            {avatars?.slice(2, 4)?.map((avatar) => (
               <Avatar
                 src={avatar.avatar}
                 style={{
@@ -95,7 +95,7 @@ const GroupAvatar = ({ avatars, totalMembers, smallSize, largeSize }) => {
       {totalMembers > 4 && (
         <div className="flex-center" style={{ flexDirection: "column" }}>
           <AvatarGroup overlapFrom="end">
-            {avatars.slice(0, 2)?.map((avatar) => (
+            {avatars?.slice(0, 2)?.map((avatar) => (
               <Avatar
                 src={avatar.avatar}
                 style={{
@@ -112,9 +112,10 @@ const GroupAvatar = ({ avatars, totalMembers, smallSize, largeSize }) => {
           </AvatarGroup>
           <AvatarGroup overlapFrom="end">
             <Avatar
-              src={avatars[3].avatar}
+              src={avatars?.[3]?.avatar}
               style={{
-                backgroundColor: !avatars[3].avatar && avatars[3].avatarColor,
+                backgroundColor:
+                  !avatars?.[3]?.avatar && avatars?.[3]?.avatarColor,
                 color: "white",
                 width: smallSize,
                 height: smallSize,
