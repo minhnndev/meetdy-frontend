@@ -1,0 +1,13 @@
+#chat-header .semi-avatar-group .semi-avatar-medium, #chat-header .semi-avatar-circle {
+  border: none
+}
+
+#chat-header {
+  display: flex;
+  border-bottom: 1px solid rgba(var(--semi-grey-1), 1);
+  padding: 0 0.75rem;
+  height: 70px;
+  background: white;
+  align-items: center;
+  justify-content: space-between;
+}

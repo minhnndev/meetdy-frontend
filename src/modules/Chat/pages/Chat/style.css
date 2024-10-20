@@ -1,26 +1,32 @@
-#chat-sidebar .semi-navigation {
+#chat-left-sidebar .semi-navigation {
   padding-left: 0;
   padding-right: 0;
 }
 
-#chat-sidebar .semi-navigation-item-icon-info {
+#chat-left-sidebar .semi-navigation-item-icon-info {
   color: inherit;
 }
 
-#chat-sidebar .semi-navigation-list-wrapper {
+#chat-left-sidebar .semi-navigation-list-wrapper {
   padding-top: 0;
 }
 
-#chat-sidebar .semi-navigation-item {
+#chat-left-sidebar .semi-navigation-item {
   line-height: inherit;
 }
 
-#chat-sidebar .semi-navigation-item-selected {
+#chat-left-sidebar .semi-navigation-item-selected {
   background-color: white;
 }
 
-#chat-sidebar .semi-avatar-circle {
+#chat-left-sidebar .semi-avatar-circle {
   border: none;
+}
+
+#chat-right-sidebar {
+  width: 375px;
+  height: 100vh;
+  border-left: 1px solid rgba(var(--semi-grey-1), 1);
 }
 
 .semi-space-tight-vertical {

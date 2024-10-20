@@ -1,4 +1,4 @@
-import { API } from "@/constants/APIurl";
+import { API } from "@/constants/api.constant";
 import axiosClient from "./_httpAxios";
 
 type TWebInfo = {

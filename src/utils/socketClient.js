@@ -1,5 +1,5 @@
 import io from "socket.io-client";
-import { SOCKET_URL } from "@/constants/APIurl";
+import { SOCKET_URL } from "@/constants/api.constant";
 
 export let socket;
 

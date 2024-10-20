@@ -7,7 +7,7 @@ import {
   TIndividualConversation,
 } from "@/models/conversation.model";
 import axiosClient from "./_httpAxios";
-import { API } from "@/constants/APIurl";
+import { API } from "@/constants/api.constant";
 
 const ServiceConversation = {
   getListConversations: (params: TGetListConversations) =>
