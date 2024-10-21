@@ -332,9 +332,9 @@ const chatSlice = createSlice({
     },
 
     setTotalChannelNotify: (state) => {
-      let notify = state.conversations.find(
+      let notify = state?.conversations?.find(
         (ele) => ele._id === state.currentConversation
-      ).numberUnread;
+      )?.numberUnread;
 
       if (state.channels.length > 0) {
         state.channels.forEach((ele) => {

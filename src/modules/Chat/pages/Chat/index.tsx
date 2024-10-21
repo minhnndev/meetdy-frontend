@@ -142,7 +142,7 @@ const Chat = () => {
   useEffect(() => {
     if (
       currentConversation &&
-      conversations.find((ele) => ele._id === currentConversation).type
+      conversations?.find((ele) => ele._id === currentConversation)?.type
     ) {
       dispatch(fetchPinMessages({ conversationId: currentConversation }));
     }
@@ -350,8 +350,8 @@ const Chat = () => {
         const conver = conversations.find(
           (ele) => ele._id === currentConversation
         );
-        if (!conver.type) {
-          const userId = conver.userId;
+        if (!conver?.type) {
+          const userId = conver?.userId;
           socket.emit("get-user-online", userId, ({ isOnline, lastLogin }) => {
             dispatch(
               updateTimeForConver({
