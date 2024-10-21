@@ -13,6 +13,7 @@ import ProtectedRoute from "@/components/ProtectedRoute";
 import { Chat, ChatLayout, Friend } from "@/modules/Chat";
 import { Empty } from "@douyinfe/semi-ui";
 import { IllustrationNotFound } from "@douyinfe/semi-illustrations";
+import JoinFromLink from "@/components/JoinFromLink";
 
 const AppRoutes = () => {
   const dispatch = useAppDispatch();
@@ -36,6 +37,7 @@ const AppRoutes = () => {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Navigate to="/chat" />} />
+        <Route path="/jf-link/:conversationId" element={<JoinFromLink />} />
         <Route element={<ProtectedRoute />}>
           <Route path="/chat" element={<ChatLayout />}>
             <Route path="/chat" element={<Chat />} />

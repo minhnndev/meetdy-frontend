@@ -37,7 +37,7 @@ const ManageClassify = ({
           {classify.name}
         </Button>
       ))}
-      <Divider />
+      {classifies.length > 0 && <Divider />}
       <Button
         theme="borderless"
         type="tertiary"

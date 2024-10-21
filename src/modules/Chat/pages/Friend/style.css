@@ -19,10 +19,6 @@
   background-color: white;
 }
 
-#friend-sidebar .semi-avatar-circle, #friend-content .semi-avatar-circle {
-  border: none;
-}
-
 .semi-tabs-bar-line.semi-tabs-bar-top .semi-tabs-tab:not(:last-of-type) {
   margin-left: 16px;
 }

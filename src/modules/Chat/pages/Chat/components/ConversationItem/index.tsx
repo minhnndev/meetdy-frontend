@@ -1,4 +1,4 @@
-import { GroupAvatar, UserAvatar } from "@/modules/Chat/components";
+import { ConversationAvatar } from "@/modules/Chat/components";
 import { Nav, Typography } from "@douyinfe/semi-ui";
 import ShortMessage from "../ShortMessage";
 import { useAppDispatch, useAppSelector } from "@/redux/store";
@@ -15,16 +15,7 @@ import classifyUtils from "@/utils/classifyUtils";
 
 const ConversationItem = ({ conversation }) => {
   const { Paragraph } = Typography;
-  const {
-    _id,
-    avatar,
-    avatarColor,
-    name,
-    totalMembers,
-    lastMessage,
-    numberUnread,
-    isOnline,
-  } = conversation;
+  const { _id, name, totalMembers, lastMessage, numberUnread } = conversation;
   const dispatch = useAppDispatch();
   const [classify, setClassify] = useState(null);
   const { classifies } = useAppSelector((state) => state.chat);
@@ -55,21 +46,10 @@ const ConversationItem = ({ conversation }) => {
           itemKey={_id}
           onClick={onClickConversation}
           icon={
-            typeof avatar === "string" ? (
-              <UserAvatar
-                avatar={avatar.toString()}
-                color={avatarColor}
-                name={name}
-                isActive={isOnline}
-              />
-            ) : (
-              <GroupAvatar
-                avatars={avatar}
-                totalMembers={totalMembers}
-                smallSize={30}
-                largeSize={30}
-              />
-            )
+            <ConversationAvatar
+              conversation={conversation}
+              totalMembers={totalMembers}
+            />
           }
           text={
             <div

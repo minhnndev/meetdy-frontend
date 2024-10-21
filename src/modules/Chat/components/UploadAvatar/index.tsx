@@ -17,7 +17,11 @@ const UploadAvatar = ({ avatar, setAvatar }) => {
   );
 
   return (
-    <div className="flex-center" style={{ marginTop: -38, zIndex: 10 }}>
+    <div
+      id="upload-image"
+      className="flex-center"
+      style={{ marginTop: -38, zIndex: 10 }}
+    >
       <Upload
         action=""
         accept="image/*"

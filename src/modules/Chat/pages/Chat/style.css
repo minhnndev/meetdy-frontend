@@ -19,10 +19,6 @@
   background-color: white;
 }
 
-#chat-left-sidebar .semi-avatar-circle {
-  border: none;
-}
-
 #chat-right-sidebar {
   width: 375px;
   height: 100vh;
