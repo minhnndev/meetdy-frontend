@@ -6,3 +6,4 @@ export * from "./UserCard";
 export * from "./GroupAvatar";
 export * from "./SearchResultTabs";
 export * from "./ClassifyModal";
+export * from "./ConversationAvatar";

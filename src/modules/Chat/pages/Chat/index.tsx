@@ -3,7 +3,13 @@ import { SearchBar, SearchResultTabs } from "../../components";
 import { useCallback, useEffect, useRef, useState } from "react";
 import ServiceConversation from "@/api/conversationApi";
 import "./style.css";
-import { ChatHeader, ChatInfo, ClassifyChat, Welcome } from "./components";
+import {
+  ChatHeader,
+  ChatInfo,
+  ClassifyChat,
+  Welcome,
+  JoinGroupModal,
+} from "./components";
 import { useAppDispatch, useAppSelector } from "@/redux/store";
 import useWindowDimensions from "@/hooks/useWindowDimensions";
 import { useLocation, useNavigate, useOutletContext } from "react-router";
@@ -53,6 +59,8 @@ const Chat = () => {
   const [openInfo, setOpenInfo] = useState(true);
   const [openSidesheetInfo, setOpenSidesheetInfo] = useState(false);
   const [usersTyping, setUsersTyping] = useState([]);
+  const [summaryGroup, setSummaryGroup] = useState({});
+  const [showModalJoinGroup, setShowModalJoinGroup] = useState(false);
 
   const { width } = useWindowDimensions();
   const refConversations = useRef<any[]>();
@@ -97,9 +105,9 @@ const Chat = () => {
 
         if (data.findIndex((ele) => ele._id === tempId) < 0) {
           try {
-            // const data = await ServiceConversation.getSummaryInfoGroup(tempId);
-            // setSummary(data);
-            // setIsVisibleJoinGroup(true);
+            const data = await ServiceConversation.getSummaryInfoGroup(tempId);
+            setSummaryGroup(data);
+            setShowModalJoinGroup(true);
           } catch (error) {
             Toast.warning({
               content:
@@ -391,65 +399,74 @@ const Chat = () => {
   };
 
   return (
-    <div style={{ display: "flex", flex: 1 }}>
-      {width > LIMITED_WIDTH.SMALL && (
-        <div id="chat-left-sidebar">
-          <Nav style={{ width: 310 }}>
-            <Nav.Header style={{ padding: "1rem 0 1rem 1rem" }}>
-              <SearchBar
-                onSearch={handleOnSearch}
-                setShowFilter={setShowSearchFilter}
-              />
-            </Nav.Header>
-            {showSearchFilter ? (
-              <SearchResultTabs
-                individuals={individualSearch}
-                groups={groupSearch}
-              />
-            ) : (
-              <ClassifyChat />
-            )}
-          </Nav>
-        </div>
+    <>
+      {Object.keys(summaryGroup).length > 0 && (
+        <JoinGroupModal
+          visible={showModalJoinGroup}
+          onCancel={() => setShowModalJoinGroup(false)}
+          groupInfo={summaryGroup}
+        />
       )}
-
-      <div style={{ flex: 1 }}>
-        {currentConversation ? (
-          <div style={{ display: "flex" }}>
-            <div
-              style={{
-                width: `${
-                  openInfo && width > LIMITED_WIDTH.MEDIUM
-                    ? "calc(100% - 375px)"
-                    : "100%"
-                }`,
-              }}
-            >
-              <ChatHeader
-                onOpenInfo={() => setOpenInfo((prev) => !prev)}
-                onOpenSidesheetInfo={() => setOpenSidesheetInfo(true)}
-              />
-            </div>
-            {openInfo && width > LIMITED_WIDTH.MEDIUM && (
-              <div id="chat-right-sidebar">
-                <ChatInfo />
-              </div>
-            )}
-            {openSidesheetInfo && width < LIMITED_WIDTH.MEDIUM && (
-              <SideSheet
-                visible={openSidesheetInfo}
-                onCancel={() => setOpenSidesheetInfo(false)}
-                closable={false}
-              >
-                <ChatInfo />
-              </SideSheet>
-            )}
+      <div style={{ display: "flex", flex: 1 }}>
+        {width > LIMITED_WIDTH.SMALL && (
+          <div id="chat-left-sidebar">
+            <Nav style={{ width: 310 }}>
+              <Nav.Header style={{ padding: "1rem 0 1rem 1rem" }}>
+                <SearchBar
+                  onSearch={handleOnSearch}
+                  setShowFilter={setShowSearchFilter}
+                />
+              </Nav.Header>
+              {showSearchFilter ? (
+                <SearchResultTabs
+                  individuals={individualSearch}
+                  groups={groupSearch}
+                />
+              ) : (
+                <ClassifyChat />
+              )}
+            </Nav>
           </div>
-        ) : (
-          <Welcome />
         )}
+
+        <div style={{ flex: 1 }}>
+          {currentConversation ? (
+            <div style={{ display: "flex" }}>
+              <div
+                style={{
+                  width: `${
+                    openInfo && width > LIMITED_WIDTH.MEDIUM
+                      ? "calc(100% - 375px)"
+                      : "100%"
+                  }`,
+                }}
+              >
+                <ChatHeader
+                  onOpenInfo={() => setOpenInfo((prev) => !prev)}
+                  onOpenSidesheetInfo={() => setOpenSidesheetInfo(true)}
+                />
+              </div>
+              {openInfo && width > LIMITED_WIDTH.MEDIUM && (
+                <div id="chat-right-sidebar">
+                  <ChatInfo />
+                </div>
+              )}
+              {openSidesheetInfo && width < LIMITED_WIDTH.MEDIUM && (
+                <SideSheet
+                  visible={openSidesheetInfo}
+                  onCancel={() => setOpenSidesheetInfo(false)}
+                  closable={false}
+                >
+                  <ChatInfo />
+                </SideSheet>
+              )}
+            </div>
+          ) : (
+            <Welcome />
+          )}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

@@ -1,6 +1,6 @@
 import { LIMITED_WIDTH } from "@/constants/chat.constant";
 import useWindowDimensions from "@/hooks/useWindowDimensions";
-import { GroupAvatar, UserAvatar } from "@/modules/Chat/components";
+import { ConversationAvatar } from "@/modules/Chat/components";
 import {
   fetchListMessages,
   getLastViewOfMembers,
@@ -26,8 +26,7 @@ const ChatHeaderContent = ({
   onOpenSidesheetInfo,
 }) => {
   const dispatch = useAppDispatch();
-  const { avatar, avatarColor, name, type, isOnline, lastLogin } =
-    conversationDetail || {};
+  const { name, type, isOnline, lastLogin } = conversationDetail || {};
   const { currentChannel, channels, currentConversation } = useAppSelector(
     (state) => state.chat
   );
@@ -46,21 +45,10 @@ const ChatHeaderContent = ({
   return (
     <>
       <div style={{ display: "flex", alignItems: "center" }}>
-        {typeof avatar === "string" ? (
-          <UserAvatar
-            avatar={avatar.toString()}
-            color={avatarColor}
-            name={name}
-            isActive={isOnline}
-          />
-        ) : (
-          <GroupAvatar
-            avatars={avatar}
-            totalMembers={totalMembers}
-            smallSize={30}
-            largeSize={30}
-          />
-        )}
+        <ConversationAvatar
+          conversation={conversationDetail}
+          totalMembers={totalMembers}
+        />
         <div style={{ paddingLeft: "0.75rem" }}>
           <Title
             heading={5}
