@@ -1,3 +1,4 @@
+import * as React from "react";
 import {
   IconUserListStroked,
   IconLockStroked,
@@ -107,9 +108,9 @@ function Sidebar({ onSaveCodeRevoke }) {
             }
           >
             <IconSettingStroked
-              style={{ cursor: "pointer" }}
               size="extra-large"
               onClick={() => setShowSettingDropdown(true)}
+              style={{ cursor: "pointer" }}
             />
           </Dropdown>
         </Nav.Footer>
