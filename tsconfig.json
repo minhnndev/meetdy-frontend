@@ -26,6 +26,17 @@
       "@/*": ["src/*"]
     }
   },
-  "include": ["src", "meetdy/core/atoms", "meetdy/core/molecules", "meetdy/core/organisms"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "include": [
+    "src",
+    "meetdy/*",
+  ],
+  "files": [],
+  "references": [
+    {
+      "path": "./tsconfig.app.json"
+    },
+    {
+      "path": "./tsconfig.node.json"
+    }
+  ]
 }
