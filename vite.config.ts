@@ -28,18 +28,18 @@ export default defineConfig({
       enforce: "post",
       apply: "build",
       closeBundle() {
-        const healthcheckPath = path.resolve(__dirname, "dist/healthcheck");
+        const healthCheckPath = path.resolve(__dirname, "dist/healthcheck");
         const version = new Date().toISOString(); // Use ISO string or .now() as per requirement
 
-        const healthcheckContent = {
+        const healthCheckContent = {
           status: "ok",
           version: version, // Note the correction from "verion" to "version"
         };
 
         // Write the new healthcheck content as a JSON string
         fs.writeFileSync(
-          healthcheckPath,
-          JSON.stringify(healthcheckContent, null, 2)
+          healthCheckPath,
+          JSON.stringify(healthCheckContent, null, 2)
         );
       },
       transformIndexHtml(html) {
@@ -58,7 +58,7 @@ export default defineConfig({
   },
   server: {
     host: true,
-    port: 8089,
+    port: 9000,
   },
   build: {
     outDir: path.resolve(__dirname, "dist"),
