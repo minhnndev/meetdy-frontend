@@ -1,6 +1,6 @@
 import React from "react";
 import ServiceClassify from "@/api/classifyApi";
-import ColorPicker from "@/components/ColorPicker";
+import ColorPicker from "@/components/common/ColorPicker";
 import { TColor } from "@/models/classify.model";
 import { fetchListClassify } from "@/redux/slice/chat/chatSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/store";

@@ -1,13 +1,15 @@
 import React from "react";
+import { useRef, useState } from "react";
 import { IconSearch, IconUserAdd, IconUserGroup } from "@douyinfe/semi-icons";
 import { Button, Input, Toast } from "@douyinfe/semi-ui";
-import { useRef, useState } from "react";
-import FindFriendModal from "../FindFriendModal";
 import ServiceUser from "@/api/userApi";
+
+import FindFriendModal from "../FindFriendModal";
+import CreateGroupModal from "../CreateGroupModal";
 import { UserCard } from "../UserCard";
+
 import { TSuggestFriend } from "@/models/friend.model";
 import { INIT_SUGGEST_FRIEND } from "@/constants/friend.constant";
-import CreateGroupModal from "../CreateGroupModal";
 
 const SearchBar = ({ onSearch, setShowFilter }) => {
   const [showFindFriend, setShowFindFriend] = useState(false);
