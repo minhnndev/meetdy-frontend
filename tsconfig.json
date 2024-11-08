@@ -23,13 +23,10 @@
     /* Paths */
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["./src/*"]
     }
   },
-  "include": [
-    "src",
-    "meetdy/*",
-  ],
+  "include": ["vite.config.ts", "src", "meetdy/*"],
   "files": [],
   "references": [
     {
