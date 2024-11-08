@@ -1,3 +1,4 @@
+import React from "react";
 import { IconCamera } from "@douyinfe/semi-icons";
 import { Avatar, Upload } from "@douyinfe/semi-ui";
 import { useState } from "react";

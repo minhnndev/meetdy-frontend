@@ -1,3 +1,4 @@
+import React from "react";
 import { IconUserStroked } from "@douyinfe/semi-icons";
 import { Avatar, Badge } from "@douyinfe/semi-ui";
 import getSummaryName from "@/utils/nameHelper";

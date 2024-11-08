@@ -1,3 +1,4 @@
+import React from "react";
 import { GroupAvatar } from "../GroupAvatar";
 import { UserAvatar } from "../UserAvatar";
 

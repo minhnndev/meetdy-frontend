@@ -2,9 +2,14 @@
   "compilerOptions": {
     "jsx": "react",
     "composite": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
     "baseUrl": ".",
     "paths": {
-     "@/*": ["./src/*"]
+      "@/*": ["./src/*"]
     }
   }
 }

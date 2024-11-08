@@ -1,3 +1,4 @@
+import React from "react";
 import { PinCode, Typography } from "@douyinfe/semi-ui";
 import "./style.css";
 

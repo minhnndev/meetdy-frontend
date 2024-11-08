@@ -1,3 +1,4 @@
+import React from "react";
 import { TSuggestFriend } from "@/models/friend.model";
 import { Button, Image, Modal, Toast, Typography } from "@douyinfe/semi-ui";
 import { UserAvatar } from "../UserAvatar";

@@ -1,3 +1,4 @@
+import React from "react";
 import { Button, Form, Modal } from "@douyinfe/semi-ui";
 import UploadCoverImage from "../UploadCoverImage";
 import UploadAvatar from "../UploadAvatar";

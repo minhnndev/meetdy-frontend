@@ -1,3 +1,4 @@
+import React from "react";
 import ServiceMe from "@/api/meApi";
 import generateCode from "@/utils/generateCode";
 import { Button, Form, Modal, Toast } from "@douyinfe/semi-ui";

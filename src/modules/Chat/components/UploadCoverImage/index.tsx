@@ -1,3 +1,4 @@
+import React from "react";
 import { IconCamera, IconEditStroked } from "@douyinfe/semi-icons";
 import { Button, Typography, Upload } from "@douyinfe/semi-ui";
 import { useState } from "react";

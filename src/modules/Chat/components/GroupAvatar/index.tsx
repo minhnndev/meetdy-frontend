@@ -1,3 +1,4 @@
+import React from "react";
 import { Avatar, AvatarGroup } from "@douyinfe/semi-ui";
 import { UserAvatar } from "../UserAvatar";
 import { IconUserStroked } from "@douyinfe/semi-icons";

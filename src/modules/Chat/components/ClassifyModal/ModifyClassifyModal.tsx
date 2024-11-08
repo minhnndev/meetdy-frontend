@@ -1,3 +1,4 @@
+import React from "react";
 import ServiceClassify from "@/api/classifyApi";
 import ColorPicker from "@/components/ColorPicker";
 import { TColor } from "@/models/classify.model";

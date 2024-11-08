@@ -1,6 +1,7 @@
+import React from "react";
 import { Outlet } from "react-router";
 import SelectLanguage from "@/components/SelectLanguage";
-import IconImage from "../../../assets/images/auth/meetdy_logo_horizon.png";
+import IconImage from "@/assets/images/auth/meetdy_logo_horizon.png";
 
 const AuthLayoutLeft = () => {
   return (
