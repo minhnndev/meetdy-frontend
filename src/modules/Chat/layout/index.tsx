@@ -1,9 +1,12 @@
+import "./style.css";
+import React from "react";
+import { useEffect, useRef, useState } from "react";
+import { Outlet } from "react-router";
 import { useAppDispatch, useAppSelector } from "@/redux/store";
+
 import { init, socket } from "@/utils/socketClient";
 import ServiceConversation from "@/api/conversationApi";
 import { setTabActive } from "@/redux/slice/globalSlice";
-import Sidebar from "./Sidebar";
-import "./style.css";
 import {
   addMessage,
   addMessageInChannel,
@@ -29,9 +32,13 @@ import {
   updateRequestFriends,
 } from "@/redux/slice/friendSlice";
 import { fetchInfoWebs } from "@/redux/slice/homeSlice";
+
 import useWindowUnloadEffect from "@/hooks/useWindowUnloadEffect";
-import { useEffect, useRef, useState } from "react";
-import { Outlet } from "react-router";
+
+// import Sidebar from "./Sidebar";
+
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { AppSidebar } from "@/components/app-sidebar";
 
 init();
 
@@ -180,15 +187,22 @@ const ChatLayout = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleSetCodeRevoke = (code) => {
     codeRevokeRef.current = code;
   };
 
   return (
-    <div id="chat-page">
-      <Sidebar onSaveCodeRevoke={handleSetCodeRevoke} />
-      <Outlet context={{ socket, idNewMessage }} />
-    </div>
+    <SidebarProvider>
+      <main>
+        <SidebarTrigger />
+        <div className="h-screen w-screen flex">
+          <AppSidebar />
+          {/* <Sidebar onSaveCodeRevoke={handleSetCodeRevoke} /> */}
+          <Outlet context={{ socket, idNewMessage }} />
+        </div>
+      </main>
+    </SidebarProvider>
   );
 };
 
