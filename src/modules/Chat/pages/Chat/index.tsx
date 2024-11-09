@@ -1,6 +1,6 @@
 import React from "react";
 import { Nav, Notification, SideSheet, Toast } from "@douyinfe/semi-ui";
-import { SearchBar, SearchResultTabs } from "../../components";
+import { SearchBar, SearchResultTabs } from "../../components/common";
 import { useCallback, useEffect, useRef, useState } from "react";
 import ServiceConversation from "@/api/conversationApi";
 import "./style.css";

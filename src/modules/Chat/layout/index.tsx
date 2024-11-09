@@ -36,7 +36,7 @@ import { fetchInfoWebs } from "@/redux/slice/homeSlice";
 import useWindowUnloadEffect from "@/hooks/useWindowUnloadEffect";
 
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
-import { AppSidebar } from "@/components/sidebar/app-sidebar";
+import { AppSidebar } from "@/modules/Chat/components/sidebar/app-sidebar";
 
 init();
 

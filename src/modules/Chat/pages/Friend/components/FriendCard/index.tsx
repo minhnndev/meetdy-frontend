@@ -1,6 +1,6 @@
 import FriendService from "@/api/friendApi";
 import { TRequestFriend } from "@/models/friend.model";
-import { UserAvatar } from "@/modules/Chat/components";
+import { UserAvatar } from "@/modules/Chat/components/common";
 import { fetchListFriends } from "@/redux/slice/chat/chatSlice";
 import {
   fetchFriends,

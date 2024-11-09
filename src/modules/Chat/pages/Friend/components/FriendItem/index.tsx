@@ -3,7 +3,7 @@ import FriendService from "@/api/friendApi";
 import ServiceUser from "@/api/userApi";
 import { INIT_SUGGEST_FRIEND } from "@/constants/friend.constant";
 import { TFriend } from "@/models/friend.model";
-import { UserAvatar, UserCard } from "@/modules/Chat/components";
+import { UserAvatar, UserCard } from "@/modules/Chat/components/common";
 import {
   fetchListMessages,
   setConversations,

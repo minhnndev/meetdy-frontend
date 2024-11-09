@@ -1,5 +1,11 @@
-import * as React from "react"
-import { ChevronsUpDown, Plus } from "lucide-react"
+import * as React from "react";
+import {
+  AudioWaveform,
+  ChevronsUpDown,
+  Command,
+  Flower,
+  Plus,
+} from "lucide-react";
 
 import {
   DropdownMenu,
@@ -9,25 +15,35 @@ import {
   DropdownMenuSeparator,
   DropdownMenuShortcut,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu";
 import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
-} from "@/components/ui/sidebar"
+} from "@/components/ui/sidebar";
 
-export function TeamSwitcher({
-  teams,
-}: {
-  teams: {
-    name: string
-    logo: React.ElementType
-    plan: string
-  }[]
-}) {
-  const { isMobile } = useSidebar()
-  const [activeTeam, setActiveTeam] = React.useState(teams[0])
+const MOCK_TEAMS = [
+  {
+    name: "Meetdy Inc.",
+    logo: AudioWaveform,
+    plan: "Startup",
+  },
+  {
+    name: "Acme Inc",
+    logo: Flower,
+    plan: "Enterprise",
+  },
+  {
+    name: "Envil Corp.",
+    logo: Command,
+    plan: "Free",
+  },
+];
+
+export function TeamSwitcher() {
+  const { isMobile } = useSidebar();
+  const [activeTeam, setActiveTeam] = React.useState(MOCK_TEAMS[0]);
 
   return (
     <SidebarMenu>
@@ -59,7 +75,7 @@ export function TeamSwitcher({
             <DropdownMenuLabel className="text-xs text-muted-foreground">
               Teams
             </DropdownMenuLabel>
-            {teams.map((team, index) => (
+            {MOCK_TEAMS.map((team, index) => (
               <DropdownMenuItem
                 key={team.name}
                 onClick={() => setActiveTeam(team)}
@@ -83,5 +99,5 @@ export function TeamSwitcher({
         </DropdownMenu>
       </SidebarMenuItem>
     </SidebarMenu>
-  )
+  );
 }

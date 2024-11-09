@@ -1,6 +1,6 @@
 import ServiceConversation from "@/api/conversationApi";
 import { TGroupConversation } from "@/models/conversation.model";
-import { ClassifyModal, GroupAvatar } from "@/modules/Chat/components";
+import { ClassifyModal, GroupAvatar } from "@/modules/Chat/components/common";
 import { fetchListGroup } from "@/redux/slice/friendSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/store";
 import {

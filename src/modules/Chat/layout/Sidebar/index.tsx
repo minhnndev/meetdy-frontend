@@ -16,7 +16,7 @@ import {
   ChangePasswordModal,
   UpdateProfileModal,
   UserAvatar,
-} from "../../components";
+} from "../../components/common";
 
 function Sidebar({ onSaveCodeRevoke }) {
   const { user } = useAppSelector((state) => state.global);

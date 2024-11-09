@@ -1,5 +1,5 @@
 import { TSuggestFriend } from "@/models/friend.model";
-import { UserAvatar, UserCard } from "@/modules/Chat/components";
+import { UserAvatar, UserCard } from "@/modules/Chat/components/common";
 import { Card, Typography } from "@douyinfe/semi-ui";
 import { useState } from "react";
 

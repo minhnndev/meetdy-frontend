@@ -1,5 +1,5 @@
 import { Nav } from "@douyinfe/semi-ui";
-import { SearchBar, SearchResultTabs } from "../../components";
+import { SearchBar, SearchResultTabs } from "../../components/common";
 import { useAppDispatch, useAppSelector } from "@/redux/store";
 import { FRIEND_SUB_TABS } from "@/constants/friend.constant";
 import { useEffect, useState } from "react";
