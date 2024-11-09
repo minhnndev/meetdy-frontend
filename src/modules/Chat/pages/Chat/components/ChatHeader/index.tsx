@@ -1,3 +1,4 @@
+import React from "react";
 import { useAppSelector } from "@/redux/store";
 import { useEffect, useState } from "react";
 import ChatHeaderContent from "./ChatHeaderContent";

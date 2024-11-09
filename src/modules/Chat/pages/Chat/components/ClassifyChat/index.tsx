@@ -1,5 +1,6 @@
+import React from "react";
 import { TClassify } from "@/models/classify.model";
-import { ClassifyModal } from "@/modules/Chat/components";
+import { ClassifyModal } from "@/modules/Chat/components/common";
 import { useAppSelector } from "@/redux/store";
 import { IconCustomize, IconDescend2 } from "@douyinfe/semi-icons";
 import {

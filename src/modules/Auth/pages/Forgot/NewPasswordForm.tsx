@@ -1,4 +1,5 @@
-import InputOTP from "@/components/InputOTP";
+import React from "react";
+import InputOTP from "@/components/common/InputOTP";
 import { Button, Form } from "@douyinfe/semi-ui";
 import { useState } from "react";
 

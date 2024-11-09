@@ -1,4 +1,5 @@
-import { ConversationAvatar } from "@/modules/Chat/components";
+import React from "react";
+import { ConversationAvatar } from "@/modules/Chat/components/common";
 import { Nav, Typography } from "@douyinfe/semi-ui";
 import ShortMessage from "../ShortMessage";
 import { useAppDispatch, useAppSelector } from "@/redux/store";

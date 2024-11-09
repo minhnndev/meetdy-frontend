@@ -1,7 +1,7 @@
 import ServiceUser from "@/api/userApi";
 import { INIT_SUGGEST_FRIEND } from "@/constants/friend.constant";
 import { TContact } from "@/models/friend.model";
-import { UserAvatar, UserCard } from "@/modules/Chat/components";
+import { UserAvatar, UserCard } from "@/modules/Chat/components/common";
 import { Button, Card, Tag, Typography } from "@douyinfe/semi-ui";
 import { useState } from "react";
 

@@ -1,3 +1,4 @@
+import React from "react";
 import { Button, Form } from "@douyinfe/semi-ui";
 
 const RegisterForm = ({ handleRegister }) => {

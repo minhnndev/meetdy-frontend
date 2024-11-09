@@ -1,6 +1,7 @@
+import React from "react";
 import { LIMITED_WIDTH } from "@/constants/chat.constant";
 import useWindowDimensions from "@/hooks/useWindowDimensions";
-import { ConversationAvatar } from "@/modules/Chat/components";
+import { ConversationAvatar } from "@/modules/Chat/components/common";
 import {
   fetchListMessages,
   getLastViewOfMembers,

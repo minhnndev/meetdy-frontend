@@ -1,5 +1,6 @@
+import React from "react";
 import ServiceConversation from "@/api/conversationApi";
-import { GroupAvatar, UserAvatar } from "@/modules/Chat/components";
+import { GroupAvatar, UserAvatar } from "@/modules/Chat/components/common";
 import {
   Avatar,
   Col,

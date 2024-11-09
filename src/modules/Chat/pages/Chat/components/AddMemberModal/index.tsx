@@ -1,6 +1,7 @@
+import React from "react";
 import ServiceConversation from "@/api/conversationApi";
 import { TFriend } from "@/models/friend.model";
-import { UserAvatar } from "@/modules/Chat/components";
+import { UserAvatar } from "@/modules/Chat/components/common";
 import { createGroup } from "@/redux/slice/chat/chatSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/store";
 import { IconClose } from "@douyinfe/semi-icons";

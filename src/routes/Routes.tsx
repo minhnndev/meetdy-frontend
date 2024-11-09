@@ -9,11 +9,11 @@ import {
   RegisterPage,
 } from "@/modules/Auth";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
-import ProtectedRoute from "@/components/ProtectedRoute";
+import ProtectedRoute from "@/components/common/ProtectedRoute";
 import { Chat, ChatLayout, Friend } from "@/modules/Chat";
 import { Empty } from "@douyinfe/semi-ui";
 import { IllustrationNotFound } from "@douyinfe/semi-illustrations";
-import JoinFromLink from "@/components/JoinFromLink";
+import JoinFromLink from "@/components/common/JoinFromLink";
 
 const AppRoutes = () => {
   const dispatch = useAppDispatch();

@@ -1,4 +1,5 @@
 import "../style.css";
+import React from "react";
 import AuthLayoutRight from "./AuthLayoutRight";
 import AuthLayoutLeft from "./AuthLayoutLeft";
 import { useNavigate } from "react-router";

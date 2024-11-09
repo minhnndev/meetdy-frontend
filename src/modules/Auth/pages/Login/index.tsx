@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { unwrapResult } from "@reduxjs/toolkit";
 import ReCAPTCHA from "react-google-recaptcha";
 import { Button, Form, Toast, Typography } from "@douyinfe/semi-ui";
@@ -55,8 +55,7 @@ const LoginPage = () => {
     dispatch(setLoading(false));
   };
 
-  const onChange = (value: string | null) => {
-    console.log("🚀 ~ onChange ~ value:", value);
+  const onChange = () => {
     setError(false);
     setVerify(true);
   };

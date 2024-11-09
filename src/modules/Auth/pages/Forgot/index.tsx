@@ -1,3 +1,4 @@
+import React from "react";
 import { Modal, Notification, Toast, Typography } from "@douyinfe/semi-ui";
 import { Link, useNavigate } from "react-router-dom";
 import { setLoading } from "@/redux/slice/accountSlice";
