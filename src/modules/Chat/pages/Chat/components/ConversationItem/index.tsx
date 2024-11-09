@@ -1,3 +1,4 @@
+import React from "react";
 import { ConversationAvatar } from "@/modules/Chat/components";
 import { Nav, Typography } from "@douyinfe/semi-ui";
 import ShortMessage from "../ShortMessage";

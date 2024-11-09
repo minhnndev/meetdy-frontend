@@ -1,3 +1,4 @@
+import React from "react";
 import { Carousel, Space, Typography } from "@douyinfe/semi-ui";
 
 const Welcome = () => {

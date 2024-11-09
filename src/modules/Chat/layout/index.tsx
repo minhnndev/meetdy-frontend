@@ -35,10 +35,8 @@ import { fetchInfoWebs } from "@/redux/slice/homeSlice";
 
 import useWindowUnloadEffect from "@/hooks/useWindowUnloadEffect";
 
-// import Sidebar from "./Sidebar";
-
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import { AppSidebar } from "@/components/app-sidebar";
+import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
+import { AppSidebar } from "@/components/sidebar/app-sidebar";
 
 init();
 
@@ -194,14 +192,14 @@ const ChatLayout = () => {
 
   return (
     <SidebarProvider>
-      <main>
-        <SidebarTrigger />
-        <div className="h-screen w-screen flex">
-          <AppSidebar />
-          {/* <Sidebar onSaveCodeRevoke={handleSetCodeRevoke} /> */}
-          <Outlet context={{ socket, idNewMessage }} />
-        </div>
-      </main>
+      <AppSidebar />
+      <SidebarInset>
+        <main>
+          <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
+            <Outlet context={{ socket, idNewMessage }} />
+          </div>
+        </main>
+      </SidebarInset>
     </SidebarProvider>
   );
 };

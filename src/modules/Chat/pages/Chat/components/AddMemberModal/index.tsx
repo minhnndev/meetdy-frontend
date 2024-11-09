@@ -1,3 +1,4 @@
+import React from "react";
 import ServiceConversation from "@/api/conversationApi";
 import { TFriend } from "@/models/friend.model";
 import { UserAvatar } from "@/modules/Chat/components";
