@@ -17,7 +17,7 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["vite.config.ts", "src", "meetdy/*"],
+  "include": ["vite.config.ts"],
   "files": [],
   "references": [
     { "path": "./tsconfig.app.json" },
