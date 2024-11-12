@@ -60,8 +60,8 @@ jobs:
         chmod 600 $HOME/.kube/config
 
     - name: Update Deployment in K3s
-        run: |
-          kubectl rollout restart deployment/meetdy-frontend -n meetdy-prod
+      run: |
+        kubectl rollout restart deployment/meetdy-frontend -n meetdy-prod
 
     - name: Send Telegram notification
       if: success()
