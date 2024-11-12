@@ -8,7 +8,7 @@ on:
 env:
   APP_NAME: meetdy-frontend
   BASE_DOMAIN: meetdy.com
-  ENVIRONMENT: UAT
+  ENVIRONMENT: Production
 
 jobs:
   build-and-deploy:
@@ -25,8 +25,12 @@ jobs:
         [ -e .dockerignore ] && rm .dockerignore
         cp -a infrastructure-config/meetdy-frontend/. ./
 
-    - name: Log in to Docker Hub
-      run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+    - name: Log in to Harbor Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ secrets.HARBOR_REGISTRY }}
+          username: ${{ secrets.HARBOR_USERNAME }}
+          password: ${{ secrets.HARBOR_PASSWORD }}
 
     - name: Set version variable
       id: vars
@@ -34,11 +38,14 @@ jobs:
 
     - name: Build the Docker image
       run: |
-        docker build . --file Dockerfile --tag nghiaphamln/${{ env.APP_NAME }}:${{ env.VERSION }}
+        docker build . --file Dockerfile \
+        --tag ${{ secrets.HARBOR_REGISTRY }}/meetdy/${{ env.APP_NAME }}:${{ env.VERSION }} \
+        --tag ${{ secrets.HARBOR_REGISTRY }}/meetdy/${{ env.APP_NAME }}:latest
 
     - name: Push the Docker image to Docker Hub
       run: |
-        docker push nghiaphamln/${{ env.APP_NAME }}:${{ env.VERSION }}
+        docker push ${{ secrets.HARBOR_REGISTRY }}/meetdy/${{ env.APP_NAME }}:${{ env.VERSION }}
+        docker push ${{ secrets.HARBOR_REGISTRY }}/meetdy/${{ env.APP_NAME }}:latest
 
     - name: Set up kubeconfig
       run: |
@@ -46,73 +53,11 @@ jobs:
         echo "${{ secrets.KUBECONFIG }}" | base64 -d > $HOME/.kube/config
         chmod 600 $HOME/.kube/config
 
-    - name: Clean up old namespaces
+    - name: Set up kubeconfig
       run: |
-        CURRENT_NAMESPACE="${{ env.APP_NAME }}-preview-${{ env.VERSION }}"
-        kubectl get namespaces --no-headers -o custom-columns=:metadata.name | grep "${{ env.APP_NAME }}-preview" | grep -v "${CURRENT_NAMESPACE}" | xargs -r kubectl delete namespace
-        echo "Old namespaces cleaned up."
-
-    - name: Deploy to Kubernetes
-      run: |
-        PREVIEW_NAMESPACE="${{ env.APP_NAME }}-preview-${{ env.VERSION }}"
-        kubectl create namespace ${PREVIEW_NAMESPACE} --dry-run=client -o yaml | kubectl apply -f -
-        
-        cat <<EOF | kubectl apply -f -
-        apiVersion: apps/v1
-        kind: Deployment
-        metadata:
-          name: ${{ env.APP_NAME }}-preview
-          namespace: ${PREVIEW_NAMESPACE}
-        spec:
-          replicas: 1
-          selector:
-            matchLabels:
-              app: ${{ env.APP_NAME }}-preview
-          template:
-            metadata:
-              labels:
-                app: ${{ env.APP_NAME }}-preview
-            spec:
-              containers:
-              - name: ${{ env.APP_NAME }}-preview
-                image: nghiaphamln/${{ env.APP_NAME }}:${{ env.VERSION }}
-                ports:
-                - containerPort: 80
-        ---
-        apiVersion: v1
-        kind: Service
-        metadata:
-          name: ${{ env.APP_NAME }}-preview
-          namespace: ${PREVIEW_NAMESPACE}
-        spec:
-          selector:
-            app: ${{ env.APP_NAME }}-preview
-          ports:
-          - protocol: TCP
-            port: 80
-            targetPort: 80
-        ---
-        apiVersion: networking.k8s.io/v1
-        kind: Ingress
-        metadata:
-          name: ${{ env.APP_NAME }}-preview
-          namespace: ${PREVIEW_NAMESPACE}
-        spec:
-          ingressClassName: nginx
-          rules:
-          - host: preview-${{ env.VERSION }}.${{ env.BASE_DOMAIN }}
-            http:
-              paths:
-              - path: /
-                pathType: Prefix
-                backend:
-                  service:
-                    name: ${{ env.APP_NAME }}-preview
-                    port:
-                      number: 80
-        EOF
-        
-        echo "Preview deployed to https://preview-${{ env.VERSION }}.${{ env.BASE_DOMAIN }}"
+        mkdir -p $HOME/.kube
+        echo "${{ secrets.KUBECONFIG }}" | base64 -d > $HOME/.kube/config
+        chmod 600 $HOME/.kube/config
 
     - name: Send Telegram notification
       if: success()
@@ -121,7 +66,7 @@ jobs:
         👤 *User:* ${{ github.actor }}%0A\
         🖥️ *Service:* ${{ env.APP_NAME }}%0A\
         🚀 *Environment:* ${{ env.ENVIRONMENT }}%0A\
-        🌐 *Preview Link:* https://preview-${{ env.VERSION }}.${{ env.BASE_DOMAIN }}%0A\
+        🌐 *Link:* https://api.${{ env.BASE_DOMAIN }}%0A\
         ✅ Deployment for *${{ env.APP_NAME }}* was completed successfully!"
         
         curl -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" \
