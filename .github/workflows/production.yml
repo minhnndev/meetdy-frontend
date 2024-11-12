@@ -59,6 +59,10 @@ jobs:
         echo "${{ secrets.KUBECONFIG }}" | base64 -d > $HOME/.kube/config
         chmod 600 $HOME/.kube/config
 
+    - name: Update Deployment in K3s
+        run: |
+          kubectl rollout restart deployment/meetdy-frontend -n meetdy-prod
+
     - name: Send Telegram notification
       if: success()
       run: |
@@ -66,7 +70,7 @@ jobs:
         👤 *User:* ${{ github.actor }}%0A\
         🖥️ *Service:* ${{ env.APP_NAME }}%0A\
         🚀 *Environment:* ${{ env.ENVIRONMENT }}%0A\
-        🌐 *Link:* https://api.${{ env.BASE_DOMAIN }}%0A\
+        🌐 *Link:* https://chat.${{ env.BASE_DOMAIN }}%0A\
         ✅ Deployment for *${{ env.APP_NAME }}* was completed successfully!"
         
         curl -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" \
