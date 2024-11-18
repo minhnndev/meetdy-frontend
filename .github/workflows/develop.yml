@@ -1,4 +1,5 @@
-name: Deploy Develop
+name: Meetdy Frontend Develop Environment
+
 on:
   push:
     branches:
@@ -8,59 +9,71 @@ env:
   APP_NAME: meetdy-frontend
   BASE_DOMAIN: meetdy.com
   ENVIRONMENT: Develop
-  
+
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+    - uses: actions/checkout@v4
+    
+    - name: Apply configuration
+      run: |
+        git clone https://oauth2:${{ secrets.CONFIG_REPOSITORY_TOKEN }}@github.com/meetdy/infrastructure-config.git
+        [ -e .env ] && rm .env
+        [ -e Dockerfile ] && rm Dockerfile
+        [ -e nginx.conf ] && rm nginx.conf
+        [ -e .dockerignore ] && rm .dockerignore
+        cp -a infrastructure-config/develop/meetdy-frontend/. ./
 
-      - name: Apply configuration
-        run: |
-          git clone https://oauth2:${{ secrets.CONFIG_REPOSITORY_TOKEN }}@github.com/meetdy/infrastructure-config.git
-          [ -e .env ] && rm .env
-          [ -e Dockerfile ] && rm Dockerfile
-          [ -e nginx.conf ] && rm nginx.conf
-          [ -e .dockerignore ] && rm .dockerignore
-          cp -a infrastructure-config/develop/meetdy-frontend/. ./
-      
-      - name: Log in to Docker Hub
-        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+    - name: Log in to Harbor Registry
+      uses: docker/login-action@v3
+      with:
+        registry: ${{ secrets.HARBOR_REGISTRY }}
+        username: ${{ secrets.HARBOR_USERNAME }}
+        password: ${{ secrets.HARBOR_PASSWORD }}
 
-      - name: Set version variable
-        id: vars
-        run: echo "VERSION=1.${{ github.run_number }}" >> $GITHUB_ENV
+    - name: Set version variable
+      id: vars
+      run: echo "VERSION=1-${{ github.run_number }}" >> $GITHUB_ENV
 
-      - name: Build the Docker image with both tags
-        run: |
-          docker build . --file Dockerfile --tag nghiaphamln/meetdy-frontend:dev-1.${{ env.VERSION }} --tag nghiaphamln/meetdy-frontend:dev-latest
+    - name: Build the Docker image
+      run: |
+        docker build . --file Dockerfile \
+        --tag ${{ secrets.HARBOR_REGISTRY }}/meetdy/${{ env.APP_NAME }}:dev-1.${{ env.VERSION }} \
+        --tag ${{ secrets.HARBOR_REGISTRY }}/meetdy/${{ env.APP_NAME }}:dev-latest
 
-      - name: Push the Docker image to Docker Hub
-        run: |
-          docker push nghiaphamln/meetdy-frontend:dev-1.${{ env.VERSION }}
-          docker push nghiaphamln/meetdy-frontend:dev-latest
+    - name: Push the Docker image to Docker Hub
+      run: |
+        docker push ${{ secrets.HARBOR_REGISTRY }}/meetdy/${{ env.APP_NAME }}:dev-1.${{ env.VERSION }}
+        docker push ${{ secrets.HARBOR_REGISTRY }}/meetdy/${{ env.APP_NAME }}:dev-latest
 
-      - name: Set up kubeconfig
-        run: |
-          mkdir -p $HOME/.kube
-          echo "${{ secrets.KUBECONFIG }}" | base64 -d > $HOME/.kube/config
-          chmod 600 $HOME/.kube/config
+    - name: Set up kubeconfig
+      run: |
+        mkdir -p $HOME/.kube
+        echo "${{ secrets.KUBECONFIG }}" | base64 -d > $HOME/.kube/config
+        chmod 600 $HOME/.kube/config
 
-      - name: Update Deployment in K3s
-        run: |
-          kubectl rollout restart deployment/meetdy-frontend -n meetdy-develop
+    - name: Set up kubeconfig
+      run: |
+        mkdir -p $HOME/.kube
+        echo "${{ secrets.KUBECONFIG }}" | base64 -d > $HOME/.kube/config
+        chmod 600 $HOME/.kube/config
 
-      - name: Send Telegram notification
-        if: success()
-        run: |
-          MESSAGE="🚀 *Build and Deploy Successful!*%0A%0A\
-          👤 *User:* ${{ github.actor }}%0A\
-          🖥️ *Service:* ${{ env.APP_NAME }}%0A\
-          🚀 *Environment:* ${{ env.ENVIRONMENT }}%0A\
-          🌐 *Link:* https://dev.chat.${{ env.BASE_DOMAIN }}%0A\
-          ✅ Deployment for *${{ env.APP_NAME }}* was completed successfully!"
-          
-          curl -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" \ 
-            -d chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" \
-            -d text="${MESSAGE}" \
-            -d parse_mode="Markdown"
+    - name: Update Deployment in K3s
+      run: |
+        kubectl rollout restart deployment/meetdy-frontend -n meetdy-develop
+
+    - name: Send Telegram notification
+      if: success()
+      run: |
+        MESSAGE="🚀 *Build and Deploy Successful!*%0A%0A\
+        👤 *User:* ${{ github.actor }}%0A\
+        🖥️ *Service:* ${{ env.APP_NAME }}%0A\
+        🚀 *Environment:* ${{ env.ENVIRONMENT }}%0A\
+        🌐 *Link:* https://dev.chat.${{ env.BASE_DOMAIN }}%0A\
+        ✅ Deployment for *${{ env.APP_NAME }}* was completed successfully!"
+        
+        curl -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" \
+          -d chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" \
+          -d text="${MESSAGE}" \
+          -d parse_mode="Markdown"
