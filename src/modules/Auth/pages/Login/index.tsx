@@ -21,7 +21,6 @@ const LoginPage = () => {
 
     const handleSubmit = async (values: TLogin) => {
         const { username, password } = values;
-        console.log("CAPTCHA:", isVerify);
         try {
             if (isVerify) {
                 dispatch(setLoading(true));
@@ -112,7 +111,10 @@ const LoginPage = () => {
                 </Link>
             </div>
             <div style={{ marginTop: "20px" }}>
-                <span>Bạn chưa có tài khoản?</span> <Link to="/auth/register">Đăng ký ngay</Link>
+                <span>Bạn chưa có tài khoản?</span>{" "}
+                <Link to="/auth/register" className="text-blue-500 hover:underline">
+                    Đăng ký ngay
+                </Link>
             </div>
         </div>
     );
