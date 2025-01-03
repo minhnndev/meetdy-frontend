@@ -1,4 +1,4 @@
 export type TVote = {
-  data: any;
-  totalPages: any;
+    data: any;
+    totalPages: any;
 };

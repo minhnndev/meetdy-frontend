@@ -1,7 +1,7 @@
 const cache: Record<string, string> = {};
 
 const AllowancesCache = {
-  cache,
+    cache,
 };
 
 export default AllowancesCache;

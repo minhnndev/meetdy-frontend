@@ -5,8 +5,8 @@ import App from "./App";
 
 const el = document.getElementById("root");
 if (el) {
-  const root = createRoot(el);
-  root.render(<App />);
+    const root = createRoot(el);
+    root.render(<App />);
 } else {
-  throw new Error("Could not find root element");
+    throw new Error("Could not find root element");
 }

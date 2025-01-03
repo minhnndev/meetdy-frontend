@@ -11,14 +11,14 @@ import callVideo from "./callVideoSlice";
 import admin from "./adminSlice";
 
 const rootReducer = {
-  global,
-  account,
-  admin,
-  callVideo,
-  chat,
-  friend,
-  home,
-  media,
+    global,
+    account,
+    admin,
+    callVideo,
+    chat,
+    friend,
+    home,
+    media,
 };
 
 export default rootReducer;
