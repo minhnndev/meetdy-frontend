@@ -3,15 +3,15 @@ import { createSlice } from "@reduxjs/toolkit";
 const KEY = "account";
 
 const accountSlice = createSlice({
-  name: KEY,
-  initialState: {
-    isLoading: false,
-  },
-  reducers: {
-    setLoading: (state, action) => {
-      state.isLoading = action.payload;
+    name: KEY,
+    initialState: {
+        isLoading: false,
     },
-  },
+    reducers: {
+        setLoading: (state, action) => {
+            state.isLoading = action.payload;
+        },
+    },
 });
 
 const { reducer, actions } = accountSlice;

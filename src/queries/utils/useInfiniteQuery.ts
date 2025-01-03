@@ -1,83 +1,79 @@
 import _httpsAxios from "@/api/_httpAxios";
 import {
-  keepPreviousData,
-  QueryFunctionContext,
-  QueryKey,
-  UseInfiniteQueryOptions,
-  UseInfiniteQueryResult,
-  useInfiniteQuery as useRQInfiniteQuery,
+    keepPreviousData,
+    QueryFunctionContext,
+    QueryKey,
+    UseInfiniteQueryOptions,
+    UseInfiniteQueryResult,
+    useInfiniteQuery as useRQInfiniteQuery,
 } from "@tanstack/react-query";
 import { AxiosResponse } from "axios";
 import { useCallback, useMemo } from "react";
 
 export type InfiniteResponseType = any & {
-  pages?: Array<any>;
+    pages?: Array<any>;
 };
 
 export const PER_PAGE = 20;
 
-export function useExplorerQuery(
-  query: UseInfiniteQueryResult<InfiniteResponseType, unknown>
-) {
-  const data = useMemo(
-    () => query.data?.pages?.flatMap((d: any) => d.data ?? []) ?? [],
-    [query.data]
-  );
-  const loadMore = useCallback(() => {
-    if (query.hasNextPage && !query.isFetchingNextPage) {
-      query.fetchNextPage.call(undefined);
-    }
-  }, [query.hasNextPage, query.isFetchingNextPage, query.fetchNextPage]);
+export function useExplorerQuery(query: UseInfiniteQueryResult<InfiniteResponseType, unknown>) {
+    const data = useMemo(
+        () => query.data?.pages?.flatMap((d: any) => d.data ?? []) ?? [],
+        [query.data]
+    );
+    const loadMore = useCallback(() => {
+        if (query.hasNextPage && !query.isFetchingNextPage) {
+            query.fetchNextPage.call(undefined);
+        }
+    }, [query.hasNextPage, query.isFetchingNextPage, query.fetchNextPage]);
 
-  return { ...query, data, loadMore };
+    return { ...query, data, loadMore };
 }
 
 type UseInfiniteQueryParams = {
-  queryKey: QueryKey;
-  url: string;
-  variables?: Record<string, unknown>;
-  limit?: number;
-  options?: UseInfiniteQueryOptions<any, unknown, any, any, QueryKey>;
+    queryKey: QueryKey;
+    url: string;
+    variables?: Record<string, unknown>;
+    limit?: number;
+    options?: UseInfiniteQueryOptions<any, unknown, any, any, QueryKey>;
 };
 
 // TODO: fix usage type
 function useInfiniteQuery({
-  queryKey,
-  url,
-  variables,
-  limit = PER_PAGE,
-  options,
-}: UseInfiniteQueryParams) {
-  const query = useRQInfiniteQuery({
     queryKey,
-    queryFn: async ({
-      pageParam = 0,
-    }: QueryFunctionContext<QueryKey, number>) => {
-      const response = (await _httpsAxios.get(url, {
-        params: {
-          limit,
-          offset: (pageParam ?? 0) * limit,
-          ...variables,
+    url,
+    variables,
+    limit = PER_PAGE,
+    options,
+}: UseInfiniteQueryParams) {
+    const query = useRQInfiniteQuery({
+        queryKey,
+        queryFn: async ({ pageParam = 0 }: QueryFunctionContext<QueryKey, number>) => {
+            const response = (await _httpsAxios.get(url, {
+                params: {
+                    limit,
+                    offset: (pageParam ?? 0) * limit,
+                    ...variables,
+                },
+            })) as AxiosResponse<any>;
+
+            return response;
         },
-      })) as AxiosResponse<any>;
+        staleTime: 10 * 1000,
+        gcTime: 0,
+        retry: false,
+        initialPageParam: 0,
+        placeholderData: keepPreviousData,
+        getNextPageParam: (lastPage: any, allPages: any[]) => {
+            const nextPage = allPages.length;
+            const offset = nextPage * limit;
+            return offset < lastPage.total ? nextPage : undefined;
+        },
+        ...(options || {}),
+    });
 
-      return response;
-    },
-    staleTime: 10 * 1000,
-    gcTime: 0,
-    retry: false,
-    initialPageParam: 0,
-    placeholderData: keepPreviousData,
-    getNextPageParam: (lastPage: any, allPages: any[]) => {
-      const nextPage = allPages.length;
-      const offset = nextPage * limit;
-      return offset < lastPage.total ? nextPage : undefined;
-    },
-    ...(options || {}),
-  });
-
-  const explorer = useExplorerQuery(query);
-  return explorer;
+    const explorer = useExplorerQuery(query);
+    return explorer;
 }
 
 export { useInfiniteQuery };

@@ -4,40 +4,40 @@ import { TMessage } from "@/models/message.model";
 const API_URL = "/channels";
 
 const ServiceChannel = {
-  fetchChannel: (conversationId) => {
-    return axiosClient.get(`${API_URL}/${conversationId}`);
-  },
+    fetchChannel: (conversationId) => {
+        return axiosClient.get(`${API_URL}/${conversationId}`);
+    },
 
-  addChannel: (name, conversationId) => {
-    return axiosClient.post(`${API_URL}`, {
-      name,
-      conversationId,
-    });
-  },
+    addChannel: (name, conversationId) => {
+        return axiosClient.post(`${API_URL}`, {
+            name,
+            conversationId,
+        });
+    },
 
-  renameChannel: (name, _id) => {
-    return axiosClient.put(`${API_URL}`, {
-      _id,
-      name,
-    });
-  },
+    renameChannel: (name, _id) => {
+        return axiosClient.put(`${API_URL}`, {
+            _id,
+            name,
+        });
+    },
 
-  deleteChannel: (channelId) => {
-    return axiosClient.delete(`${API_URL}/${channelId}`);
-  },
+    deleteChannel: (channelId) => {
+        return axiosClient.delete(`${API_URL}/${channelId}`);
+    },
 
-  getMessageInChannel: (channelId, page, size) => {
-    return axiosClient.get<any, TMessage>(`/messages/channel/${channelId}`, {
-      params: {
-        page,
-        size,
-      },
-    });
-  },
+    getMessageInChannel: (channelId, page, size) => {
+        return axiosClient.get<any, TMessage>(`/messages/channel/${channelId}`, {
+            params: {
+                page,
+                size,
+            },
+        });
+    },
 
-  getLastViewChannel: (channelId) => {
-    return axiosClient.get(`${API_URL}/${channelId}/last-view`);
-  },
+    getLastViewChannel: (channelId) => {
+        return axiosClient.get(`${API_URL}/${channelId}/last-view`);
+    },
 };
 
 export default ServiceChannel;
