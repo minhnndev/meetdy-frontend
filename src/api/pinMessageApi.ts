@@ -1,18 +1,18 @@
-import axiosClient from "./_httpAxios";
+import { del, get, post } from "./instance/httpMethod";
 
-const API_URL = "/pin-messages";
+const PATH = "/pin-messages";
 
 const ServicePinMessage = {
     getPinMessages: (conversationId) => {
-        return axiosClient.get(`${API_URL}/${conversationId}`);
+        return get(`${PATH}/${conversationId}`);
     },
 
     pinMessage: (messageId) => {
-        return axiosClient.post(`${API_URL}/${messageId}`);
+        return post(`${PATH}/${messageId}`);
     },
 
     removePinMessage: (messageId) => {
-        return axiosClient.delete(`${API_URL}/${messageId}`);
+        return del(`${PATH}/${messageId}`);
     },
 };
 

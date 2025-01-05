@@ -1,33 +1,32 @@
-import axiosClient from "./_httpAxios";
-import { TMessage } from "@/models/message.model";
+import { get, put, post, del } from "./instance/httpMethod";
 
-const API_URL = "/channels";
+const PATH = "/channels";
 
 const ServiceChannel = {
     fetchChannel: (conversationId) => {
-        return axiosClient.get(`${API_URL}/${conversationId}`);
+        return get(`${PATH}/${conversationId}`);
     },
 
     addChannel: (name, conversationId) => {
-        return axiosClient.post(`${API_URL}`, {
+        return post(`${PATH}`, {
             name,
             conversationId,
         });
     },
 
     renameChannel: (name, _id) => {
-        return axiosClient.put(`${API_URL}`, {
+        return put(`${PATH}`, {
             _id,
             name,
         });
     },
 
     deleteChannel: (channelId) => {
-        return axiosClient.delete(`${API_URL}/${channelId}`);
+        return del(`${PATH}/${channelId}`);
     },
 
     getMessageInChannel: (channelId, page, size) => {
-        return axiosClient.get<any, TMessage>(`/messages/channel/${channelId}`, {
+        return get(`/messages/channel/${channelId}`, {
             params: {
                 page,
                 size,
@@ -36,7 +35,7 @@ const ServiceChannel = {
     },
 
     getLastViewChannel: (channelId) => {
-        return axiosClient.get(`${API_URL}/${channelId}/last-view`);
+        return get(`${PATH}/${channelId}/last-view`);
     },
 };
 

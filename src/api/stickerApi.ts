@@ -1,11 +1,9 @@
-import axiosClient from "./_httpAxios";
+import { get } from "./instance/httpMethod";
 
-const BASE_URL = "/stickers";
+const PATH = "/stickers";
 
 const ServiceSticker = {
-    getAllSticker: () => {
-        return axiosClient.get(`${BASE_URL}`);
-    },
+    getAllSticker: () =>  get(`${PATH}`),
 };
 
 export default ServiceSticker;

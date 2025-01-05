@@ -1,10 +1,9 @@
-import { TContact } from "@/models/friend.model";
-import axiosClient from "./_httpAxios";
+import { get } from "./instance/httpMethod";
 import { API } from "@/constants/api.constant";
 
 const ServiceContacts = {
     getContacts: () => {
-        return axiosClient.get<any, Array<TContact>>(`${API.PHONE_BOOK}`);
+        return get(`${API.PHONE_BOOK}`);
     },
 };
 

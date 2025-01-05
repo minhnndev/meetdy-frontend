@@ -1,6 +1,6 @@
-import axiosClient from "./_httpAxios";
+import { get } from "./instance/httpMethod";
 
-const API_URL = "/messages";
+const PATH = "/messages";
 
 const ServiceMedia = {
     fetchAllMedia: (
@@ -10,7 +10,7 @@ const ServiceMedia = {
         startTime?: any,
         endTime?: any
     ) => {
-        return axiosClient.get(`${API_URL}/${conversationId}/files`, {
+        return get(`${PATH}/${conversationId}/files`, {
             params: {
                 type,
                 senderId,

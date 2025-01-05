@@ -1,7 +1,7 @@
 import { API } from "@/constants/api.constant";
-import axiosClient from "./_httpAxios";
+import { get } from "./instance/httpMethod";
 
-type TWebInfo = {
+export type TWebInfo = {
     meta: any;
     payload: Array<any>;
     type: string;
@@ -9,7 +9,7 @@ type TWebInfo = {
 
 const ServiceInfoWeb = {
     getInfoWeb: () => {
-        return axiosClient.get<TWebInfo, any>(`${API.WEB_INFO}`);
+        return get(`${API.WEB_INFO}`);
     },
 };
 

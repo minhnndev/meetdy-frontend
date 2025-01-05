@@ -1,11 +1,10 @@
-import { TVote } from "@/models/vote.model";
-import axiosClient from "./_httpAxios";
+import { del, get, post } from "./instance/httpMethod";
 
-const API_URL = "/votes";
+const PATH = "/votes";
 
 const ServiceVote = {
     createVote: (content, options, conversationId) => {
-        return axiosClient.post(`${API_URL}`, {
+        return post(`${PATH}`, {
             content,
             options,
             conversationId,
@@ -13,33 +12,33 @@ const ServiceVote = {
     },
 
     addVote: (messageId, options) => {
-        return axiosClient.post(`${API_URL}/${messageId}`, {
+        return post(`${PATH}/${messageId}`, {
             options,
         });
     },
 
-    // // Comment vì không dùng và đang báo lỗi
+    // // Comment this function because existing error in the backend
     // deleteVote: (messageId, options) => {
-    //   return axiosClient.delete(`${API_URL}/${messageId}`, {
+    //   return del(`${PATH}/${messageId}`, {
     //     options,
     //   });
     // },
 
     selectVote: (messageId, options) => {
-        return axiosClient.post(`${API_URL}/${messageId}/choices`, {
+        return post(`${PATH}/${messageId}/choices`, {
             options,
         });
     },
 
     deleteSelect: (messageId, options) => {
-        return axiosClient.delete(`${API_URL}/${messageId}/choices`, {
+        return del(`${PATH}/${messageId}/choices`, {
             data: {
                 options,
             },
         });
     },
     getVotes: (conversationId, page, size) => {
-        return axiosClient.get<any, TVote>(`${API_URL}/${conversationId}/`, {
+        return get(`${PATH}/${conversationId}/`, {
             params: {
                 page,
                 size,
