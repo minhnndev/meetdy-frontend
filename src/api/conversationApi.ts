@@ -1,72 +1,67 @@
-import {
-    TCreateConversationResponse,
-    TCreateGroup,
-    TGetConversation,
-    TGetListConversations,
-    TGroupConversation,
-    TIndividualConversation,
-} from "@/models/conversation.model";
-import axiosClient from "./_httpAxios";
 import { API } from "@/constants/api.constant";
+import {
+    TCreateGroup,
+    TGetListConversations
+} from "@/models/conversation.model";
+import { del, get, patch, post } from "./instance/httpMethod";
 
 const ServiceConversation = {
     getListConversations: (params: TGetListConversations) =>
-        axiosClient.get<any, Array<TIndividualConversation | TGroupConversation>>(
+         get(
             API.CONVERSATION.GET,
             { params }
         ),
-
     createConversationIndividual: (userId: string) =>
-        axiosClient.post<TCreateConversationResponse, any>(`${API.CONVERSATION.CREATE}/${userId}`),
+         post(`${API.CONVERSATION.CREATE}/${userId}`, {}),
 
-    createGroup: (params: TCreateGroup) => axiosClient.post(API.CONVERSATION.CREATE_GROUP, params),
+    createGroup: (params: TCreateGroup) =>  post(API.CONVERSATION.CREATE_GROUP, params),
 
     getConversationById: (id: string) =>
-        axiosClient.get<any, TGetConversation>(`${API.CONVERSATION.GET}/${id}`),
+         get(`${API.CONVERSATION.GET}/${id}`),
 
-    deleteConversation: (id: string) => axiosClient.delete(`${API.CONVERSATION.DELETE}/${id}`),
+    deleteConversation: (id: string) =>  del(`${API.CONVERSATION.DELETE}/${id}`),
 
     getMemberInConversation: (id: string) =>
-        axiosClient.get(`${API.CONVERSATION.GET}/${id}/members`),
+         get(`${API.CONVERSATION.GET}/${id}/members`),
 
     addMembersToConver: (userIds, coversationIds) =>
-        axiosClient.post(`${API.CONVERSATION.GET}/${coversationIds}/members`, {
+          post(`${API.CONVERSATION.GET}/${coversationIds}/members`, {
             userIds,
         }),
 
     leaveGroup: (conversationId: string) =>
-        axiosClient.delete(`${API.CONVERSATION.DELETE}/${conversationId}/members/leave`),
+         del(`${API.CONVERSATION.DELETE}/${conversationId}/members/leave`),
 
     deleteMember: (conversationId, userId) =>
-        axiosClient.delete(`${API.CONVERSATION.DELETE}/${conversationId}/members/${userId}`),
+         del(`${API.CONVERSATION.DELETE}/${conversationId}/members/${userId}`),
 
     changeNameConversation: (conversationId, name) =>
-        axiosClient.patch(`${API.CONVERSATION.GET}/${conversationId}/name`, {
+         patch(`${API.CONVERSATION.GET}/${conversationId}/name`, {
             name,
         }),
 
     getLastViewOfMembers: (conversationId: string) =>
-        axiosClient.get(`${API.CONVERSATION.GET}/${conversationId}/last-view`),
+         get(`${API.CONVERSATION.GET}/${conversationId}/last-view`),
 
     getSummaryInfoGroup: (conversationId: string) =>
-        axiosClient.get(`${API.CONVERSATION.GET}/${conversationId}/summary`),
+         get(`${API.CONVERSATION.GET}/${conversationId}/summary`),
 
     joinGroupFromLink: (conversationId: string) =>
-        axiosClient.post(`${API.CONVERSATION.GET}/${conversationId}/members/join-from-link`),
+         post(`${API.CONVERSATION.GET}/${conversationId}/members/join-from-link`, {}),
 
     changeStatusForGroup: (conversationId, isStatus) =>
-        axiosClient.patch(`${API.CONVERSATION.GET}/${conversationId}/join-from-link/${isStatus}`),
+         patch(`${API.CONVERSATION.GET}/${conversationId}/join-from-link/${isStatus}`),
 
     changAvatarGroup: (conversationId, file) =>
-        axiosClient.patch(`${API.CONVERSATION.GET}/${conversationId}/avatar`, file),
+         patch(`${API.CONVERSATION.GET}/${conversationId}/avatar`, file),
 
-    addManagerGroup: (converId, userIds) =>
-        axiosClient.post(`${API.CONVERSATION.GET}/${converId}/managers`, {
+    addManagerGroup: (conversationId, userIds) =>
+         post(`${API.CONVERSATION.GET}/${conversationId}/managers`, {
             managerIds: userIds,
         }),
 
-    deleteManager: (converId, userIds) =>
-        axiosClient.delete(`${API.CONVERSATION.DELETE}/${converId}/managers`, {
+    deleteManager: (conversationId, userIds) =>
+         del(`${API.CONVERSATION.DELETE}/${conversationId}/managers`, {
             data: {
                 managerIds: userIds,
             },

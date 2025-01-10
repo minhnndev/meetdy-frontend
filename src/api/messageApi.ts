@@ -1,11 +1,10 @@
-import { TMessage } from "@/models/message.model";
-import axiosClient from "./_httpAxios";
+import { del, get, post } from "./instance/httpMethod";
 
-const API_URL = "/messages";
+const PATH = "/messages";
 
 const ServiceMessages = {
     fetchListMessages: (conversationId, page, size) => {
-        return axiosClient.get<any, TMessage>(`${API_URL}/${conversationId}`, {
+        return get(`${PATH}/${conversationId}`, {
             params: {
                 page,
                 size,
@@ -14,7 +13,7 @@ const ServiceMessages = {
     },
 
     sendTextMessage: (message) => {
-        return axiosClient.post(`${API_URL}/text`, message);
+        return post(`${PATH}/text`, message);
     },
 
     sendFileThroughMessage: (file, attachInfo, cb) => {
@@ -34,22 +33,22 @@ const ServiceMessages = {
             },
         };
 
-        return axiosClient.post(`${API_URL}/files`, file, config);
+        return post(`${PATH}/files`, file, config);
     },
 
     redoMessage: (idMessage) => {
-        return axiosClient.delete(`${API_URL}/${idMessage}`);
+        return del(`${PATH}/${idMessage}`);
     },
     deleteMessageClientSide: (idMessage) => {
-        return axiosClient.delete(`${API_URL}/${idMessage}/only`);
+        return del(`${PATH}/${idMessage}/only`);
     },
 
     dropReaction: (idMessage, type) => {
-        return axiosClient.post(`${API_URL}/${idMessage}/reacts/${type}`);
+        return post(`${PATH}/${idMessage}/reacts/${type}`, {});
     },
 
     forwardMessage: (messageId, conversationId) => {
-        return axiosClient.post(`${API_URL}/${messageId}/share/${conversationId}`);
+        return post(`${PATH}/${messageId}/share/${conversationId}`, {});
     },
 };
 

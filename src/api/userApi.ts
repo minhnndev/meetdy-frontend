@@ -1,10 +1,9 @@
 import { API } from "@/constants/api.constant";
-import axiosClient from "./_httpAxios";
-import { TSuggestFriend } from "@/models/friend.model";
+import { get } from "./instance/httpMethod";
 
 const ServiceUser = {
     getUser: (username: string) => {
-        return axiosClient.get<any, TSuggestFriend>(`${API.SEARCH_USER}/${username}`);
+        return get(`${API.SEARCH_USER}/${username}`);
     },
 };
 

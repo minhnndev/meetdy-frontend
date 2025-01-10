@@ -4,6 +4,8 @@ import axios, { type AxiosError, type AxiosResponse } from "axios";
 import { isSuccess } from "@/utils/httpUtils";
 import { API_URL } from "@/constants/api.constant";
 
+import { colorMethodHttp } from "./utils";
+
 declare module "axios" {
     export interface AxiosRequestConfig {
         metadata?: {
@@ -39,21 +41,23 @@ _httpsAxios.interceptors.response.use(
     (response) => {
         const endTime = new Date().getTime();
         const startTime = Number(response.config.metadata?.startTime);
+        const method = response.config.method;
         const duration = endTime - startTime;
         console.log(
-            `[${response.config.url}]: ${
-                duration < 500
-                    ? "\x1b[32m"
-                    : duration > 500 && duration < 1000
-                      ? "\x1b[33m"
-                      : "\x1b[31m"
-            }${duration} ms\x1b[0m`
+          `${colorMethodHttp(method)} [${response.config.url}]: ${
+            duration < 500
+              ? '\x1b[32m'
+              : duration > 500 && duration < 1000
+              ? '\x1b[33m'
+              : '\x1b[31m'
+          }${duration} ms\x1b[0m`,
         );
         if (isSuccess(response.status)) {
             return response.data;
         }
         return response;
     },
+
     async (error: AxiosError) => {
         // console.log('error:', error.response.data);
         const url = error.response.config.baseURL + error.response.config.url;
