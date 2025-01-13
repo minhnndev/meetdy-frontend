@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
-import axiosClient from "@/api/_httpAxios";
+import axiosHttp from "@/api/instance/httpMethod";
 import { COMMON_GOOGLE_CAPTCHA } from "@/constants/auth.constant";
 import { Loader2 } from "lucide-react";
 
@@ -26,9 +26,7 @@ const CapchaInput = ({ onChange }: ICapchaInputProps) => {
         script.onerror = () => setError("Failed to load Google reCAPTCHA script.");
 
         document.body.appendChild(script);
-
-        axiosClient
-            .get(COMMON_GOOGLE_CAPTCHA)
+        axiosHttp.get(COMMON_GOOGLE_CAPTCHA)
             .then((res: any) => setKeyGoogleCaptcha(res.KEY_GOOGLE_CAPTCHA))
             .catch(() => setError("Failed to fetch Google reCAPTCHA key."));
     }, []);

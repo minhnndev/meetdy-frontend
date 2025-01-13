@@ -51,4 +51,15 @@ async function del<T>(url: string, data?: any): Promise<AxiosResponse<T, any>> {
   return _httpsAxios.delete(url, {data});
 }
 
+const axiosHttp = {
+  get,
+  post,
+  patch,
+  put,
+  del,
+}
+
 export {get, del, patch, post, put};
+
+export default axiosHttp;
+
