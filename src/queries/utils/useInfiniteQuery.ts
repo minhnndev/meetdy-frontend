@@ -1,4 +1,4 @@
-import _httpsAxios from "@/api/_httpAxios";
+import axiosHttp from "@/api/instance/httpMethod";
 import {
     keepPreviousData,
     QueryFunctionContext,
@@ -49,7 +49,7 @@ function useInfiniteQuery({
     const query = useRQInfiniteQuery({
         queryKey,
         queryFn: async ({ pageParam = 0 }: QueryFunctionContext<QueryKey, number>) => {
-            const response = (await _httpsAxios.get(url, {
+            const response = (await axiosHttp.get(url, {
                 params: {
                     limit,
                     offset: (pageParam ?? 0) * limit,
