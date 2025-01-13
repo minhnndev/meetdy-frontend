@@ -62,4 +62,3 @@ const axiosHttp = {
 export {get, del, patch, post, put};
 
 export default axiosHttp;
-
