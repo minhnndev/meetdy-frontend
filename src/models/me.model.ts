@@ -1,26 +1,26 @@
-import { TUserProfile } from "./auth.model";
+import { IUserProfile } from "@/models/auth.model";
 
-export type TChangePassword = {
+export interface IChangePassword {
     oldPassword: string;
     newPassword: string;
-};
+}
 
-export type TRevokeTokenResponse = {
+export interface IRevokeTokenResponse {
     token: string;
     refreshToken: string;
-};
+}
+
+export interface ICoverImageResponse {
+    coverImage: string;
+}
+
+export interface IAvatarResponse {
+    avatar: string;
+}
+
+export type TUpdateProfile = Pick<IUserProfile, "name" | "gender" | "dateOfBirth">;
 
 export type TRevokeToken = {
     password: string;
     key: string;
-};
-
-export type TUpdateProfile = Pick<TUserProfile, "name" | "gender" | "dateOfBirth">;
-
-export type TCoverImageResponse = {
-    coverImage: string;
-};
-
-export type TAvatarResponse = {
-    avatar: string;
 };

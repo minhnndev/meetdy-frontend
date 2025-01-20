@@ -1,46 +1,68 @@
+import { t } from "i18next";
+
 const DAY_MILISECONDS = 86400000;
 const HOURSE_MILISECONDS = 3600000;
 const MINUTE_MILISECONDS = 60000;
 
+/**
+ * @description: Các hàm xử lý về thời gian
+ */
 const dateUtils = {
-    toTime: (dateString) => {
+    /**
+     *
+     * @param dateString - Chuỗi thời gian cần chuyển đổi
+     * @returns Chuỗi thời gian đã chuyển đổi
+     */
+    toTime: (dateString: string): string => {
         const date = new Date(dateString);
         const nowTempt = new Date();
-        //  tính năm
-        if (nowTempt.getFullYear() - date.getFullYear() > 0)
-            return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
+
+        if (nowTempt.getFullYear() - date.getFullYear() > 0) {
+            return t("common.dateFormat", {
+                day: date.getDate(),
+                month: date.getMonth() + 1,
+                year: date.getFullYear(),
+            });
+        }
 
         const dateWasMinus7day = nowTempt.setDate(nowTempt.getDate() - 7);
 
-        if (date.getTime() < dateWasMinus7day)
-            return `0${date.getDate()}/${date.getMonth() + 1}`.slice(-2);
+        if (date.getTime() < dateWasMinus7day) {
+            return t("common.dateFormat", {
+                day: `0${date.getDate()}`.slice(-2),
+                month: `0${date.getMonth() + 1}`.slice(-2),
+                year: "",
+            }).trim();
+        }
 
         const now = new Date();
         const numberMiliseconds = now.getTime() - date.getTime();
 
-        // tính ngày
         const day = Math.floor(numberMiliseconds / DAY_MILISECONDS);
-        if (day > 0) return `0${day}`.slice(-2) + ` ngày`;
-        // `0${date.getHours()}`.slice(-2);
+        if (day > 0) return t("common.timeAgo.day", { value: `0${day}`.slice(-2) });
 
-        // tính giờ
         const hour = Math.floor(numberMiliseconds / HOURSE_MILISECONDS);
-        if (hour > 0) return `0${hour}`.slice(-2) + ` giờ`;
+        if (hour > 0) return t("common.timeAgo.hour", { value: `0${hour}`.slice(-2) });
 
-        // tính phút
         const minute = Math.floor(numberMiliseconds / MINUTE_MILISECONDS);
-        if (minute > 0) return `0${minute}`.slice(-2) + ` phút`;
+        if (minute > 0) return t("common.timeAgo.minute", { value: `0${minute}`.slice(-2) });
 
-        return "Vài giây";
+        return t("common.timeAgo.second");
     },
 
-    transferDateString: (day, month, year) => {
-        return `0${day}`.slice(-2) + "/" + `0${month}`.slice(-2) + "/" + `${year}`;
+    transferDateString: (day: number, month: number, year: number): string => {
+        return t("common.dateFormat", {
+            day: `0${day}`.slice(-2),
+            month: `0${month}`.slice(-2),
+            year: `${year}`,
+        });
     },
-    compareDate: (time, currentTime) => {
+
+    compareDate: (time: Date, currentTime: Date): boolean => {
         return time.setHours(0, 0, 0, 0) === currentTime.setHours(0, 0, 0, 0);
     },
-    checkLeapYear: (year) => {
+
+    checkLeapYear: (year: number): boolean => {
         return (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
     },
 };

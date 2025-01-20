@@ -1,185 +1,103 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import FriendService from "@/api/friendApi";
-import ServiceConversation from "@/api/conversationApi";
-import ServiceContacts from "@/api/contactsApi";
-import { TFetchFriends } from "@/models/friend.model";
-import { TGetListConversations } from "@/models/conversation.model";
+import { IContact, IFriend, IRequestFriend, ISuggestFriend } from "@/models/friend.model";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-const KEY = "friend";
+interface Group {
+    _id: string;
+    name: string;
+}
 
-export const fetchListRequestFriend = createAsyncThunk(
-    `${KEY}/fetchListRequestFriend`,
-    async () => {
-        const data = await FriendService.fetchListRequestFriend();
-        return data;
-    }
-);
+interface FriendState {
+    isLoading: boolean;
+    requestFriends: IRequestFriend[];
+    myRequestFriend: IRequestFriend[];
+    friends: IFriend[];
+    groups: Group[];
+    amountNotify: number;
+    phoneBook: IContact[];
+    suggestFriends: ISuggestFriend[];
+}
 
-export const fetchListMyRequestFriend = createAsyncThunk(
-    `${KEY}/fetchListMyRequestFriend`,
-    async () => {
-        const data = await FriendService.fetchMyRequestFriend();
-        return data;
-    }
-);
-
-export const fetchFriends = createAsyncThunk(
-    `${KEY}/fetchFriends`,
-    async (params: TFetchFriends) => {
-        const data = await FriendService.fetchFriends(params);
-        return data;
-    }
-);
-
-export const fetchListGroup = createAsyncThunk(
-    `${KEY}/fetchListGroup`,
-    async (params: TGetListConversations) => {
-        const data = await ServiceConversation.getListConversations(params);
-        return data;
-    }
-);
-
-export const fetchContacts = createAsyncThunk(`${KEY}/fetchContacts`, async () => {
-    const data = await ServiceContacts.getContacts();
-    return data;
-});
-
-export const fetchSuggestFriend = createAsyncThunk(`${KEY}/fetchSuggestFriend`, async () => {
-    const data = await FriendService.fetchSuggestFriend();
-    return data;
-});
+const initialState: FriendState = {
+    isLoading: false,
+    requestFriends: [],
+    myRequestFriend: [],
+    friends: [],
+    groups: [],
+    amountNotify: 0,
+    phoneBook: [],
+    suggestFriends: [],
+};
 
 const friendSlice = createSlice({
-    name: KEY,
-    initialState: {
-        isLoading: false,
-        requestFriends: [],
-        myRequestFriend: [],
-        friends: [],
-        groups: [],
-        amountNotify: 0,
-        phoneBook: [],
-        suggestFriends: [],
-    },
+    name: "friend",
+    initialState,
     reducers: {
-        setLoading: (state, action) => {
+        setLoading: (state, action: PayloadAction<boolean>) => {
             state.isLoading = action.payload;
         },
-        setNewFriend: (state, action) => {
+        setFriends: (state, action: PayloadAction<IFriend[]>) => {
+            state.friends = action.payload;
+        },
+        setNewFriend: (state, action: PayloadAction<IFriend>) => {
             const newFriend = action.payload;
             state.friends = [newFriend, ...state.friends];
         },
-        setNewRequestFriend: (state, action) => {
+        setNewRequestFriend: (state, action: PayloadAction<IRequestFriend>) => {
             const newRequestFriend = action.payload;
             state.requestFriends = [newRequestFriend, ...state.requestFriends];
         },
-        setGroup: (state, action) => {
+        setRequestFriends: (state, action: PayloadAction<IRequestFriend[]>) => {
+            state.requestFriends = action.payload;
+        },
+        setGroup: (state, action: PayloadAction<string>) => {
             const conversationId = action.payload;
-            const newGroup = state.groups.filter((ele) => ele._id !== conversationId);
-            state.groups = newGroup;
+            state.groups = state.groups.filter((ele) => ele._id !== conversationId);
         },
-        setMyRequestFriend: (state, action) => {
-            state.myRequestFriend = state.myRequestFriend.filter(
-                (ele) => ele._id !== action.payload
-            );
+        setGroups: (state, action: PayloadAction<Group[]>) => {
+            state.groups = action.payload;
         },
-        setAmountNotify: (state, action) => {
+        setMyRequestFriend: (state, action: PayloadAction<IRequestFriend[]>) => {
+            state.myRequestFriend = action.payload;
+        },
+        setAmountNotify: (state, action: PayloadAction<number>) => {
             state.amountNotify = action.payload;
         },
-        updateSuggestFriend: (state, action) => {
+        setSuggestFriends: (state, action: PayloadAction<ISuggestFriend[]>) => {
             state.suggestFriends = action.payload;
         },
-        updateFriend: (state, action) => {
+        updateSuggestFriend: (state, action: PayloadAction<ISuggestFriend[]>) => {
+            state.suggestFriends = action.payload;
+        },
+        updateFriend: (state, action: PayloadAction<string>) => {
             const id = action.payload;
             state.friends = state.friends.filter((ele) => ele._id !== id);
         },
-        updateRequestFriends: (state, action) => {
+        updateRequestFriends: (state, action: PayloadAction<string>) => {
             const id = action.payload;
             state.requestFriends = state.requestFriends.filter((ele) => ele._id !== id);
         },
-        updateMyRequestFriend: (state, action) => {
+        updateMyRequestFriend: (state, action: PayloadAction<string>) => {
             const id = action.payload;
             state.myRequestFriend = state.myRequestFriend.filter((ele) => ele._id !== id);
         },
     },
-    extraReducers: (builder) => {
-        builder
-            .addCase(fetchListRequestFriend.fulfilled, (state, action) => {
-                state.isLoading = false;
-                state.requestFriends = action.payload;
-                state.amountNotify = action.payload.length;
-            })
-            .addCase(fetchListRequestFriend.pending, (state) => {
-                state.isLoading = true;
-            })
-            .addCase(fetchListRequestFriend.rejected, (state) => {
-                state.isLoading = false;
-            })
-            .addCase(fetchListMyRequestFriend.fulfilled, (state, action) => {
-                state.isLoading = false;
-                state.myRequestFriend = action.payload;
-            })
-            .addCase(fetchListMyRequestFriend.pending, (state) => {
-                state.isLoading = true;
-            })
-            .addCase(fetchListMyRequestFriend.rejected, (state) => {
-                state.isLoading = false;
-            })
-            .addCase(fetchFriends.fulfilled, (state, action) => {
-                state.friends = action.payload;
-                state.isLoading = false;
-            })
-            .addCase(fetchFriends.rejected, (state) => {
-                state.isLoading = false;
-            })
-            .addCase(fetchFriends.pending, (state) => {
-                state.isLoading = true;
-            })
-            .addCase(fetchListGroup.fulfilled, (state, action) => {
-                state.groups = action.payload;
-                state.isLoading = false;
-            })
-            .addCase(fetchListGroup.rejected, (state) => {
-                state.isLoading = false;
-            })
-            .addCase(fetchListGroup.pending, (state) => {
-                state.isLoading = true;
-            })
-            .addCase(fetchContacts.fulfilled, (state, action) => {
-                state.phoneBook = action.payload;
-                state.isLoading = false;
-            })
-            .addCase(fetchContacts.rejected, (state) => {
-                state.isLoading = false;
-            })
-            .addCase(fetchContacts.pending, (state) => {
-                state.isLoading = true;
-            })
-            .addCase(fetchSuggestFriend.fulfilled, (state, action) => {
-                state.suggestFriends = action.payload;
-                state.isLoading = false;
-            })
-            .addCase(fetchSuggestFriend.rejected, (state) => {
-                state.isLoading = false;
-            })
-            .addCase(fetchSuggestFriend.pending, (state) => {
-                state.isLoading = true;
-            });
-    },
 });
 
-const { reducer, actions } = friendSlice;
 export const {
     setLoading,
+    setFriends,
     setNewFriend,
     setNewRequestFriend,
+    setRequestFriends,
     setGroup,
+    setGroups,
     setMyRequestFriend,
     setAmountNotify,
+    setSuggestFriends,
     updateSuggestFriend,
     updateFriend,
     updateMyRequestFriend,
     updateRequestFriends,
-} = actions;
+} = friendSlice.actions;
 
-export default reducer;
+export default friendSlice.reducer;

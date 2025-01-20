@@ -1,9 +1,13 @@
-import { API } from "@/constants/api.constant";
-import { get } from "./instance/httpMethod";
+import { get } from "@/api/instance/httpMethod";
+import { ISuggestFriend } from "@/models/friend.model";
+
+const PATH = "/users/search/username";
 
 const ServiceUser = {
-    getUser: (username: string) => {
-        return get(`${API.SEARCH_USER}/${username}`);
+    fetchUser: async (username: string): Promise<ISuggestFriend> => {
+        const url = `${PATH}/${username}`;
+        const response = await get<ISuggestFriend>(url);
+        return response.data;
     },
 };
 

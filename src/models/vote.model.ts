@@ -1,4 +1,4 @@
-export type TVote = {
+export interface IVote {
     data: any;
     totalPages: any;
-};
+}

@@ -1,34 +1,62 @@
-import { API } from "@/constants/api.constant";
-import { TFetchFriends } from "@/models/friend.model";
-import { del, get, post } from "./instance/httpMethod";
+import { get, post, del } from "@/api/instance/httpMethod";
+import { TFetchFriends, IFriend, IRequestFriend, ISuggestFriend } from "@/models/friend.model";
+
+const PATH = "/friends";
 
 const FriendService = {
-    fetchFriends: (params: TFetchFriends) =>
-        get(API.FRIEND.FETCH, { params }),
+    fetchFriends: async (params: TFetchFriends): Promise<IFriend[]> => {
+        const url = PATH;
+        const response = await get<IFriend[]>(url, { params });
+        return response.data;
+    },
 
-    acceptRequestFriend: (userId: string) =>
-        post(`${API.FRIEND.ACCEPT_REQUEST}/${userId}`, {}),
+    acceptRequestFriend: async (userId: string): Promise<void> => {
+        const url = `${PATH}/${userId}`;
+        const response = await post<void>(url);
+        return response.data;
+    },
 
-    deleteFriend: (userId: string) => del(`${API.FRIEND.DELETE}/${userId}`),
+    deleteFriend: async (userId: string): Promise<void> => {
+        const url = `${PATH}/${userId}`;
+        const response = await del<void>(url);
+        return response.data;
+    },
 
-    fetchListRequestFriend: () =>
-        get(API.FRIEND.FETCH_REQUEST),
+    fetchListRequestFriend: async (): Promise<IRequestFriend[]> => {
+        const url = `${PATH}/invites`;
+        const response = await get<IRequestFriend[]>(url);
+        return response.data;
+    },
 
-    deleteRequestFriend: (userId: string) =>
-        del(`${API.FRIEND.DELETE_REQUEST}/${userId}`),
+    deleteRequestFriend: async (userId: string): Promise<void> => {
+        const url = `${PATH}/invites/${userId}`;
+        const response = await del<void>(url);
+        return response.data;
+    },
 
-    sendRequestFriend: (userId: string) => post(`${API.FRIEND.SEND_REQUEST}/${userId}`, {}),
+    sendRequestFriend: async (userId: string): Promise<void> => {
+        const url = `${PATH}/invites/me/${userId}`;
+        const response = await post<void>(url);
+        return response.data;
+    },
 
-    deleteSentRequestFriend: (userId: string) =>
-        del(`${API.FRIEND.DELETE_SENT_REQUEST}/${userId}`),
+    deleteSentRequestFriend: async (userId: string): Promise<void> => {
+        const url = `${PATH}/invites/me/${userId}`;
+        const response = await del<void>(url);
+        return response.data;
+    },
 
-    fetchMyRequestFriend: () =>
-        get(API.FRIEND.FETCH_SENT_REQUEST),
+    fetchMyRequestFriend: async (): Promise<IRequestFriend[]> => {
+        const url = `${PATH}/invites/me`;
+        const response = await get<IRequestFriend[]>(url);
+        return response.data;
+    },
 
-    fetchSuggestFriend: (page = 0, size = 10) =>
-        get(API.FRIEND.FETCH_SUGGEST, {
-            params: { page, size },
-        }),
+    fetchSuggestFriend: async (page = 0, size = 12): Promise<ISuggestFriend[]> => {
+        const url = `${PATH}/suggest`;
+        const response = await get<ISuggestFriend[]>(url, { params: { page, size } });
+        return response.data;
+    },
 };
 
 export default FriendService;

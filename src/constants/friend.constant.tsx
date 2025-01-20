@@ -1,23 +1,23 @@
-import React from "react";
-import { IconList, IconSize, IconUserAdd, IconUserGroup } from "@douyinfe/semi-icons";
+import { t } from "i18next";
+import { Contact, UserPlus, Users } from "lucide-react";
 
 export const FRIEND_SUB_TABS = [
     {
         key: "subtab-friends",
-        text: "Danh sách kết bạn",
-        icon: (size?: IconSize) => <IconUserAdd style={{ color: "#0068ff" }} size={size} />,
+        text: t("common.friends"),
+        icon: (size?: string | number) => <UserPlus className="text-blue-500" size={size || 20} />,
         numId: 0,
     },
     {
         key: "subtab-group",
-        text: "Danh sách nhóm",
-        icon: (size?: IconSize) => <IconUserGroup style={{ color: "#814096" }} size={size} />,
+        text: t("common.groups"),
+        icon: (size?: string | number) => <Users className="text-purple-500" size={size || 20} />,
         numId: 1,
     },
     {
         key: "subtab-contact",
-        text: "Danh bạ",
-        icon: (size?: IconSize) => <IconList style={{ color: "#de433e" }} size={size} />,
+        text: t("common.contacts"),
+        icon: (size?: string | number) => <Contact className="text-red-500" size={size || 20} />,
         numId: 2,
     },
 ];

@@ -1,71 +1,129 @@
-import { API } from "@/constants/api.constant";
+import { del, get, patch, post } from "@/api/instance/httpMethod";
 import {
+    IGroupConversation,
+    IIndividualConversation,
+    TCreateConversationResponse,
     TCreateGroup,
-    TGetListConversations
+    TGetListConversations,
 } from "@/models/conversation.model";
-import { del, get, patch, post } from "./instance/httpMethod";
+
+const PATH = "/conversations";
 
 const ServiceConversation = {
-    getListConversations: (params: TGetListConversations) =>
-         get(
-            API.CONVERSATION.GET,
-            { params }
-        ),
-    createConversationIndividual: (userId: string) =>
-         post(`${API.CONVERSATION.CREATE}/${userId}`, {}),
+    fetchListConversations: async (
+        params: TGetListConversations
+    ): Promise<Array<IIndividualConversation | IGroupConversation>> => {
+        const url = PATH;
+        const response = await get<Array<IIndividualConversation | IGroupConversation>>(url, {
+            params,
+        });
+        return response.data;
+    },
 
-    createGroup: (params: TCreateGroup) =>  post(API.CONVERSATION.CREATE_GROUP, params),
+    createConversationIndividual: async (userId: string): Promise<TCreateConversationResponse> => {
+        const url = `${PATH}/individuals/${userId}`;
+        const response = await post<TCreateConversationResponse>(url);
+        return response.data;
+    },
 
-    getConversationById: (id: string) =>
-         get(`${API.CONVERSATION.GET}/${id}`),
+    createGroup: async (params: TCreateGroup): Promise<void> => {
+        const url = `${PATH}/groups`;
+        const response = await post<void>(url, params);
+        return response.data;
+    },
 
-    deleteConversation: (id: string) =>  del(`${API.CONVERSATION.DELETE}/${id}`),
+    fetchConversationById: async (
+        id: string
+    ): Promise<IIndividualConversation | IGroupConversation> => {
+        const url = `${PATH}/${id}`;
+        const response = await get<IIndividualConversation | IGroupConversation>(url);
+        return response.data;
+    },
 
-    getMemberInConversation: (id: string) =>
-         get(`${API.CONVERSATION.GET}/${id}/members`),
+    deleteConversation: async (id: string): Promise<void> => {
+        const url = `${PATH}/${id}`;
+        const response = await del<void>(url);
+        return response.data;
+    },
 
-    addMembersToConver: (userIds, coversationIds) =>
-          post(`${API.CONVERSATION.GET}/${coversationIds}/members`, {
-            userIds,
-        }),
+    fetchMemberInConversation: async (id: string): Promise<any> => {
+        const url = `${PATH}/${id}/members`;
+        const response = await get<any>(url);
+        return response.data;
+    },
 
-    leaveGroup: (conversationId: string) =>
-         del(`${API.CONVERSATION.DELETE}/${conversationId}/members/leave`),
+    addMembersToConversation: async (
+        userIds: Array<string>,
+        conversationId: string
+    ): Promise<void> => {
+        const url = `${PATH}/${conversationId}/members`;
+        const response = await post<void>(url, { userIds });
+        return response.data;
+    },
 
-    deleteMember: (conversationId, userId) =>
-         del(`${API.CONVERSATION.DELETE}/${conversationId}/members/${userId}`),
+    leaveGroup: async (conversationId: string): Promise<void> => {
+        const url = `${PATH}/${conversationId}/members/leave`;
+        const response = await del<void>(url);
+        return response.data;
+    },
 
-    changeNameConversation: (conversationId, name) =>
-         patch(`${API.CONVERSATION.GET}/${conversationId}/name`, {
-            name,
-        }),
+    deleteMember: async (conversationId: string, userId: string): Promise<void> => {
+        const url = `${PATH}/${conversationId}/members/${userId}`;
+        const response = await del<void>(url);
+        return response.data;
+    },
 
-    getLastViewOfMembers: (conversationId: string) =>
-         get(`${API.CONVERSATION.GET}/${conversationId}/last-view`),
+    changeNameConversation: async (conversationId: string, name: string): Promise<void> => {
+        const url = `${PATH}/${conversationId}/name`;
+        const response = await patch<void>(url, { name });
+        return response.data;
+    },
 
-    getSummaryInfoGroup: (conversationId: string) =>
-         get(`${API.CONVERSATION.GET}/${conversationId}/summary`),
+    fetchLastViewOfMembers: async (conversationId: string): Promise<any> => {
+        const url = `${PATH}/${conversationId}/last-view`;
+        const response = await get<any>(url);
+        return response.data;
+    },
 
-    joinGroupFromLink: (conversationId: string) =>
-         post(`${API.CONVERSATION.GET}/${conversationId}/members/join-from-link`, {}),
+    fetchSummaryInfoGroup: async (conversationId: string): Promise<any> => {
+        const url = `${PATH}/${conversationId}/summary`;
+        const response = await get<any>(url);
+        return response.data;
+    },
 
-    changeStatusForGroup: (conversationId, isStatus) =>
-         patch(`${API.CONVERSATION.GET}/${conversationId}/join-from-link/${isStatus}`),
+    joinGroupFromLink: async (conversationId: string): Promise<void> => {
+        const url = `${PATH}/${conversationId}/members/join-from-link`;
+        const response = await post<void>(url);
+        return response.data;
+    },
 
-    changAvatarGroup: (conversationId, file) =>
-         patch(`${API.CONVERSATION.GET}/${conversationId}/avatar`, file),
+    changeStatusForGroup: async (conversationId: string, isStatus: boolean): Promise<void> => {
+        const url = `${PATH}/${conversationId}/join-from-link/${isStatus}`;
+        const response = await patch<void>(url);
+        return response.data;
+    },
 
-    addManagerGroup: (conversationId, userIds) =>
-         post(`${API.CONVERSATION.GET}/${conversationId}/managers`, {
-            managerIds: userIds,
-        }),
+    changeAvatarGroup: async (conversationId: string, file: File): Promise<void> => {
+        const url = `${PATH}/${conversationId}/avatar`;
+        const formData = new FormData();
+        formData.append("file", file);
+        const response = await patch<void>(url, formData);
+        return response.data;
+    },
 
-    deleteManager: (conversationId, userIds) =>
-         del(`${API.CONVERSATION.DELETE}/${conversationId}/managers`, {
-            data: {
-                managerIds: userIds,
-            },
-        }),
+    addManagerGroup: async (conversationId: string, userIds: Array<string>): Promise<void> => {
+        const url = `${PATH}/${conversationId}/managers`;
+        const response = await post<void>(url, { managerIds: userIds });
+        return response.data;
+    },
+
+    deleteManager: async (conversationId: string, userIds: Array<string>): Promise<void> => {
+        const url = `${PATH}/${conversationId}/managers`;
+        const response = await del<void>(url, {
+            data: { managerIds: userIds },
+        });
+        return response.data;
+    },
 };
 
 export default ServiceConversation;
