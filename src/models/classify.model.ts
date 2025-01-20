@@ -1,17 +1,17 @@
-export type TColor = {
+export interface IColor {
     _id: string;
     name: string;
     code: string;
-};
+}
 
-export type TClassify = {
+export interface IClassify {
     _id: string;
     name: string;
     conversationIds: Array<string>;
-    color: TColor;
-};
+    color: IColor;
+}
 
-export type TAddClassify = {
+export interface IAddClassify {
     name: string;
     colorId: string;
-};
+}

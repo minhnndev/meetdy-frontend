@@ -1,22 +1,17 @@
-import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
-import ServiceMe from "@/api/meApi";
-import { TUserProfile } from "@/models/auth.model";
+import { IUserProfile } from "@/models/auth.model";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 const KEY = "global";
 
 interface GlobalState {
     isLoading: boolean;
     isLogin: boolean;
-    user: TUserProfile | null;
+    user: IUserProfile | null;
     isJoinChatLayout: boolean;
     isJoinFriendLayout: boolean;
     tabActive: number;
+    conversationInfo: string | null;
 }
-
-export const fetchUserProfile = createAsyncThunk(`${KEY}/fetchUserProfile`, async () => {
-    const user = await ServiceMe.fetchProfile();
-    return user;
-});
 
 const initialState: GlobalState = {
     isLoading: false,
@@ -25,6 +20,7 @@ const initialState: GlobalState = {
     isJoinChatLayout: false,
     isJoinFriendLayout: false,
     tabActive: 0,
+    conversationInfo: null,
 };
 
 const globalSlice = createSlice({
@@ -51,22 +47,26 @@ const globalSlice = createSlice({
                 state.user.avatar = action.payload;
             }
         },
-    },
-    extraReducers: (builder) => {
-        builder
-            .addCase(fetchUserProfile.pending, (state) => {
-                state.isLoading = true;
-            })
-            .addCase(fetchUserProfile.fulfilled, (state, action) => {
-                state.isLoading = false;
-                state.isLogin = true;
-                state.user = action.payload as TUserProfile;
-            })
-            .addCase(fetchUserProfile.rejected, (state) => {
-                state.isLoading = false;
-                state.isLogin = false;
-                localStorage.removeItem("token");
-            });
+        setUserProfile: (state, action: PayloadAction<IUserProfile>) => {
+            state.isLogin = true;
+            state.user = action.payload;
+        },
+        setConversationInfo: (state, action: PayloadAction<string | null>) => {
+            state.conversationInfo = action.payload;
+        },
+        clearUserProfile: (state) => {
+            state.isLogin = false;
+            state.user = null;
+            localStorage.removeItem("token");
+        },
+        updateUserProfile: (state, action: PayloadAction<Partial<IUserProfile>>) => {
+            if (state.user) {
+                state.user = {
+                    ...state.user,
+                    ...action.payload,
+                };
+            }
+        },
     },
 });
 
@@ -78,5 +78,9 @@ export const {
     setJoinFriendLayout,
     setTabActive,
     setAvatarProfile,
+    setUserProfile,
+    setConversationInfo,
+    clearUserProfile,
+    updateUserProfile,
 } = actions;
 export default reducer;

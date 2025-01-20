@@ -1,12 +1,12 @@
-import { TUserProfile } from "./auth.model";
+import { IUserProfile } from "@/models/auth.model";
 
-export type TMessage = {
+export interface IMessage {
     page: any;
     totalPages: any;
     data: any;
-};
+}
 
-export type TLastIndividualMessage = {
+export interface ILastIndividualMessage {
     _id: string;
     content: string;
     type: string;
@@ -14,10 +14,11 @@ export type TLastIndividualMessage = {
     reacts: Array<any>;
     createdAt: string;
     replyMessage: any;
-    user: Pick<TUserProfile, "_id" | "name" | "avatar">;
-};
+    user: Pick<IUserProfile, "_id" | "name" | "avatar">;
+    isDeleted?: boolean;
+}
 
-export type TLastGroupMessage = {
+export interface ILastGroupMessage {
     _id: string;
     content: string;
     type: string;
@@ -25,9 +26,10 @@ export type TLastGroupMessage = {
     reacts: Array<any>;
     options: Array<any>;
     createdAt: string;
-    user: Pick<TUserProfile, "_id" | "name" | "avatar" | "avatarColor">;
+    user: Pick<IUserProfile, "_id" | "name" | "avatar" | "avatarColor">;
     manipulatedUsers: Array<any>;
     userOptions: Array<any>;
     replyMessage: any;
     tagUsers: Array<any>;
-};
+    isDeleted?: boolean;
+}

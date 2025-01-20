@@ -1,5 +1,3 @@
-export { createQueryKey } from "./createQueryKey";
-
-export { PersistQueryClientProvider } from "./PersistQueryClientProvider";
-
-export { queryClient, persistOptions } from "./queryClient";
+export { createQueryKey } from "@/queries/core/createQueryKey";
+export { PersistQueryClientProvider } from "@/queries/core/PersistQueryClientProvider";
+export { queryClient, persistOptions } from "@/queries/core/queryClient";

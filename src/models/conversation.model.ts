@@ -1,11 +1,6 @@
-import { TLastGroupMessage, TLastIndividualMessage } from "./message.model";
+import { ILastGroupMessage, ILastIndividualMessage } from "@/models/message.model";
 
-export type TGetListConversations = {
-    name?: string;
-    type?: number;
-};
-
-export type TIndividualConversation = {
+export interface IIndividualConversation {
     _id: string;
     name: string;
     avatar: string;
@@ -18,10 +13,12 @@ export type TIndividualConversation = {
     managerIds: Array<string>;
     isJoinFromLink: boolean;
     isNotify: boolean;
-    lastMessage: TLastIndividualMessage;
-};
+    lastMessage: ILastIndividualMessage;
+    isOnline?: boolean;
+    lastLogin?: string;
+}
 
-export type TGroupConversation = {
+export interface IGroupConversation {
     _id: string;
     name: string;
     avatar: Array<{ avatar: string; avatarColor: string }>;
@@ -32,7 +29,12 @@ export type TGroupConversation = {
     managerIds: Array<string>;
     isJoinFromLink: boolean;
     isNotify: boolean;
-    lastMessage: TLastGroupMessage;
+    lastMessage: ILastGroupMessage;
+}
+
+export type TGetListConversations = {
+    name?: string;
+    type?: number;
 };
 
 export type TGetConversation = {

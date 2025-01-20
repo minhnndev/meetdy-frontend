@@ -29,7 +29,6 @@ export const MESSAGE_STYLE = {
         outline: "none",
         padding: "0px",
         border: "none",
-
         fontSize: "1.7rem",
         color: "#606c7a",
         display: "flex",

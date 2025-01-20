@@ -34,8 +34,12 @@ export const PersistQueryClientProvider = ({
     React.useEffect(() => {
         let isStale = false;
         setIsRestoring(true);
+        const { persistOptions } = refs.current;
+        if (!persistOptions?.persister) {
+            throw new Error("PersistQueryClientProvider: persister is required");
+        }
         const [unsubscribe, promise] = persistQueryClient({
-            ...refs.current.persistOptions,
+            ...persistOptions,
             queryClient: client,
         });
 

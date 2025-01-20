@@ -1,55 +1,72 @@
-import { get, patch, put, post, del } from "./instance/httpMethod";
+import { get, patch, post, put, del } from "@/api/instance/httpMethod";
+import { IUser } from "@/models/auth.model";
 
 const PATH = "/admin";
 
 const ServiceAdmin = {
-    getListUsersByUserName: (username, page, size) => {
+    fetchUsersByUsername: async (
+        username: string,
+        page: number,
+        size: number
+    ): Promise<{ data: IUser[]; total: number }> => {
         const url = `${PATH}/users-manager`;
-        return get(url, {
-            params: {
-                username,
-                page,
-                size,
-            },
+        const response = await get<{ data: IUser[]; total: number }>(url, {
+            params: { username, page, size },
         });
+        return response.data;
     },
-    active: (id, isActived) => {
+    active: async (id: string, isActived: boolean): Promise<void> => {
         const url = `${PATH}/users-manager/${id}/${isActived}`;
-        return patch(url);
-    },
-    delete: (id, isDeleted) => {
-        const url = `${PATH}/users-manager/${id}/${isDeleted}`;
-        return patch(url);
+        const response = await patch<void>(url);
+        return response.data;
     },
 
-    //sticker manager
-    getAllGroupSticker: () => {
-        const url = `/stickers`;
-        return get(url);
+    delete: async (id: string, isDeleted: boolean): Promise<void> => {
+        const url = `${PATH}/users-manager/${id}/${isDeleted}`;
+        const response = await patch<void>(url);
+        return response.data;
     },
-    creatGroupSticker: (name, description) => {
+
+    fetchAllGroupSticker: async () => {
+        const url = "/stickers";
+        const response = await get(url);
+        return response.data;
+    },
+
+    createGroupSticker: async (name: string, description: string): Promise<void> => {
         const url = `${PATH}/stickers-manager`;
-        return post(url, { name, description });
+        const response = await post<void>(url, { name, description });
+        return response.data;
     },
-    updateGroupSticker: (_id, name, description) => {
-        const url = `${PATH}/stickers-manager/${_id}`;
-        return put(url, { name, description });
+
+    updateGroupSticker: async (id: string, name: string, description: string): Promise<void> => {
+        const url = `${PATH}/stickers-manager/${id}`;
+        const response = await put<void>(url, { name, description });
+        return response.data;
     },
-    deleteGroupSticker: (_id) => {
-        const url = `${PATH}/stickers-manager/${_id}`;
-        return del(url);
+
+    deleteGroupSticker: async (id: string): Promise<void> => {
+        const url = `${PATH}/stickers-manager/${id}`;
+        const response = await del<void>(url);
+        return response.data;
     },
-    deleteSticker: (_id, url) => {
-        const url1 = `${PATH}/stickers-manager/${_id}/sticker`;
-        return del(url1, {
-            params: {
-                url,
-            },
+
+    deleteSticker: async (id: string, url: string): Promise<void> => {
+        const endpoint = `${PATH}/stickers-manager/${id}/sticker`;
+        const response = await del<void>(endpoint, {
+            params: { url },
         });
+        return response.data;
     },
-    addSticker: (_id, file) => {
-        const url = `${PATH}/stickers-manager/${_id}`;
-        return  post(url, file);
+
+    addSticker: async (id: string, file: File): Promise<void> => {
+        const url = `${PATH}/stickers-manager/${id}`;
+        const formData = new FormData();
+        formData.append("file", file);
+
+        const response = await post<void>(url, formData);
+        return response.data;
     },
 };
+
 export default ServiceAdmin;

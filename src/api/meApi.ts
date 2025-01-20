@@ -1,38 +1,61 @@
-import { API } from "@/constants/api.constant";
+import { get, put, patch, del } from "@/api/instance/httpMethod";
+import { IUserProfile } from "@/models/auth.model";
 import {
-    TAvatarResponse,
-    TChangePassword,
-    TCoverImageResponse,
-    TRevokeToken,
     TUpdateProfile,
+    IAvatarResponse,
+    ICoverImageResponse,
+    IChangePassword,
+    IRevokeTokenResponse,
+    TRevokeToken,
 } from "@/models/me.model";
-import _httpsAxios from "./instance/_httpsAxios";
-import { del, get, patch, put } from "./instance/httpMethod";
+
+const PATH = "/me";
 
 const ServiceMe = {
-    fetchProfile: () => get(API.ME.FETCH_PROFILE),
+    fetchProfile: async (): Promise<IUserProfile> => {
+        const url = `${PATH}/profile`;
+        const response = await get<IUserProfile>(url);
+        return response.data;
+    },
 
-    updateProfile: (params: TUpdateProfile) => put(API.ME.UPDATE_PROFILE, params),
+    updateProfile: async ({ gender, ...params }: TUpdateProfile): Promise<void> => {
+        const url = `${PATH}/profile`;
+        const response = await put<void>(url, {
+            gender: gender ? 1 : 0,
+            ...params,
+        });
+        return response.data;
+    },
 
-    updateAvatar: (data: FormData) =>
-        _httpsAxios.request<any, TAvatarResponse>({
+    updateAvatar: async (data: FormData): Promise<IAvatarResponse> => {
+        const url = `${PATH}/avatar`;
+        const response = await patch<IAvatarResponse>(url, data, {
             headers: { "Content-Type": "multipart/form-data" },
-            method: "PATCH",
-            url: API.ME.UPDATE_AVATAR,
-            data,
-        }),
+        });
+        return response.data;
+    },
 
-    updateCoverImage: (data: FormData) =>
-        _httpsAxios.request<any, TCoverImageResponse>({
+    updateCoverImage: async (data: FormData): Promise<ICoverImageResponse> => {
+        const url = `${PATH}/cover-image`;
+        const response = await patch<ICoverImageResponse>(url, data, {
             headers: { "Content-Type": "multipart/form-data" },
-            method: "PATCH",
-            url: API.ME.UPDATE_COVER_IMAGE,
-            data,
-        }),
+        });
+        return response.data;
+    },
 
-    changePassword: (params: TChangePassword) => patch(API.ME.CHANGE_PASSWORD, params),
+    changePassword: async (params: IChangePassword): Promise<void> => {
+        const url = `${PATH}/password`;
+        const response = await patch<void>(url, params);
+        return response.data;
+    },
 
-    revokeToken: (params: TRevokeToken) => del(API.ME.REVOKE_TOKEN, {data: params}),
+    revokeToken: async (params: TRevokeToken): Promise<IRevokeTokenResponse> => {
+        const url = `${PATH}/revoke-token`;
+        const response = await del<IRevokeTokenResponse>(url, {
+            data: params,
+        });
+        return response.data;
+    },
 };
 
 export default ServiceMe;
