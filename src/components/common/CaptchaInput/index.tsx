@@ -18,7 +18,7 @@ const CaptchaInput = ({ onChange }: ICapchaInputProps) => {
         <div className="flex justify-center">
             {isFetched && captcha?.ENABLE_GOOGLE_CAPTCHA ? (
                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                // @ts-expect-error
+                // @ts-ignore
                 <ReCAPTCHA sitekey={captcha.KEY_GOOGLE_CAPTCHA} onChange={onChange} />
             ) : (
                 <Loader2 className="animate-spin" />
