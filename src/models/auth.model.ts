@@ -1,14 +1,4 @@
-export type TLoginResponse = {
-    token: string;
-    refreshToken: string;
-};
-
-export type TLogin = {
-    username: string;
-    password: string;
-};
-
-export type TUserProfile = {
+export interface IUserProfile {
     avatar: string;
     avatarColor: string;
     dateOfBirth: {
@@ -25,13 +15,19 @@ export type TUserProfile = {
     username: string;
     _id: string;
     coverImage?: string;
-};
+}
 
-export type TUser = {
+export interface IUser {
+    _id: string;
     avatar: string;
     name: string;
     username: string;
     isActived: boolean;
+}
+
+export type TLogin = {
+    username: string;
+    password: string;
 };
 
 export type TRegister = {
@@ -50,3 +46,8 @@ export type TConfirmPassword = {
     otp: string;
     password: string;
 };
+
+export interface TLoginResponse {
+    token: string;
+    refreshToken: string;
+}

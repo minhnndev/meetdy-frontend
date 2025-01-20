@@ -1,15 +1,20 @@
-import { API } from "@/constants/api.constant";
-import { get } from "./instance/httpMethod";
+import { get } from "@/api/instance/httpMethod";
 
-export type TWebInfo = {
-    meta: any;
-    payload: Array<any>;
-    type: string;
-};
+export type IWebInfoValue = Record<string, any> | any[];
+
+export interface IWebInfo {
+    _id: string;
+    name: string;
+    value: IWebInfoValue;
+}
+
+const PATH = "/common/web-info";
 
 const ServiceInfoWeb = {
-    getInfoWeb: () => {
-        return get(`${API.WEB_INFO}`);
+    fetchInfoWeb: async (): Promise<IWebInfo[]> => {
+        const url = PATH;
+        const response = await get<IWebInfo[]>(url);
+        return response.data;
     },
 };
 

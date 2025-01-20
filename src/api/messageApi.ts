@@ -1,54 +1,81 @@
-import { del, get, post } from "./instance/httpMethod";
+import { get, post, del } from "@/api/instance/httpMethod";
+import { IMessage } from "@/models/message.model";
 
 const PATH = "/messages";
 
+export interface IAttachInfo {
+    type: string;
+    conversationId: string;
+    channelId?: string;
+}
+
 const ServiceMessages = {
-    fetchListMessages: (conversationId, page, size) => {
-        return get(`${PATH}/${conversationId}`, {
-            params: {
-                page,
-                size,
-            },
-        });
+    fetchListMessages: async (
+        conversationId: string,
+        page?: number,
+        size?: number
+    ): Promise<IMessage> => {
+        const url = `${PATH}/${conversationId}`;
+        const response = await get<IMessage>(url, { params: { page, size } });
+        return response.data;
     },
 
-    sendTextMessage: (message) => {
-        return post(`${PATH}/text`, message);
+    sendTextMessage: async (message: {
+        content: string;
+        conversationId: string;
+    }): Promise<void> => {
+        const url = `${PATH}/text`;
+        const response = await post<void>(url, message);
+        return response.data;
     },
 
-    sendFileThroughMessage: (file, attachInfo, cb) => {
+    sendFileThroughMessage: async (
+        file: File,
+        attachInfo: IAttachInfo,
+        cb: (progress: number) => void
+    ): Promise<void> => {
         const { type, conversationId, channelId } = attachInfo;
 
-        const config = {
-            params: {
-                type,
-                conversationId,
-                channelId,
+        const formData = new FormData();
+        formData.append("file", file);
+
+        const response = await post<void>(`${PATH}/files`, formData, {
+            params: { type, conversationId, channelId },
+            onUploadProgress: (progressEvent) => {
+                if (progressEvent?.total) {
+                    const percentCompleted = Math.round(
+                        (progressEvent.loaded * 100) / progressEvent.total
+                    );
+                    cb(percentCompleted);
+                }
             },
-            onUploadProgress: function (progressEvent) {
-                const percentCompleted = Math.round(
-                    (progressEvent.loaded * 100) / progressEvent.total
-                );
-                cb(percentCompleted);
-            },
-        };
+        });
 
-        return post(`${PATH}/files`, file, config);
+        return response.data;
     },
 
-    redoMessage: (idMessage) => {
-        return del(`${PATH}/${idMessage}`);
-    },
-    deleteMessageClientSide: (idMessage) => {
-        return del(`${PATH}/${idMessage}/only`);
-    },
-
-    dropReaction: (idMessage, type) => {
-        return post(`${PATH}/${idMessage}/reacts/${type}`, {});
+    redoMessage: async (idMessage: string): Promise<void> => {
+        const url = `${PATH}/${idMessage}`;
+        const response = await del<void>(url);
+        return response.data;
     },
 
-    forwardMessage: (messageId, conversationId) => {
-        return post(`${PATH}/${messageId}/share/${conversationId}`, {});
+    deleteMessageClientSide: async (idMessage: string): Promise<void> => {
+        const url = `${PATH}/${idMessage}/only`;
+        const response = await del<void>(url);
+        return response.data;
+    },
+
+    dropReaction: async (idMessage: string, type: string): Promise<void> => {
+        const url = `${PATH}/${idMessage}/reacts/${type}`;
+        const response = await post<void>(url);
+        return response.data;
+    },
+
+    forwardMessage: async (messageId: string, conversationId: string): Promise<void> => {
+        const url = `${PATH}/${messageId}/share/${conversationId}`;
+        const response = await post<void>(url);
+        return response.data;
     },
 };
 

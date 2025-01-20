@@ -1,4 +1,4 @@
-export type TFriend = {
+export interface IFriend {
     _id: string;
     avatar: string;
     avatarColor: string;
@@ -6,9 +6,9 @@ export type TFriend = {
     username: string;
     isOnline: boolean;
     lastLogin: string;
-};
+}
 
-export type TRequestFriend = {
+export interface IRequestFriend {
     _id: string;
     avatar: string;
     avatarColor: string;
@@ -16,9 +16,9 @@ export type TRequestFriend = {
     username: string;
     numberCommonFriend: number;
     numberCommonGroup: number;
-};
+}
 
-export type TSuggestFriend = {
+export interface ISuggestFriend {
     _id: string;
     name: string;
     username: string;
@@ -37,9 +37,9 @@ export type TSuggestFriend = {
     numberCommonGroup: number;
     numberCommonFriend: number;
     total?: number;
-};
+}
 
-export type TContact = {
+export interface IContact {
     _id: string;
     name: string;
     username: string;
@@ -58,7 +58,7 @@ export type TContact = {
     numberCommonGroup: number;
     numberCommonFriend: number;
     total: number;
-};
+}
 
 export type TFetchFriends = {
     name: string;

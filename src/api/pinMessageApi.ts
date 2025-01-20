@@ -1,18 +1,32 @@
-import { del, get, post } from "./instance/httpMethod";
+import { get, post, del } from "@/api/instance/httpMethod";
 
 const PATH = "/pin-messages";
 
+export interface IPinMessage {
+    id: string;
+    content: string;
+    senderId: string;
+    conversationId: string;
+    pinnedAt: string;
+}
+
 const ServicePinMessage = {
-    getPinMessages: (conversationId) => {
-        return get(`${PATH}/${conversationId}`);
+    fetchPinMessages: async (conversationId: string): Promise<IPinMessage[]> => {
+        const url = `${PATH}/${conversationId}`;
+        const response = await get<IPinMessage[]>(url);
+        return response.data;
     },
 
-    pinMessage: (messageId) => {
-        return post(`${PATH}/${messageId}`);
+    pinMessage: async (messageId: string): Promise<void> => {
+        const url = `${PATH}/${messageId}`;
+        const response = await post<void>(url);
+        return response.data;
     },
 
-    removePinMessage: (messageId) => {
-        return del(`${PATH}/${messageId}`);
+    removePinMessage: async (messageId: string): Promise<void> => {
+        const url = `${PATH}/${messageId}`;
+        const response = await del<void>(url);
+        return response.data;
     },
 };
 

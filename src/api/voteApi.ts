@@ -1,49 +1,43 @@
-import { del, get, post } from "./instance/httpMethod";
+import { get, post, del } from "@/api/instance/httpMethod";
+import { IVote } from "@/models/vote.model";
 
 const PATH = "/votes";
 
 const ServiceVote = {
-    createVote: (content, options, conversationId) => {
-        return post(`${PATH}`, {
-            content,
-            options,
-            conversationId,
-        });
+    createVote: async (
+        content: string,
+        options: string[],
+        conversationId: string
+    ): Promise<any> => {
+        const url = PATH;
+        const response = await post<any>(url, { content, options, conversationId });
+        return response.data;
     },
 
-    addVote: (messageId, options) => {
-        return post(`${PATH}/${messageId}`, {
-            options,
-        });
+    addVote: async (messageId: string, options: string[]): Promise<any> => {
+        const url = `${PATH}/${messageId}`;
+        const response = await post<any>(url, { options });
+        return response.data;
     },
 
-    // // Comment this function because existing error in the backend
-    // deleteVote: (messageId, options) => {
-    //   return del(`${PATH}/${messageId}`, {
-    //     options,
-    //   });
-    // },
-
-    selectVote: (messageId, options) => {
-        return post(`${PATH}/${messageId}/choices`, {
-            options,
-        });
+    selectVote: async (messageId: string, options: string[]): Promise<any> => {
+        const url = `${PATH}/${messageId}/choices`;
+        const response = await post<any>(url, { options });
+        return response.data;
     },
 
-    deleteSelect: (messageId, options) => {
-        return del(`${PATH}/${messageId}/choices`, {
-            data: {
-                options,
-            },
+    deleteSelect: async (messageId: string, options: string[]): Promise<any> => {
+        const url = `${PATH}/${messageId}/choices`;
+        const response = await del<any>(url, {
+            data: { options },
         });
+        return response.data;
     },
-    getVotes: (conversationId, page, size) => {
-        return get(`${PATH}/${conversationId}/`, {
-            params: {
-                page,
-                size,
-            },
-        });
+
+    fetchVotes: async (conversationId: string, page: number, size: number): Promise<IVote> => {
+        const url = `${PATH}/${conversationId}`;
+        const response = await get<IVote>(url, { params: { page, size } });
+        return response.data;
     },
 };
 

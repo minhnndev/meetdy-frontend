@@ -1,12 +1,19 @@
-import "./index.css";
+import { Toaster } from "@/components/ui/toaster";
+import { persistOptions, PersistQueryClientProvider, queryClient } from "@/queries/core";
+import store from "@/redux/store";
+import AppRoutes from "@/routes";
+import "@/styles/index.css";
+import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import React from "react";
-import App from "./App";
+import { Provider as ReduxProvider } from "react-redux";
 
-const el = document.getElementById("root");
-if (el) {
-    const root = createRoot(el);
-    root.render(<App />);
-} else {
-    throw new Error("Could not find root element");
-}
+createRoot(document.getElementById("root")!).render(
+    <StrictMode>
+        <ReduxProvider store={store}>
+            <PersistQueryClientProvider client={queryClient} persistOptions={persistOptions}>
+                <AppRoutes />
+                <Toaster />
+            </PersistQueryClientProvider>
+        </ReduxProvider>
+    </StrictMode>
+);
