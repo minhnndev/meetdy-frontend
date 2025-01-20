@@ -23,7 +23,7 @@ export function useSocket(): UseSocketReturn {
     const { user } = useAppSelector((state) => state.global);
     const { conversations } = useAppSelector((state) => state.chat);
     const { amountNotify } = useAppSelector((state) => state.friend);
-    const socket = initSocket();
+    const socket = getSocket();
 
     const [idNewMessage, setIdNewMessage] = useState<string>("");
     const codeRevokeRef = useRef<string>();
