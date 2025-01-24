@@ -1,13 +1,13 @@
-import { useFetchCaptcha } from "@/hooks/captcha/useFetchCaptcha";
-import { Loader2 } from "lucide-react";
 import { memo } from "react";
+import { Loader2 } from "lucide-react";
 import ReCAPTCHA from "react-google-recaptcha";
+import { useFetchCaptcha } from "@/hooks/captcha/useFetchCaptcha";
 
-interface ICapchaInputProps {
+interface ICaptchaInputProps {
     onChange?: (token: string | null) => void;
 }
 
-const CaptchaInput = ({ onChange }: ICapchaInputProps) => {
+const CaptchaInput = ({ onChange }: ICaptchaInputProps) => {
     const { captcha, error, isFetched } = useFetchCaptcha();
 
     if (error) {
@@ -16,10 +16,10 @@ const CaptchaInput = ({ onChange }: ICapchaInputProps) => {
 
     return (
         <div className="flex justify-center">
-            {isFetched && captcha?.ENABLE_GOOGLE_CAPTCHA ? (
+            {isFetched && captcha?.enableGoogleCaptcha === "ENABLE" ? (
                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                 // @ts-ignore
-                <ReCAPTCHA sitekey={captcha.KEY_GOOGLE_CAPTCHA} onChange={onChange} />
+                <ReCAPTCHA sitekey={captcha.siteKeyV2} onChange={onChange} />
             ) : (
                 <Loader2 className="animate-spin" />
             )}

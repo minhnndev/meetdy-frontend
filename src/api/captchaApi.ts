@@ -1,8 +1,9 @@
 import { get } from "@/api/instance/httpMethod";
 
 export type ICaptcha = {
-    ENABLE_GOOGLE_CAPTCHA: boolean;
-    KEY_GOOGLE_CAPTCHA: string;
+    enableGoogleCaptcha: string;
+    siteKeyV2: string;
+    siteKeyV3: string;
 };
 
 const PATH = "/common/google-captcha";
