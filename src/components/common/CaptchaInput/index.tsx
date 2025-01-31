@@ -16,7 +16,7 @@ const CaptchaInput = ({ onChange }: ICaptchaInputProps) => {
 
     return (
         <div className="flex justify-center">
-            {isFetched && captcha?.enableGoogleCaptcha === "ENABLE" ? (
+            {isFetched && captcha?.enableGoogleCaptcha ? (
                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                 // @ts-ignore
                 <ReCAPTCHA sitekey={captcha.siteKeyV2} onChange={onChange} />
