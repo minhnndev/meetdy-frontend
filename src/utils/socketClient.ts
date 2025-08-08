@@ -5,15 +5,15 @@ import { DefaultEventsMap } from "@socket.io/component-emitter";
 export let socket: Socket<DefaultEventsMap, DefaultEventsMap>;
 
 export function initSocket() {
-  socket = io(SOCKET_URL, {
-    transports: ["websocket"],
-  });
+    socket = io(SOCKET_URL, {
+        transports: ["websocket"],
+    });
 }
 
 export function closeSocket() {
-  socket.disconnect();
+    socket.disconnect();
 }
 
 export function getSocket() {
-  return socket;
+    return socket;
 }
