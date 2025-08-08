@@ -9,7 +9,7 @@ import { registryValues } from "@/features/Account/initValues";
 import { FastField, Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { useHistory, Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 const RESEND_OTP_TIME_LIMIT = 60;
 const { Text, Title } = Typography;
@@ -17,7 +17,7 @@ function RegistryPage(props) {
     const dispatch = useDispatch();
     let resendOTPTimerInterval;
     const [isError, setError] = useState("");
-    const history = useHistory();
+    const navigate = useNavigate();
     //set time counter
     const [counter, setCounter] = useState(0);
     //set OTP value
@@ -34,10 +34,10 @@ function RegistryPage(props) {
         Modal.success({
             content: "Đăng ký thành công !",
             onOk: () => {
-                history.push("/account/login");
+                navigate("/account/login");
             },
             onCancel: () => {
-                history.push("/account/login");
+                navigate("/account/login");
             },
         });
     }

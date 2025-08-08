@@ -1,5 +1,4 @@
 import { Spin } from "antd";
-import React from "react";
 import "react-quill/dist/quill.snow.css";
 import { useSelector } from "react-redux";
 import Footer from "./Components/Footer";

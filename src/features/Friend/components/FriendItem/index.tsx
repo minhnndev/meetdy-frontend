@@ -1,14 +1,18 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import './style.css';
-import { DashOutlined, DeleteOutlined, InfoCircleOutlined } from '@ant-design/icons';
-import PersonalIcon from '@/features/Chat/components/PersonalIcon';
-import { Menu, Dropdown, Button } from 'antd';
-import conversationApi from '@/api/conversationApi';
-import { fetchListMessages, setConversations, setCurrentConversation } from '@/features/Chat/slice/chatSlice';
-import { useHistory } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import dateUtils from '@/utils/utilsLegacy/dateUtils';
+import React from "react";
+import PropTypes from "prop-types";
+import "./style.css";
+import { DashOutlined, DeleteOutlined, InfoCircleOutlined } from "@ant-design/icons";
+import PersonalIcon from "@/features/Chat/components/PersonalIcon";
+import { Menu, Dropdown, Button } from "antd";
+import conversationApi from "@/api/conversationApi";
+import {
+    fetchListMessages,
+    setConversations,
+    setCurrentConversation,
+} from "@/features/Chat/slice/chatSlice";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import dateUtils from "@/utils/utilsLegacy/dateUtils";
 
 FriendItem.propTypes = {
     data: PropTypes.object.isRequired,
@@ -16,18 +20,18 @@ FriendItem.propTypes = {
 };
 
 FriendItem.defaultProps = {
-    onClickMenu: null
+    onClickMenu: null,
 };
 
 function FriendItem({ data, onClickMenu }) {
-    const history = useHistory();
+    const navigate = useNavigate();
     const dispatch = useDispatch();
 
     const handleClickMenu = ({ key }) => {
         if (onClickMenu) {
             onClickMenu(key, data._id);
         }
-    }
+    };
 
     const handleClickFriendItem = async () => {
         const response = await conversationApi.createConversationIndividual(data._id);
@@ -41,27 +45,23 @@ function FriendItem({ data, onClickMenu }) {
         dispatch(fetchListMessages({ conversationId: _id, size: 10 }));
         dispatch(setCurrentConversation(_id));
 
-        history.push({
-            pathname: '/chat',
-        });
-    }
+        navigate("/chat");
+    };
 
     const menu = (
         <Menu onClick={handleClickMenu}>
             <Menu.Item key="1" icon={<InfoCircleOutlined />}>
-                <span className='menu-item--highlight'>Xem thông tin</span>
+                <span className="menu-item--highlight">Xem thông tin</span>
             </Menu.Item>
             <Menu.Item key="2" danger icon={<DeleteOutlined />}>
-                <span className='menu-item--highlight'>Xóa bạn</span>
+                <span className="menu-item--highlight">Xóa bạn</span>
             </Menu.Item>
         </Menu>
     );
 
-
     return (
-
-        <Dropdown overlay={menu} trigger={['contextMenu']}>
-            <div id='friend-item' >
+        <Dropdown overlay={menu} trigger={["contextMenu"]}>
+            <div id="friend-item">
                 <div className="friend-item_left" onClick={handleClickFriendItem}>
                     <div className="friend-item-avatar">
                         <PersonalIcon
@@ -81,28 +81,20 @@ function FriendItem({ data, onClickMenu }) {
                             </div>
                         )}
                     </div>
-
-
                 </div>
                 <div className="friend-item_right">
                     <div className="friend-item-interact">
-                        <Dropdown overlay={menu} trigger={['click']}>
+                        <Dropdown overlay={menu} trigger={["click"]}>
                             <Button
-                                type='text'
+                                type="text"
                                 icon={<DashOutlined />}
-                                style={{ background: 'eeeff2' }}
+                                style={{ background: "eeeff2" }}
                             />
-
                         </Dropdown>
-
-
                     </div>
                 </div>
-
-
             </div>
         </Dropdown>
-
     );
 }
 

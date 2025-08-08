@@ -18,6 +18,12 @@ import ProtectedRoute from "@/routes/ProtectedRoute";
 import { useEffect, useState } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 
+import JoinFromLink from "@/components/legacy/JoinFromLink";
+import NotFoundPage from "@/components/legacy/NotFoundPage";
+
+import Admin from "@/features/Admin";
+// import ChatLayout from "@/layout/ChatLayout";
+
 const AppRoutes = () => {
     const dispatch = useAppDispatch();
     const [isProfileFetchEnabled, setProfileFetchEnabled] = useState(false);
@@ -71,8 +77,10 @@ const AppRoutes = () => {
                 <Route path="/" element={<Navigate to="/chat" />} />
                 <Route element={<ProtectedRoute />}>
                     <Route element={<MainLayout />}>
+                        {/* <Route path="/admin" element={<Admin />} /> */}
                         <Route path="/chat" element={<ChatLayout />}>
                             <Route path="/chat" element={<Chat />} />
+                            {/* <Route path="/jf-link/:conversationId" element={<JoinFromLink />} /> */}
                         </Route>
                         <Route path="/friend" element={<FriendLayout />}>
                             <Route path="/friend" element={<Friend />} />
@@ -85,6 +93,7 @@ const AppRoutes = () => {
                     <Route path="/auth/forgot" element={<ForgotPassword />} />
                     <Route path="/auth/verify" element={<Verify />} />
                 </Route>
+                <Route path="*" element={<NotFoundPage />} />
             </Routes>
         </BrowserRouter>
     );

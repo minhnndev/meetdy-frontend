@@ -21,7 +21,7 @@ import {
 import PropTypes from "prop-types";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import dateUtils from "@/utils/dateUtils";
 import getSummaryName from "@/utils/utilsLegacy/nameHelper";
 import "./style.css";
@@ -43,7 +43,7 @@ function UserCard(props) {
 
     const coverImage = "https://miro.medium.com/max/1124/1*92adf06PCF91kCYu1nPLQg.jpeg";
     const dispatch = useDispatch();
-    const history = useHistory();
+    const navigate = useNavigate();
     const { status, numberCommonGroup } = user;
     const { amountNotify } = useSelector((state) => state.friend);
     const { conversations } = useSelector((state) => state.chat);
@@ -73,9 +73,7 @@ function UserCard(props) {
         dispatch(fetchListMessages({ conversationId: _id, size: 10 }));
         dispatch(setCurrentConversation(_id));
 
-        history.push({
-            pathname: "/chat",
-        });
+        navigate("/chat");
 
         handleOnCancle();
     };
