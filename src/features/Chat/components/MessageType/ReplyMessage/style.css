@@ -1,6 +1,5 @@
-
 .reply-message {
-    // min-width: 180px;
+    min-width: 180px;
     height: 60px;
     overflow: hidden;
     background: #c8deff;

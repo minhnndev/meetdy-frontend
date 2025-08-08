@@ -1,5 +1,3 @@
-;
-
 .footer_wrapper {
     display: flex;
     align-items: center;
@@ -41,9 +39,6 @@
         margin-bottom: 1rem;
     }
 
-    // &_checkbox {
-    //     width: 85%;
-    // }
     .vote-message_item {
         &_name-option {
             z-index: 1;

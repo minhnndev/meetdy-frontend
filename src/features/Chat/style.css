@@ -1,5 +1,3 @@
-;
-
 .db-arrow-new-message {
     .arrow span {
         transform: rotate(-90deg);
@@ -11,7 +9,7 @@
         padding: 8% 0;
 
         .title-welcome {
-            // height: 25vh;
+            height: 25vh;
             display: flex;
             justify-content: center;
 
@@ -41,11 +39,6 @@
         display: flex;
         flex-direction: column;
         border-right: 0.05px solid rgba(0, 0, 0, 0.2);
-        // &_search-bar {
-        // }
-        // &_search-bar.fillter {
-        //     // height: 10vh;
-        // }
 
         &_list-conversation {
             margin-top: 1rem;
@@ -132,11 +125,10 @@
                     display: flex;
 
                     flex-direction: row;
-                    // align-items: center;
+                    align-items: center;
                     .dynamic-dot {
                         display: flex;
                         flex-direction: row;
-                        // align-items: flex-end;
                         transform: translateY(50%);
                         margin-left: 0.2rem;
                         transform: translateY(-25%);
@@ -242,29 +234,29 @@
         height: 100vh;
     }
 
-    // .drawer-responsive {
-    //     .ant-drawer-content-wrapper {
-    //         display: none;
-    //     }
-    // }
-    // @media only screen and (min-width: 992px) and (max-width: 1199px) {
-    //     .drawer-responsive {
-    //         .ant-drawer-content-wrapper {
-    //             display: block;
-    //             background: red;
-    //             width: 40%;
-    //         }
-    //     }
-    // }
+    .drawer-responsive {
+        .ant-drawer-content-wrapper {
+            display: none;
+        }
+    }
+    @media only screen and (min-width: 992px) and (max-width: 1199px) {
+        .drawer-responsive {
+            .ant-drawer-content-wrapper {
+                display: block;
+                background: red;
+                width: 40%;
+            }
+        }
+    }
 
-    // @media only screen and (min-width: 768px) and (max-width: 991px) {
-    // }
+    @media only screen and (min-width: 768px) and (max-width: 991px) {
+    }
 
-    // @media only screen and (min-width: 768px) and (max-width: 991px) {
-    // }
+    @media only screen and (min-width: 768px) and (max-width: 991px) {
+    }
 
-    // @media only screen and (min-width: 577px) and (max-width: 767px) {
-    // }
+    @media only screen and (min-width: 577px) and (max-width: 767px) {
+    }
 }
 
 .divider-layout {
@@ -273,7 +265,7 @@
     display: flex;
     align-items: flex-end;
 
-    // background-color: red;
+    background-color: red;
     > div {
         height: 0.1px;
         width: 100%;

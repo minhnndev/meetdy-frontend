@@ -1,13 +1,9 @@
-;
-
-
 .carousel-slider--item {
-    display: flex ;
+    display: flex;
     justify-content: center;
-    flex-direction: column ;
+    flex-direction: column;
     align-items: center;
 
-    // height: 50vh;
     text-align: center;
 
     .slider-img {

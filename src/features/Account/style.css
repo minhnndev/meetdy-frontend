@@ -2,7 +2,7 @@
     margin: auto;
     display: flex;
     align-items: center;
-    // margin: 2rem 0;
+    margin: 2rem 0;
     height: 100vh;
     background-image: url(../../assets/images/account/account-bg-1.jpg);
     background-size: cover;

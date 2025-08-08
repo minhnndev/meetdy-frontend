@@ -31,7 +31,7 @@ ul {
     background: #4c92ff;
     display: flex;
     flex-direction: column;
-    // width: 64px;
+    width: 64px;
 
     .sidebar-main {
         display: flex;

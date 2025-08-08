@@ -1,4 +1,3 @@
-
 .modal-detail-reply {
     .reply-info {
         display: flex;
@@ -46,7 +45,7 @@
         width: 15px;
         height: 15px;
         transform: rotate(45deg) translateY(-50%);
-        // transform: translateY(-50%);
+        transform: translateY(-50%);
     }
 
     .file_info {

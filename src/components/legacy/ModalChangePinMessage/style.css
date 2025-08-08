@@ -1,5 +1,3 @@
-;
-
 .modal-change-pin_wapper {
     border: 0.5px solid #e1e4ea;
     border-radius: 5px;
@@ -23,7 +21,7 @@
 
     &_messsage {
         margin-left: 1rem;
-        // display: flex;
+        display: flex;
     }
 
     &_left {
