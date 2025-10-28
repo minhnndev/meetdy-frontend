@@ -1,4 +1,4 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { combineReducers } from "@reduxjs/toolkit";
 import global from "./globalSlice";
 import account from "@/features/Account/accountSlice";
 import chat from "@/features/Chat/slice/chatSlice";
@@ -19,7 +19,7 @@ const rootReducer = {
     home,
 };
 
-const store = configureStore({
+const store = combineReducers({
     reducer: rootReducer,
 });
 

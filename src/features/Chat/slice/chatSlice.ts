@@ -7,7 +7,7 @@ import messageApi from "@/api/messageApi";
 import pinMessageApi from "@/api/pinMessageApi";
 import stickerApi from "@/api/stickerApi";
 import voteApi from "@/api/voteApi";
-import dateUtils from "@/utils/utilsLegacy/dateUtils";
+import dateUtils from "@/utils/dateUtils";
 
 const KEY = "chat";
 
