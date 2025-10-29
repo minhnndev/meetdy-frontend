@@ -18,12 +18,6 @@ import ProtectedRoute from "@/routes/ProtectedRoute";
 import { useEffect, useState } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 
-import JoinFromLink from "@/components/legacy/JoinFromLink";
-import NotFoundPage from "@/components/legacy/NotFoundPage";
-
-import Admin from "@/features/Admin";
-// import ChatLayout from "@/layout/ChatLayout";
-
 const AppRoutes = () => {
     const dispatch = useAppDispatch();
     const [isProfileFetchEnabled, setProfileFetchEnabled] = useState(false);
@@ -93,7 +87,7 @@ const AppRoutes = () => {
                     <Route path="/auth/forgot" element={<ForgotPassword />} />
                     <Route path="/auth/verify" element={<Verify />} />
                 </Route>
-                <Route path="*" element={<NotFoundPage />} />
+                {/* <Route path="*" element={<NotFoundPage />} /> */}
             </Routes>
         </BrowserRouter>
     );
