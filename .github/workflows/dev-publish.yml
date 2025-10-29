@@ -20,15 +20,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    
-    - name: Apply configuration
-      run: |
-        git clone https://oauth2:${{ secrets.CONFIG_REPOSITORY_TOKEN }}@github.com/meetdy/infrastructure.git
-        [ -e .env ] && rm .env
-        [ -e Dockerfile ] && rm Dockerfile
-        [ -e nginx.conf ] && rm nginx.conf
-        [ -e .dockerignore ] && rm .dockerignore
-        cp -a infrastructure/dev/meetdy-frontend/. ./
 
     # 🧩 Login to GHCR
     - name: Log in to GitHub Container Registry
