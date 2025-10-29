@@ -1,22 +1,20 @@
-FROM node:16 as build-step
+FROM node:alpine AS build
 
-RUN mkdir /app
 WORKDIR /app
-
 COPY package*.json ./
 RUN npm install --force
 
-ARG REACT_APP_API_URL
-ENV REACT_APP_API_URL=$REACT_APP_API_URL
+ARG GENERATE_SOURCEMAP
+ENV GENERATE_SOURCEMAP=false
 
-ARG REACT_APP_SOCKET_URL
-ENV REACT_APP_SOCKET_URL=$REACT_APP_SOCKET_URL
+ARG VITE_ENV
+ENV VITE_ENV=production
 
-ARG REACT_APP_URL
-ENV REACT_APP_URL=$REACT_APP_URL
+ARG VITE_API_URL_PROD
+ENV VITE_API_URL_PROD=https://chat-backend-p70d.onrender.com
+
+ARG VITE_SOCKET_URL_PROD
+ENV VITE_SOCKET_URL_PROD=https://chat-backend-p70d.onrender.com
 
 COPY . .
 RUN npm run build
-
-FROM nginx:latest
-COPY --from=build-step /app/build /usr/share/nginx/html
