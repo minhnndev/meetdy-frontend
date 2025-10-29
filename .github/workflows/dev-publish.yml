@@ -48,15 +48,3 @@ jobs:
         IMAGE_NAME=ghcr.io/${{ github.repository }}
         docker push $IMAGE_NAME:dev-1.${{ env.VERSION }}
         docker push $IMAGE_NAME:dev-latest
-
-    # ⚙️ Set up kubeconfig
-    - name: Set up kubeconfig
-      run: |
-        mkdir -p $HOME/.kube
-        echo "${{ secrets.KUBECONFIG }}" > $HOME/.kube/config
-        chmod 600 $HOME/.kube/config
-
-    # 🔁 Restart deployment in k3s
-    - name: Update Deployment in K3s
-      run: |
-        kubectl rollout restart deployment/${{ env.APP_NAME }} -n meetdy-develop
