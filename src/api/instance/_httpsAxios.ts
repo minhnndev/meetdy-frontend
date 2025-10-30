@@ -16,7 +16,7 @@ const _httpsAxios = axios.create({
     headers: {
         "Content-Type": "application/json",
     },
-    timeout: 10000,
+    timeout: 60000,
     paramsSerializer: (params) => qs.stringify(params),
 });
 
