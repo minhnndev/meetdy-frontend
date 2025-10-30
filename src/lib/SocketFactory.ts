@@ -1,4 +1,4 @@
-import { SOCKET_URL } from "@/constants/api.constant";
+import { SOCKET_URL } from "@/config/env";
 import { io, Socket } from "socket.io-client";
 
 let socket: Socket | null = null;

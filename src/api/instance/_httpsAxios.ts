@@ -1,5 +1,5 @@
 import { colorMethodHttp } from "@/api/instance/utils";
-import { API_URL } from "@/constants/api.constant";
+import { API_URL } from "@/config/env";
 import axios, { type AxiosError, type AxiosResponse } from "axios";
 import qs from "query-string";
 

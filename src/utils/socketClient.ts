@@ -1,5 +1,5 @@
 import io, { Socket } from "socket.io-client";
-import { SOCKET_URL } from "@/constants/api.constant";
+import { SOCKET_URL } from "@/config/env";
 import { DefaultEventsMap } from "@socket.io/component-emitter";
 
 export let socket: Socket<DefaultEventsMap, DefaultEventsMap>;
