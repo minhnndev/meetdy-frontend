@@ -10,7 +10,16 @@ RUN npm run build
 
 # Stage 2: Serve with Nginx
 FROM nginx:stable-alpine
-COPY --from=build /app/dist /usr/share/nginx/html
-COPY --from=build /app/nginx.conf /etc/nginx/conf.d/default.conf
-EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
+
+# Copy build output
+WORKDIR /usr/share/nginx/html
+COPY --from=build /app/dist ./
+
+# Copy template để runtime env inject
+RUN cp index.html index.html.template
+
+# Install envsubst (thuộc gói gettext)
+RUN apk add --no-cache gettext
+
+# Inject env vars at runtime
+ENTRYPOINT ["/bin/sh", "-c", "envsubst < index.html.template > index.html && exec nginx -g 'daemon off;'"]

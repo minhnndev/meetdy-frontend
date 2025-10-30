@@ -8,6 +8,7 @@ export default defineConfig({
         react(),
         runtimeEnv({
             variableName: "window.env",
+            substitutionSyntax: "dollar-curly",
         }),
     ],
     resolve: {
