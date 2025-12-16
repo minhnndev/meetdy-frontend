@@ -17,8 +17,9 @@ export default defineConfig({
         },
     },
     server: {
-        host: true,
-        port: 9000,
+        host: "0.0.0.0",
+        port: 5000,
+        allowedHosts: true,
     },
     build: {
         outDir: path.resolve(__dirname, "dist"),
