@@ -42,7 +42,51 @@ src/
 - Backend API: https://api.meetdy.com/
 - Google reCAPTCHA integration
 
+## Chat Feature (Lark/Loop-inspired)
+The chat feature has been enhanced with modern UI patterns inspired by Lark and Microsoft Loop:
+
+### Components
+- **ChatMessage** (`src/app/Chat/components/ChatMessage/`)
+  - Real-time message rendering from Redux state
+  - Message grouping by user and time
+  - Reply message preview
+  - Reactions display with tooltips
+  - Typing indicator
+  
+- **MessageActions** - Hover actions for reply, react, forward, pin, delete, copy
+- **EmojiPicker** - Quick emoji reaction picker (8 common emojis)
+- **MessageReactions** - Displays grouped reactions with user tooltips
+- **TypingIndicator** - Shows who is currently typing
+
+- **ChatInput** (`src/app/Chat/components/ChatInput/`)
+  - Slash commands (/task, /table, /poll, /code, /file, /meeting)
+  - @mentions with autocomplete from conversation members
+  - File and image attachment buttons
+  - Emoji picker
+  - Expand/collapse mode
+  - Keyboard navigation for suggestions
+
+- **ChatHeader** (`src/app/Chat/components/ChatHeader/`)
+  - Search bar for conversation messages
+  - Voice and video call buttons
+  - Dropdown menu for pinned messages, members, settings
+  - Online status indicator
+
+- **ConversationItem** (`src/app/Chat/components/ConversationItem/`)
+  - Active state highlighting
+  - Online status indicator
+  - Unread badge with 99+ support
+  - Context menu (right-click) for pin, mute, more options
+
+### UI Components Added
+- `src/components/ui/context-menu.tsx` - Right-click context menu component
+
 ## Recent Changes
+- December 16, 2025: Enhanced Chat feature with Lark/Loop-inspired UI
+  - Added message actions, reactions, typing indicators
+  - Enhanced input with slash commands, mentions, attachments
+  - Added search and modern styling to chat header
+  - Added context menu and improved conversation list styling
 - December 16, 2025: Initial Replit setup
   - Configured Vite to use port 5000 with `allowedHosts: true` for Replit proxy
   - Set host to `0.0.0.0` for external access

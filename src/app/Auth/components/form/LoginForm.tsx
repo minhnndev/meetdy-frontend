@@ -114,13 +114,13 @@ const LoginForm = ({ onSubmit }: LoginFormProps) => {
                             )}
                         />
                     </div>
-                    <CaptchaInput onChange={handleChangeCaptcha} />
+                    {/* <CaptchaInput onChange={handleChangeCaptcha} /> */}
                     {error && (
                         <div className="text-red-500 text-sm text-center">
                             {t("error.accountInvalid")}
                         </div>
                     )}
-                    <Button type="submit" disabled={!isVerify || isLoading} className="w-full">
+                    <Button type="submit" disabled={isLoading} className="w-full">
                         {isLoading ? (
                             <Loader2 className="animate-spin h-5 w-5" />
                         ) : (
