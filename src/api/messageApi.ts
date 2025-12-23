@@ -23,6 +23,7 @@ const ServiceMessages = {
     sendTextMessage: async (message: {
         content: string;
         conversationId: string;
+        replyMessageId?: string;
     }): Promise<void> => {
         const url = `${PATH}/text`;
         const response = await post<void>(url, message);

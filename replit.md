@@ -97,6 +97,13 @@ The main sidebar has been simplified to match modern productivity apps:
 - **NavUser** - Compact user menu with avatar trigger
 
 ## Recent Changes
+- December 23, 2025: Connected Chat feature to real APIs
+  - ChatInput now sends messages via useSendTextMessage hook
+  - Added reply message support with replyMessageId
+  - File uploads working with progress indicator
+  - MessageActions connected to useDropReaction for emoji reactions
+  - Delete message functionality with useRedoMessage (own) and useDeleteMessageClientSide (hide)
+  - Added setReplyMessage, clearReplyMessage, deleteMessage Redux actions
 - December 23, 2025: Simplified App Sidebar (Lark/Loop/Teams-inspired)
   - Converted to fixed-width icon rail (64px)
   - Removed team switcher and projects section

@@ -31,6 +31,7 @@ interface ChatState {
     votes: any[];
     totalPagesVote: number;
     usersTyping: IUser[];
+    replyMessage: (ILastGroupMessage | ILastIndividualMessage) | null;
 }
 
 const initialState: ChatState = {
@@ -56,6 +57,7 @@ const initialState: ChatState = {
     votes: [],
     totalPagesVote: 0,
     usersTyping: [],
+    replyMessage: null,
 };
 
 const chatSlice = createSlice({
@@ -651,6 +653,19 @@ const chatSlice = createSlice({
         setLastViewOfMember: (state, action: PayloadAction<any[]>) => {
             state.lastViewOfMember = action.payload;
         },
+
+        setReplyMessage: (state, action: PayloadAction<ILastGroupMessage | ILastIndividualMessage>) => {
+            state.replyMessage = action.payload;
+        },
+
+        clearReplyMessage: (state) => {
+            state.replyMessage = null;
+        },
+
+        deleteMessage: (state, action: PayloadAction<string>) => {
+            const messageId = action.payload;
+            state.messages = state.messages.filter((msg) => msg._id !== messageId);
+        },
     },
 });
 
@@ -700,6 +715,9 @@ export const {
     setPinMessages,
     setLastViewOfMember,
     setMemberInConversation,
+    setReplyMessage,
+    clearReplyMessage,
+    deleteMessage,
 } = chatSlice.actions;
 
 export default chatSlice.reducer;

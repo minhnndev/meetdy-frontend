@@ -9,6 +9,8 @@ import {
     AtSign,
     Smile,
     Hash,
+    X,
+    Loader2,
 } from "lucide-react";
 import { memo, useState, useRef, useCallback, KeyboardEvent } from "react";
 import {
@@ -22,8 +24,11 @@ import {
     TooltipProvider,
     TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { useAppSelector } from "@/redux/store";
+import { useAppSelector, useAppDispatch } from "@/redux/store";
 import { toast } from "sonner";
+import { useSendTextMessage } from "@/hooks/message/useSendTextMessage";
+import { useSendFileThroughMessage } from "@/hooks/message/useSendFileThroughMessage";
+import { clearReplyMessage } from "@/redux/slice/chat/chatSlice";
 
 const slashCommands = [
     { command: "/task", icon: "✓", label: "Add a task", description: "Create a new task item" },
@@ -50,11 +55,16 @@ const ChatInput = () => {
     const [mentionFilter, setMentionFilter] = useState<string>("");
     const [slashFilter, setSlashFilter] = useState<string>("");
     const [selectedSuggestion, setSelectedSuggestion] = useState<number>(0);
+    const [uploadProgress, setUploadProgress] = useState<number>(0);
     const textareaRef = useRef<HTMLTextAreaElement>(null);
     const fileInputRef = useRef<HTMLInputElement>(null);
     const imageInputRef = useRef<HTMLInputElement>(null);
 
-    const { memberInConversation } = useAppSelector((state) => state.chat);
+    const dispatch = useAppDispatch();
+    const { memberInConversation, currentConversation, replyMessage } = useAppSelector((state) => state.chat);
+    
+    const sendTextMutation = useSendTextMessage();
+    const sendFileMutation = useSendFileThroughMessage();
 
     const filteredCommands = slashCommands.filter((cmd) =>
         cmd.command.toLowerCase().includes(slashFilter.toLowerCase()) ||
@@ -186,19 +196,60 @@ const ChatInput = () => {
         }, 0);
     };
 
-    const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleFileSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const files = e.target.files;
-        if (files && files.length > 0) {
-            toast.info(`Selected ${files.length} file(s) for upload`);
+        if (!files || files.length === 0 || !currentConversation) return;
+
+        for (const file of Array.from(files)) {
+            try {
+                setUploadProgress(0);
+                await sendFileMutation.mutateAsync({
+                    file,
+                    attachInfo: {
+                        type: file.type.startsWith("image/") ? "IMAGE" : "FILE",
+                        conversationId: currentConversation,
+                    },
+                    onProgress: (progress: number) => setUploadProgress(progress),
+                });
+                toast.success(`File "${file.name}" sent`);
+            } catch (error) {
+                toast.error(`Failed to send file "${file.name}"`);
+            }
         }
+        setUploadProgress(0);
+        e.target.value = "";
     };
 
     const handleSend = useCallback(() => {
-        if (!inputValue.trim()) return;
-        console.log("Sending message:", inputValue);
-        toast.info("Message sent (demo mode)");
-        setInputValue("");
-    }, [inputValue]);
+        if (!inputValue.trim() || !currentConversation) return;
+        
+        const payload: { content: string; conversationId: string; replyMessageId?: string } = {
+            content: inputValue.trim(),
+            conversationId: currentConversation,
+        };
+        
+        if (replyMessage) {
+            payload.replyMessageId = replyMessage._id;
+        }
+        
+        sendTextMutation.mutate(payload, {
+            onSuccess: () => {
+                setInputValue("");
+                if (replyMessage) {
+                    dispatch(clearReplyMessage());
+                }
+            },
+            onError: () => {
+                toast.error("Failed to send message");
+            },
+        });
+    }, [inputValue, currentConversation, sendTextMutation, replyMessage, dispatch]);
+
+    const handleCancelReply = () => {
+        dispatch(clearReplyMessage());
+    };
+
+    const isSending = sendTextMutation.isPending || sendFileMutation.isPending;
 
     return (
         <div
@@ -266,6 +317,40 @@ const ChatInput = () => {
                     </div>
                 )}
 
+                {replyMessage && (
+                    <div className="flex items-center gap-2 px-4 py-2 border-b bg-muted/30">
+                        <div className="flex-1 min-w-0">
+                            <p className="text-xs text-muted-foreground">
+                                Replying to <span className="font-medium">{replyMessage.user?.name}</span>
+                            </p>
+                            <p className="text-sm truncate">{replyMessage.content}</p>
+                        </div>
+                        <Button
+                            size="icon"
+                            variant="ghost"
+                            className="h-6 w-6 shrink-0"
+                            onClick={handleCancelReply}
+                        >
+                            <X className="h-4 w-4" />
+                        </Button>
+                    </div>
+                )}
+
+                {uploadProgress > 0 && uploadProgress < 100 && (
+                    <div className="px-4 py-2 border-b">
+                        <div className="flex items-center gap-2">
+                            <Loader2 className="h-4 w-4 animate-spin" />
+                            <div className="flex-1 h-2 bg-muted rounded-full overflow-hidden">
+                                <div 
+                                    className="h-full bg-primary transition-all duration-300"
+                                    style={{ width: `${uploadProgress}%` }}
+                                />
+                            </div>
+                            <span className="text-xs text-muted-foreground">{uploadProgress}%</span>
+                        </div>
+                    </div>
+                )}
+
                 <textarea
                     ref={textareaRef}
                     value={inputValue}
@@ -279,6 +364,7 @@ const ChatInput = () => {
                     )}
                     onChange={handleInputChange}
                     onKeyDown={handleKeyDown}
+                    disabled={isSending}
                 />
 
                 <div className="flex items-center justify-between px-2 py-2 border-t">
@@ -308,6 +394,7 @@ const ChatInput = () => {
                                         type="button"
                                         className="h-8 w-8"
                                         onClick={() => fileInputRef.current?.click()}
+                                        disabled={isSending}
                                     >
                                         <Paperclip className="h-4 w-4" />
                                     </Button>
@@ -323,6 +410,7 @@ const ChatInput = () => {
                                         type="button"
                                         className="h-8 w-8"
                                         onClick={() => imageInputRef.current?.click()}
+                                        disabled={isSending}
                                     >
                                         <Image className="h-4 w-4" />
                                     </Button>
@@ -341,6 +429,7 @@ const ChatInput = () => {
                                             setInputValue((prev) => prev + "@");
                                             textareaRef.current?.focus();
                                         }}
+                                        disabled={isSending}
                                     >
                                         <AtSign className="h-4 w-4" />
                                     </Button>
@@ -350,7 +439,7 @@ const ChatInput = () => {
 
                             <Popover>
                                 <PopoverTrigger asChild>
-                                    <Button size="icon" variant="ghost" type="button" className="h-8 w-8">
+                                    <Button size="icon" variant="ghost" type="button" className="h-8 w-8" disabled={isSending}>
                                         <Smile className="h-4 w-4" />
                                     </Button>
                                 </PopoverTrigger>
@@ -380,6 +469,7 @@ const ChatInput = () => {
                                             setInputValue((prev) => prev + "/");
                                             textareaRef.current?.focus();
                                         }}
+                                        disabled={isSending}
                                     >
                                         <Hash className="h-4 w-4" />
                                     </Button>
@@ -406,11 +496,15 @@ const ChatInput = () => {
                         <Button
                             size="sm"
                             variant="default"
-                            disabled={!inputValue.trim()}
+                            disabled={!inputValue.trim() || isSending || !currentConversation}
                             className="gap-1.5 px-4"
                             onClick={handleSend}
                         >
-                            <SendHorizontal className="h-4 w-4" />
+                            {isSending ? (
+                                <Loader2 className="h-4 w-4 animate-spin" />
+                            ) : (
+                                <SendHorizontal className="h-4 w-4" />
+                            )}
                             Send
                         </Button>
                     </div>
