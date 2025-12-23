@@ -97,6 +97,12 @@ The main sidebar has been simplified to match modern productivity apps:
 - **NavUser** - Compact user menu with avatar trigger
 
 ## Recent Changes
+- December 23, 2025: Added User and Group Info Panels
+  - UserInfoPanel: Shows profile, online status, call/video buttons, conversation settings
+  - GroupInfoPanel: Shows group name (editable), member list with roles (leader/admin), add members, notifications, join link settings
+  - Collapsible sections for members and settings
+  - Info button in ChatHeader and clickable header to open panel
+  - Redux state (isInfoPanelOpen) for panel visibility
 - December 23, 2025: Connected Chat feature to real APIs
   - ChatInput now sends messages via useSendTextMessage hook
   - Added reply message support with replyMessageId

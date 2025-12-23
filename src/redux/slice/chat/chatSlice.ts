@@ -32,6 +32,7 @@ interface ChatState {
     totalPagesVote: number;
     usersTyping: IUser[];
     replyMessage: (ILastGroupMessage | ILastIndividualMessage) | null;
+    isInfoPanelOpen: boolean;
 }
 
 const initialState: ChatState = {
@@ -58,6 +59,7 @@ const initialState: ChatState = {
     totalPagesVote: 0,
     usersTyping: [],
     replyMessage: null,
+    isInfoPanelOpen: false,
 };
 
 const chatSlice = createSlice({
@@ -666,6 +668,12 @@ const chatSlice = createSlice({
             const messageId = action.payload;
             state.messages = state.messages.filter((msg) => msg._id !== messageId);
         },
+        setInfoPanelOpen: (state, action: PayloadAction<boolean>) => {
+            state.isInfoPanelOpen = action.payload;
+        },
+        toggleInfoPanel: (state) => {
+            state.isInfoPanelOpen = !state.isInfoPanelOpen;
+        },
     },
 });
 
@@ -718,6 +726,8 @@ export const {
     setReplyMessage,
     clearReplyMessage,
     deleteMessage,
+    setInfoPanelOpen,
+    toggleInfoPanel,
 } = chatSlice.actions;
 
 export default chatSlice.reducer;
