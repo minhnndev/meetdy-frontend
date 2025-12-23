@@ -1,5 +1,5 @@
 import AppSidebar from "@/components/common/Sidebar/AppSidebar";
-import { SidebarProvider } from "@/components/ui/sidebar";
+import { TooltipProvider } from "@/components/ui/tooltip";
 import { useFetchListColor } from "@/hooks/classify/useFetchColors";
 import { useFetchListClassify } from "@/hooks/classify/useFetchListClassify";
 import { useFetchListConversations } from "@/hooks/conversation/useFetchListConversations";
@@ -69,12 +69,14 @@ const MainLayout = () => {
     }, [dispatch]);
 
     return (
-        <SidebarProvider>
-            <AppSidebar />
-            <main className="w-full h-screen overflow-hidden">
-                <Outlet />
-            </main>
-        </SidebarProvider>
+        <TooltipProvider>
+            <div className="flex h-screen">
+                <AppSidebar />
+                <main className="flex-1 h-screen overflow-hidden">
+                    <Outlet />
+                </main>
+            </div>
+        </TooltipProvider>
     );
 };
 export default MainLayout;

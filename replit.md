@@ -81,7 +81,27 @@ The chat feature has been enhanced with modern UI patterns inspired by Lark and 
 ### UI Components Added
 - `src/components/ui/context-menu.tsx` - Right-click context menu component
 
+## App Sidebar (Lark/Loop/Teams-inspired)
+The main sidebar has been simplified to match modern productivity apps:
+
+- **AppSidebar** (`src/components/common/Sidebar/AppSidebar.tsx`)
+  - Fixed 64px width icon rail
+  - Logo at top, user avatar at bottom
+  - Clean, minimal design
+
+- **NavMain** - Icon-only navigation with tooltips
+  - Chat, Friends
+  - Active state highlighting with blue accent
+  - Hover effects
+
+- **NavUser** - Compact user menu with avatar trigger
+
 ## Recent Changes
+- December 23, 2025: Simplified App Sidebar (Lark/Loop/Teams-inspired)
+  - Converted to fixed-width icon rail (64px)
+  - Removed team switcher and projects section
+  - Added tooltip-based navigation
+  - Clean, minimal design matching modern productivity apps
 - December 16, 2025: Enhanced Chat feature with Lark/Loop-inspired UI
   - Added message actions, reactions, typing indicators
   - Enhanced input with slash commands, mentions, attachments

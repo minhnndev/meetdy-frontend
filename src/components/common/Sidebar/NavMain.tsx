@@ -1,102 +1,65 @@
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import {
-    SidebarGroup,
-    SidebarGroupLabel,
-    SidebarMenu,
-    SidebarMenuButton,
-    SidebarMenuItem,
-    SidebarMenuSub,
-    SidebarMenuSubButton,
-    SidebarMenuSubItem,
-} from "@/components/ui/sidebar";
-import { t } from "i18next";
-import { BookOpen, ChevronRight, MessageCircle, UsersRound } from "lucide-react";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { cn } from "@/lib/utils";
+import { MessageCircle, UsersRound } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 
-const items = [
-    {
-        title: t("app.chat"),
-        url: "/chat",
-        icon: MessageCircle,
-    },
-    {
-        title: t("app.friend"),
-        url: "/friend",
-        icon: UsersRound,
-    },
-    {
-        title: "Documentation",
-        url: "#",
-        icon: BookOpen,
-        items: [
-            {
-                title: "Introduction",
-                url: "#",
-            },
-            {
-                title: "Get Started",
-                url: "#",
-            },
-            {
-                title: "Tutorials",
-                url: "#",
-            },
-            {
-                title: "Changelog",
-                url: "#",
-            },
-        ],
-    },
-];
+interface NavItem {
+    title: string;
+    url: string;
+    icon: React.ComponentType<{ className?: string }>;
+}
 
 export function NavMain() {
     const { t } = useTranslation();
     const navigate = useNavigate();
+    const location = useLocation();
+
+    const items: NavItem[] = [
+        {
+            title: t("app.chat"),
+            url: "/chat",
+            icon: MessageCircle,
+        },
+        {
+            title: t("app.friend"),
+            url: "/friend",
+            icon: UsersRound,
+        },
+    ];
+
+    const NavButton = ({ item }: { item: NavItem }) => {
+        const isActive = location.pathname.startsWith(item.url);
+        
+        return (
+            <Tooltip delayDuration={0}>
+                <TooltipTrigger asChild>
+                    <button
+                        onClick={() => navigate(item.url)}
+                        className={cn(
+                            "flex items-center justify-center w-10 h-10 rounded-lg transition-all duration-200",
+                            "hover:bg-slate-200 dark:hover:bg-slate-700",
+                            isActive && "bg-blue-100 text-blue-600 dark:bg-blue-900/50 dark:text-blue-400"
+                        )}
+                    >
+                        <item.icon className={cn(
+                            "w-5 h-5",
+                            isActive ? "text-blue-600 dark:text-blue-400" : "text-slate-600 dark:text-slate-400"
+                        )} />
+                    </button>
+                </TooltipTrigger>
+                <TooltipContent side="right" sideOffset={10}>
+                    {item.title}
+                </TooltipContent>
+            </Tooltip>
+        );
+    };
 
     return (
-        <SidebarGroup>
-            <SidebarGroupLabel>{t("app.home")}</SidebarGroupLabel>
-            <SidebarMenu>
-                {items.map((item) => (
-                    <Collapsible key={item.title} asChild className="group/collapsible">
-                        <SidebarMenuItem>
-                            {item.items && item.items.length > 0 ? (
-                                <>
-                                    <CollapsibleTrigger asChild>
-                                        <SidebarMenuButton tooltip={item.title}>
-                                            {item.icon && <item.icon />}
-                                            <span>{item.title}</span>
-                                            <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
-                                        </SidebarMenuButton>
-                                    </CollapsibleTrigger>
-                                    <CollapsibleContent>
-                                        <SidebarMenuSub>
-                                            {item.items.map((subItem) => (
-                                                <SidebarMenuSubItem key={subItem.title}>
-                                                    <SidebarMenuSubButton asChild>
-                                                        <a href={subItem.url}>
-                                                            <span>{subItem.title}</span>
-                                                        </a>
-                                                    </SidebarMenuSubButton>
-                                                </SidebarMenuSubItem>
-                                            ))}
-                                        </SidebarMenuSub>
-                                    </CollapsibleContent>
-                                </>
-                            ) : (
-                                <SidebarMenuButton
-                                    tooltip={item.title}
-                                    onClick={() => navigate(item.url)}
-                                >
-                                    {item.icon && <item.icon />}
-                                    <span>{item.title}</span>
-                                </SidebarMenuButton>
-                            )}
-                        </SidebarMenuItem>
-                    </Collapsible>
-                ))}
-            </SidebarMenu>
-        </SidebarGroup>
+        <div className="flex flex-col items-center gap-2">
+            {items.map((item) => (
+                <NavButton key={item.url} item={item} />
+            ))}
+        </div>
     );
 }
