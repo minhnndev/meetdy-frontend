@@ -96,7 +96,44 @@ The main sidebar has been simplified to match modern productivity apps:
 
 - **NavUser** - Compact user menu with avatar trigger
 
+## Channel Chat Feature
+A complete channel chat implementation with the following architecture:
+
+### Hooks
+- **useChannelChat** (`src/hooks/channel/useChannelChat.ts`)
+  - Infinite scroll message loading with React Query
+  - Send text messages with reply support
+  - File upload with progress tracking and retry
+  - Optimistic updates for pending messages
+  - Typing indicator support
+
+- **usePinnedMessages** (`src/hooks/channel/usePinnedMessages.ts`)
+  - Fetch pinned messages for a conversation
+  - Pin/unpin message functionality
+  - Navigation between pinned messages
+
+- **useMediaManager** (`src/hooks/media/useMediaManager.ts`)
+  - Fetch all media in a conversation
+  - Filter by type (ALL, IMAGE, VIDEO, FILE)
+  - Preview modal navigation
+
+### Components (`src/app/Chat/components/ChannelChat/`)
+- **ChannelChat** - Main container integrating all components
+- **ChannelMessageList** - Virtualized message list with infinite scroll
+- **ChannelMessageInput** - Input with file attachments, reply preview
+- **ChannelMessageItem** - Individual message with actions (reply, pin, delete)
+- **PinnedMessageBar** - Banner showing pinned messages with navigation
+- **MediaPreview** - Full-screen media viewer with keyboard navigation
+
+### API Integration
+- `channelApi.fetchMessageInChannel` - Paginated message loading
+- `messageApi.sendTextMessage` - Send text with optional reply
+- `messageApi.sendFileThroughMessage` - Upload files with progress
+- `pinMessageApi` - Pin/unpin/fetch pinned messages
+- `mediaApi.fetchAllMedia` - Get media files in conversation
+
 ## Recent Changes
+- December 24, 2025: Implemented Channel Chat feature with hooks and components
 - December 23, 2025: Added User and Group Info Panels
   - UserInfoPanel: Shows profile, online status, call/video buttons, conversation settings
   - GroupInfoPanel: Shows group name (editable), member list with roles (leader/admin), add members, notifications, join link settings
